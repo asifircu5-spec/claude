@@ -210,6 +210,7 @@ const pick = a => a[rand(a.length)];
 let lastSpoken = "";
 function speak(text){
   lastSpoken = text;
+  if(window.AndroidTTS){ try{ AndroidTTS.speak(text); }catch(e){} return; }
   try{
     if(!("speechSynthesis" in window)) return;
     speechSynthesis.cancel();
@@ -264,7 +265,7 @@ function go(sec){
   window.scrollTo(0,0);
 }
 function home(){
-  try{ speechSynthesis.cancel(); }catch(e){}
+  try{ if(window.AndroidTTS) AndroidTTS.stop(); else speechSynthesis.cancel(); }catch(e){}
   current = null; $("#section").classList.add("hidden"); $("#home").classList.remove("hidden");
   $("#backBtn").classList.add("hidden"); $("#brand").classList.remove("hidden");
   $("#playArea").innerHTML = "";
@@ -302,6 +303,12 @@ function openVideo(v){
   $("#vsrc").append(s,a);
   $("#modal").classList.remove("hidden");
 }
+/* Android back button: close video, then go home; returns false on the home screen. */
+window.androidBack = function(){
+  if(!$("#modal").classList.contains("hidden")){ closeVideo(); return true; }
+  if(current){ home(); return true; }
+  return false;
+};
 function closeVideo(){ $("#frame").innerHTML=""; $("#modal").classList.add("hidden"); }
 $("#closeModal").addEventListener("click", closeVideo);
 

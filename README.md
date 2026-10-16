@@ -32,3 +32,7 @@ Note: the CodeMonkey and Bee-Bot videos are aimed at slightly older children or 
 ## For grown-ups
 
 Short sessions (10–15 minutes) with an adult nearby work best at this age. Stars and coding-level progress are saved only in the browser on your device; nothing is sent anywhere.
+
+## Android app (APK)
+
+The `android/` folder wraps the app in an Android WebView. Every push to `main` runs the **Build Android APK** workflow, which builds `little-learners.apk` and attaches it to a new release under **Releases**. Download it on an Android phone, open it, and allow installing from this source when asked. The APK is signed with a development key, so it is for personal use, not the Play Store.
