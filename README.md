@@ -33,3 +33,7 @@ Short sessions (10–15 minutes) with an adult nearby work best at this age. Sta
 ## Android app (APK)
 
 The `android/` folder wraps the app in an Android WebView. Every push to `main` runs the **Build Android APK** workflow, which builds `nuzaim-learns.apk` and attaches it to a new release under **Releases**. Download it on an Android phone, open it, and allow installing from this source when asked. The APK is signed with a development key, so it is for personal use, not the Play Store.
+
+## Nuzaim Companion (second app)
+
+`companion/index.html` is a separate, simpler app (English, Bangla, numbers, colors, coding, drawing, science, travel, real-life habits). The same workflow builds it as `nuzaim-companion.apk` with its own app ID, so both apps can be installed side by side. In the Android app, its `speechSynthesis` calls are routed to the phone's text-to-speech engine; Bangla speech needs a Bangla voice installed on the phone.

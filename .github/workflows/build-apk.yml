@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [main]
-    paths: ['index.html', 'android/**', '.github/workflows/build-apk.yml']
+    paths: ['index.html', 'companion/**', 'nuzaim.jpg', 'android/**', '.github/workflows/build-apk.yml']
   workflow_dispatch:
 
 permissions:
@@ -24,36 +24,45 @@ jobs:
         with:
           gradle-version: '8.7'
 
-      - name: Check every video exists and can play inside the app
+      - name: Check every video exists and can play inside the apps
         run: |
-          for id in $(grep -oE 'id:"[A-Za-z0-9_-]{11}"' index.html | cut -d'"' -f2 | sort -u); do
-            code=$(curl -s -o r.json -w '%{http_code}' "https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=$id")
-            if [ "$code" = "200" ]; then
-              echo "OK   $id | $(jq -r .author_name r.json) | $(jq -r .title r.json)" | tee -a videos.txt
-            else
-              echo "FAIL $id | HTTP $code (401 = embedding disabled, 404 = missing)" | tee -a videos.txt
-            fi
+          for f in index.html companion/index.html; do
+            echo "[$f]" | tee -a videos.txt
+            for id in $( (grep -oE 'id:"[A-Za-z0-9_-]{11}"' $f | cut -d'"' -f2; grep -oE 'embed/[A-Za-z0-9_-]{11}' $f | cut -d/ -f2) | sort -u); do
+              code=$(curl -s -o r.json -w '%{http_code}' "https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=$id")
+              if [ "$code" = "200" ]; then
+                echo "OK   $id | $(jq -r .author_name r.json) | $(jq -r .title r.json)" | tee -a videos.txt
+              else
+                echo "FAIL $id | HTTP $code (401 = embedding disabled, 404 = missing)" | tee -a videos.txt
+              fi
+            done
           done
 
-      - name: Copy the web app into the Android assets
-        run: cp index.html nuzaim.jpg android/app/src/main/assets/
+      - name: Build Nuzaim Learns
+        run: |
+          cp index.html nuzaim.jpg android/app/src/main/assets/
+          gradle -p android assembleRelease --no-daemon
+          cp android/app/build/outputs/apk/release/app-release.apk nuzaim-learns.apk
 
-      - name: Build APK
-        run: gradle -p android assembleRelease --no-daemon
-
-      - name: Rename APK
-        run: cp android/app/build/outputs/apk/release/app-release.apk nuzaim-learns.apk
+      - name: Build Nuzaim Companion
+        run: |
+          rm -f android/app/src/main/assets/index.html
+          cp companion/index.html nuzaim.jpg android/app/src/main/assets/
+          gradle -p android clean assembleRelease --no-daemon -PappId=com.nuzaim.companion "-PappLabel=Nuzaim Companion"
+          cp android/app/build/outputs/apk/release/app-release.apk nuzaim-companion.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: nuzaim-learns-apk
-          path: nuzaim-learns.apk
+          name: apks
+          path: |
+            nuzaim-learns.apk
+            nuzaim-companion.apk
 
       - name: Publish as a GitHub release (easy phone download)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo "Download nuzaim-learns.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
-          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk \
-            --title "Nuzaim Learns APK (build ${{ github.run_number }})" \
+          { echo "Download nuzaim-learns.apk or nuzaim-companion.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
+          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk nuzaim-companion.apk \
+            --title "Nuzaim apps (build ${{ github.run_number }})" \
             --notes-file notes.md

@@ -73,6 +73,16 @@ public class MainActivity extends Activity {
             }
 
             @Override
+            public void onPageFinished(WebView view, String url) {
+                // Pages written for the speechSynthesis API (not present in WebView) get the phone's voice instead.
+                view.evaluateJavascript(
+                    "if(!window.speechSynthesis&&window.AndroidTTS){" +
+                    "window.SpeechSynthesisUtterance=function(t){this.text=t;this.lang='';this.rate=1;this.pitch=1;};" +
+                    "window.speechSynthesis={speak:function(u){AndroidTTS.speakLang(u.text,u.lang||'',u.rate||1,u.pitch||1);}," +
+                    "cancel:function(){AndroidTTS.stop();},speaking:false,pending:false,getVoices:function(){return[];}};}", null);
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 if (!request.isForMainFrame()) return false;
                 Uri uri = request.getUrl();
@@ -130,6 +140,25 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void speak(String text) {
             if (ttsReady && text != null) tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ll");
+        }
+
+        @JavascriptInterface
+        public void speakLang(String text, String lang, float rate, float pitch) {
+            if (!ttsReady || text == null) return;
+            Locale loc = (lang == null || lang.isEmpty()) ? Locale.US : Locale.forLanguageTag(lang);
+            if (tts.isLanguageAvailable(loc) < TextToSpeech.LANG_AVAILABLE) {
+                // e.g. bn-BD: fall back to Bengali in general if the Bangladesh voice is missing
+                Locale base = new Locale(loc.getLanguage());
+                loc = tts.isLanguageAvailable(base) >= TextToSpeech.LANG_AVAILABLE ? base : Locale.US;
+            }
+            tts.setLanguage(loc);
+            tts.setSpeechRate(rate);
+            tts.setPitch(pitch);
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ll");
+            // restore defaults used by Nuzaim Learns
+            tts.setLanguage(Locale.US);
+            tts.setSpeechRate(0.85f);
+            tts.setPitch(1.2f);
         }
 
         @JavascriptInterface
