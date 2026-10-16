@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Little Learners</title>
+<meta name="description" content="A playful learning app for 3-year-olds: shapes & colors, counting, first coding steps and drawing, with videos from public sources.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fff8ec; --ink:#2b2340; --soft:#6b6385; --card:#ffffff; --line:#f0e4cf;
+  --think:#ff6b6b; --think-bg:#ffe3e3;
+  --num:#4dabf7;   --num-bg:#dbefff;
+  --code:#51cf66;  --code-bg:#ddf8e2;
+  --draw:#fcc419;  --draw-bg:#fff3c4;
+  --shadow:0 6px 0 rgba(43,35,64,.12);
+  --radius:28px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
+    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14;
+    --shadow:0 6px 0 rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
+  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14;
+  --shadow:0 6px 0 rgba(0,0,0,.35);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:"Baloo 2",system-ui,sans-serif;font-size:20px;
+  user-select:none;-webkit-user-select:none;overflow-x:hidden}
+button{font-family:inherit;color:inherit;cursor:pointer;border:0}
+.wrap{max-width:900px;margin:0 auto;padding-block:16px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.brand{font-weight:800;font-size:clamp(26px,6vw,40px);line-height:1}
+.brand span{color:var(--think)}.brand span+span{color:var(--num)}
+.stars{background:var(--card);border-radius:999px;padding:6px 16px;font-weight:800;box-shadow:var(--shadow);white-space:nowrap}
+.back{background:var(--card);border-radius:999px;padding:8px 18px;font-weight:800;font-size:22px;box-shadow:var(--shadow)}
+.hidden{display:none!important}
+
+/* Home */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.tile{border-radius:var(--radius);padding:18px 12px;min-height:170px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:4px;box-shadow:var(--shadow);transition:transform .12s}
+.tile:active{transform:scale(.95)}
+.tile .em{font-size:clamp(56px,14vw,84px);line-height:1}
+.tile b{font-size:clamp(22px,5vw,30px)}
+.tile small{font-size:15px;color:var(--soft);text-align:center;line-height:1.2}
+.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}
+.note{margin-top:20px;font-size:15px;color:var(--soft);line-height:1.4;background:var(--card);border-radius:18px;padding:12px 16px}
+
+/* Section */
+.sec-title{font-size:clamp(28px,7vw,40px);font-weight:800;margin:4px 0 8px;display:flex;align-items:center;gap:10px}
+.tabs{display:flex;gap:10px;margin:8px 0 16px}
+.tab{flex:1;border-radius:20px;padding:10px;font-weight:800;font-size:20px;background:var(--card);box-shadow:var(--shadow)}
+.tab.on{outline:4px solid var(--accent)}
+.play{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
+.prompt{display:flex;align-items:center;justify-content:center;gap:10px;font-size:clamp(24px,6vw,34px);font-weight:800;
+  text-align:center;min-height:56px;margin-bottom:12px}
+.say{background:var(--accent);color:#fff;border-radius:999px;width:52px;height:52px;font-size:26px;flex:none;box-shadow:var(--shadow)}
+.modes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
+.mode{border-radius:999px;padding:6px 16px;font-weight:700;font-size:17px;background:var(--bg);border:3px solid var(--line)}
+.mode.on{border-color:var(--accent);background:var(--accent);color:#fff}
+.choices{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.choice{background:var(--bg);border-radius:24px;width:clamp(92px,26vw,150px);height:clamp(92px,26vw,150px);
+  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:transform .12s}
+.choice:active{transform:scale(.93)}
+.choice svg{width:72%;height:72%}
+.choice.num{font-size:clamp(44px,12vw,72px);font-weight:800}
+.wiggle{animation:wig .4s}
+@keyframes wig{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+.pop{animation:pop .5s}
+@keyframes pop{50%{transform:scale(1.18)}}
+.items{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;font-size:clamp(40px,10vw,60px);min-height:80px;margin-bottom:14px}
+.items button{background:none;font-size:inherit;padding:0 2px;transition:transform .15s}
+.items button.counted{transform:scale(1.2);filter:drop-shadow(0 0 6px var(--accent))}
+.bigcount{font-size:56px;font-weight:800;color:var(--accent);text-align:center;min-height:70px}
+
+/* Coding */
+.board{display:grid;gap:6px;margin:0 auto 14px;max-width:420px;aspect-ratio:1}
+.cell{background:var(--code-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,8vw,46px);position:relative}
+.cell.path{outline:3px dashed var(--code)}
+.seq{display:flex;flex-wrap:wrap;gap:6px;min-height:64px;justify-content:center;align-items:center;
+  background:var(--bg);border-radius:18px;padding:8px;margin-bottom:12px;border:3px dashed var(--line)}
+.seq .step{width:48px;height:48px;border-radius:12px;background:var(--code);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center}
+.seq .step.now{outline:4px solid var(--ink)}
+.seq .hint{color:var(--soft);font-size:17px}
+.arrows{display:grid;grid-template-columns:repeat(3,72px);grid-template-rows:repeat(2,72px);gap:8px;justify-content:center}
+.arrow{background:var(--code);color:#fff;border-radius:20px;font-size:38px;box-shadow:var(--shadow)}
+.row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border-radius:999px;padding:10px 22px;font-weight:800;font-size:22px;box-shadow:var(--shadow);background:var(--bg)}
+.btn.go{background:var(--accent);color:#fff;font-size:26px;padding:10px 34px}
+
+/* Drawing */
+.canvas-wrap{position:relative;border-radius:22px;overflow:hidden;background:#fff;border:4px solid var(--line);touch-action:none}
+canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none}
+.guide{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
+.guide svg{width:70%;height:80%}
+.palette{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
+.swatch{width:50px;height:50px;border-radius:50%;box-shadow:var(--shadow);border:4px solid transparent}
+.swatch.on{border-color:var(--ink);transform:scale(1.1)}
+.tool{border-radius:16px;padding:6px 14px;font-weight:800;font-size:18px;background:var(--bg);border:3px solid var(--line)}
+.tool.on{border-color:var(--accent);background:var(--accent);color:#fff}
+
+/* Videos */
+.vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.vid{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);text-align:left;padding:0}
+.vid .th{position:relative;aspect-ratio:16/9;background:#000}
+.vid img{width:100%;height:100%;object-fit:cover;display:block}
+.vid .pl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:56px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.vid .meta{padding:10px 14px 12px;line-height:1.2}
+.vid .meta b{display:block;font-size:18px}
+.vid .meta small{color:var(--soft);font-size:14px}
+.modal{position:fixed;inset:0;background:rgba(20,16,32,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;z-index:10}
+.modal .frame{width:100%;max-width:900px;aspect-ratio:16/9;background:#000;border-radius:18px;overflow:hidden}
+.modal iframe{width:100%;height:100%;border:0}
+.modal .close{position:absolute;top:14px;right:14px;background:#fff;color:#2b2340;border-radius:999px;width:56px;height:56px;font-size:30px;font-weight:800}
+.modal .src{color:#ddd;font-size:15px;margin-top:10px;text-align:center}
+.modal .src a{color:#fff}
+
+/* Celebrate */
+.party{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.confetti{position:absolute;top:-40px;font-size:34px;animation:fall 1.6s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+@media (max-width:420px){.arrows{grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <button class="back hidden" id="backBtn" aria-label="Back to home">⬅ Home</button>
+    <div class="brand" id="brand"><span>Little</span> <span>Learners</span></div>
+    <div class="stars" id="stars" aria-label="Stars earned">⭐ 0</div>
+  </header>
+
+  <!-- HOME -->
+  <main id="home">
+    <div class="grid">
+      <button class="tile t-think" data-go="think"><div class="em">🔺</div><b>Think</b><small>shapes · colors · big &amp; small</small></button>
+      <button class="tile t-num" data-go="num"><div class="em">🔢</div><b>Count</b><small>numbers 1 to 10</small></button>
+      <button class="tile t-code" data-go="code"><div class="em">🐝</div><b>Code</b><small>help the bee find the flower</small></button>
+      <button class="tile t-draw" data-go="draw"><div class="em">🖍️</div><b>Draw</b><small>scribble, trace, create</small></button>
+    </div>
+    <div class="note"><b>For grown-ups:</b> Each area has a game and a <b>Watch</b> tab with real videos from public YouTube channels (Sesame Street, Art for Kids Hub, CodeMonkey and others). Tap 🔊 to hear instructions read aloud. For a 3-year-old, short sessions of 10–15 minutes with you nearby work best.</div>
+  </main>
+
+  <!-- SECTION -->
+  <section id="section" class="hidden">
+    <div class="sec-title" id="secTitle"></div>
+    <div class="tabs">
+      <button class="tab on" data-tab="play">🎮 Play</button>
+      <button class="tab" data-tab="watch">📺 Watch</button>
+    </div>
+    <div id="playArea"></div>
+    <div id="watchArea" class="vids hidden"></div>
+  </section>
+</div>
+
+<div class="modal hidden" id="modal" role="dialog" aria-label="Video player">
+  <button class="close" id="closeModal" aria-label="Close video">✕</button>
+  <div class="frame" id="frame"></div>
+  <div class="src" id="vsrc"></div>
+</div>
+<div class="party" id="party"></div>
+
+<script>
+const EMBED = true; // false = open videos on YouTube instead of playing inside the app
+/* ---------- Videos (each one checked on its YouTube page: title + uploading channel) ---------- */
+const VIDEOS = {
+  think: [
+    {id:"RgLsdBgJqbQ", t:"Let's Find Shapes with Elmo!", c:"Sesame Street"},
+    {id:"Pt1OlWrF12s", t:"Zoe and Elmo Learn About Circle Shapes", c:"Takalani Sesame"},
+    {id:"iaidVGM27TU", t:"Songs About Colors with Elmo & Friends", c:"Sesame Street"},
+    {id:"IKlvbyN0id8", t:"Big Small Action Song (Opposites)", c:"Dream English Kids"}
+  ],
+  num: [
+    {id:"mu4-OvYjMWo", t:"Numberblocks – Numbers 1 to 10!", c:"Blocks Universe"},
+    {id:"C_Qfr56WG48", t:"Time to Count with Elmo and Friends", c:"Sesame Street"}
+  ],
+  code: [
+    {id:"QbhQ6G61SMs", t:"Sequencing – Coding Concepts for Kids", c:"CodeMonkey"},
+    {id:"HrozLD1oetI", t:"An Introduction to Coding with Bee-Bot", c:"EdThings"},
+    {id:"rf-1hfDPAw0", t:"Coding Without a Computer: Sequencing (ages 3–6)", c:"It Starts at Home by Sonali Kapoor"}
+  ],
+  draw: [
+    {id:"WfmTEjsbayI", t:"How To Draw A Turtle – Preschool", c:"Art for Kids Hub"},
+    {id:"4Os0j46SFrU", t:"How To Draw A Funny Monster – Preschool", c:"Art for Kids Hub"},
+    {id:"dvLJftSrKJk", t:"How To Draw A Bee – Preschool", c:"Art for Kids Hub"},
+    {id:"1gTJQOChf94", t:"How To Draw Pizza – Preschool", c:"Art for Kids Hub"}
+  ]
+};
+
+const SECTIONS = {
+  think:{title:"🔺 Think", accent:"var(--think)"},
+  num:{title:"🔢 Count", accent:"var(--num)"},
+  code:{title:"🐝 Code", accent:"var(--code)"},
+  draw:{title:"🖍️ Draw", accent:"var(--draw)"}
+};
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+const rand = n => Math.floor(Math.random()*n);
+const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; };
+const pick = a => a[rand(a.length)];
+let lastSpoken = "";
+function speak(text){
+  lastSpoken = text;
+  try{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate = .85; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+let stars = 0;
+try{ stars = parseInt(localStorage.getItem("ll-stars")||"0",10)||0; }catch(e){}
+function renderStars(){ $("#stars").textContent = "⭐ " + stars; }
+function addStar(){
+  stars++; renderStars();
+  try{ localStorage.setItem("ll-stars", String(stars)); }catch(e){}
+  $("#stars").classList.remove("pop"); void $("#stars").offsetWidth; $("#stars").classList.add("pop");
+}
+function celebrate(){
+  const p = $("#party"); const em = ["⭐","🎉","🌟","🎈","💖"];
+  for(let i=0;i<18;i++){
+    const d = document.createElement("div"); d.className="confetti"; d.textContent = pick(em);
+    d.style.left = rand(100)+"vw"; d.style.animationDelay = (Math.random()*.5)+"s";
+    p.appendChild(d); setTimeout(()=>d.remove(),2300);
+  }
+}
+const PRAISE = ["Great job!","You did it!","Wonderful!","Yay! Well done!","Super!"];
+const TRY = ["Try again!","Almost! Try again.","Oops, try another one!"];
+function right(el){ addStar(); celebrate(); speak(pick(PRAISE)); el && el.classList.add("pop"); }
+function wrong(el){ speak(pick(TRY)); if(el){ el.classList.remove("wiggle"); void el.offsetWidth; el.classList.add("wiggle"); } }
+
+/* ---------- Shapes (SVG) ---------- */
+const SHAPES = {
+  circle:c=>`<circle cx="50" cy="50" r="42" fill="${c}"/>`,
+  square:c=>`<rect x="10" y="10" width="80" height="80" rx="8" fill="${c}"/>`,
+  triangle:c=>`<polygon points="50,8 94,90 6,90" fill="${c}" stroke-linejoin="round"/>`,
+  star:c=>`<polygon points="50,5 61,38 96,38 68,59 78,93 50,72 22,93 32,59 4,38 39,38" fill="${c}"/>`,
+  heart:c=>`<path d="M50 88 C10 60 4 38 18 22 C30 9 46 14 50 28 C54 14 70 9 82 22 C96 38 90 60 50 88Z" fill="${c}"/>`
+};
+const COLORS = {red:"#ff4d4d", blue:"#3b8cff", yellow:"#ffd43b", green:"#40c057", purple:"#9b59ff", orange:"#ff922b"};
+const svg = (shape,color,scale=1)=>`<svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(${50-50*scale} ${50-50*scale}) scale(${scale})">${SHAPES[shape](color)}</g></svg>`;
+
+/* ---------- Navigation ---------- */
+let current = null;
+function go(sec){
+  current = sec;
+  document.documentElement.style.setProperty("--accent", SECTIONS[sec].accent);
+  $("#home").classList.add("hidden"); $("#section").classList.remove("hidden");
+  $("#backBtn").classList.remove("hidden"); $("#brand").classList.add("hidden");
+  $("#secTitle").textContent = SECTIONS[sec].title;
+  setTab("play");
+  renderVideos(sec);
+  ({think:playThink, num:playNum, code:playCode, draw:playDraw})[sec]();
+  window.scrollTo(0,0);
+}
+function home(){
+  try{ speechSynthesis.cancel(); }catch(e){}
+  current = null; $("#section").classList.add("hidden"); $("#home").classList.remove("hidden");
+  $("#backBtn").classList.add("hidden"); $("#brand").classList.remove("hidden");
+  $("#playArea").innerHTML = "";
+}
+function setTab(t){
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.tab===t));
+  $("#playArea").classList.toggle("hidden", t!=="play");
+  $("#watchArea").classList.toggle("hidden", t!=="watch");
+  try{ if(t==="watch") speechSynthesis.cancel(); }catch(e){}
+}
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));
+$("#backBtn").addEventListener("click", home);
+
+/* ---------- Videos ---------- */
+function renderVideos(sec){
+  const w = $("#watchArea"); w.innerHTML = "";
+  VIDEOS[sec].forEach(v=>{
+    const b = document.createElement(EMBED ? "button" : "a"); b.className="vid";
+    if(!EMBED){ b.href="https://www.youtube.com/watch?v="+v.id; b.target="_blank"; b.rel="noopener"; b.style.textDecoration="none"; b.style.color="inherit"; }
+    b.innerHTML = `<div class="th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg"><div class="pl">▶️</div></div>
+      <div class="meta"><b></b><small></small></div>`;
+    b.querySelector("b").textContent = v.t; b.querySelector("small").textContent = v.c;
+    if(EMBED) b.addEventListener("click",()=>openVideo(v));
+    w.appendChild(b);
+  });
+}
+function openVideo(v){
+  $("#frame").innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1&autoplay=1"
+    title="${v.t.replace(/"/g,"&quot;")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  $("#vsrc").innerHTML = "";
+  const s = document.createElement("span"); s.textContent = v.t + " — " + v.c + " · ";
+  const a = document.createElement("a"); a.href = "https://www.youtube.com/watch?v="+v.id; a.target="_blank"; a.rel="noopener";
+  a.textContent = "Grown-ups: open on YouTube if it won't play here";
+  $("#vsrc").append(s,a);
+  $("#modal").classList.remove("hidden");
+}
+function closeVideo(){ $("#frame").innerHTML=""; $("#modal").classList.add("hidden"); }
+$("#closeModal").addEventListener("click", closeVideo);
+
+/* ---------- THINK: shapes, colors, big & small ---------- */
+function playThink(){
+  const A = $("#playArea");
+  A.innerHTML = `<div class="play">
+    <div class="modes"><button class="mode on" data-m="shape">Shapes</button><button class="mode" data-m="color">Colors</button><button class="mode" data-m="size">Big &amp; Small</button></div>
+    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
+    <div class="choices" id="ch"></div></div>`;
+  let mode = "shape";
+  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
+    mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); round();
+  }));
+  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
+  function round(){
+    const ch = $("#ch"); ch.innerHTML = "";
+    let opts, answer, text;
+    if(mode==="shape"){
+      const shapes = shuffle(Object.keys(SHAPES)).slice(0,3);
+      answer = pick(shapes); text = `Find the ${answer}!`;
+      opts = shapes.map(s=>({key:s, html:svg(s, COLORS[pick(Object.keys(COLORS))])}));
+    } else if(mode==="color"){
+      const cols = shuffle(Object.keys(COLORS)).slice(0,3);
+      answer = pick(cols); text = `Find ${answer}!`;
+      const shp = pick(Object.keys(SHAPES));
+      opts = cols.map(c=>({key:c, html:svg(shp, COLORS[c])}));
+    } else {
+      const big = Math.random()<.5; answer = big ? "big" : "small";
+      text = `Tap the ${answer.toUpperCase()} one!`;
+      const shp = pick(Object.keys(SHAPES)), col = COLORS[pick(Object.keys(COLORS))];
+      opts = shuffle([{key:"big", html:svg(shp,col,1)},{key:"small", html:svg(shp,col,.4)}]);
+    }
+    $("#q").textContent = text; speak(text);
+    opts.forEach(o=>{
+      const b = document.createElement("button"); b.className="choice"; b.innerHTML=o.html; b.setAttribute("aria-label",o.key);
+      b.addEventListener("click",()=>{ if(o.key===answer){ right(b); setTimeout(round,1400);} else wrong(b); });
+      ch.appendChild(b);
+    });
+  }
+  round();
+}
+
+/* ---------- COUNT: tap to count, how many? ---------- */
+const THINGS = ["🍎","🐥","🚗","⚽","🐟","🌼","🍌","🦋","🧸","🍓"];
+const WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten"];
+function playNum(){
+  const A = $("#playArea");
+  A.innerHTML = `<div class="play">
+    <div class="modes"><button class="mode on" data-m="count">Tap &amp; Count</button><button class="mode" data-m="quiz">How Many?</button></div>
+    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
+    <div class="items" id="items"></div><div id="below"></div></div>`;
+  let mode="count", max=5, streak=0;
+  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
+    mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); round();
+  }));
+  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
+  function round(){
+    const n = 1+rand(max), thing = pick(THINGS), items=$("#items"), below=$("#below");
+    items.innerHTML=""; below.innerHTML="";
+    for(let i=0;i<n;i++){ const b=document.createElement("button"); b.textContent=thing; items.appendChild(b); }
+    if(mode==="count"){
+      const text="Tap each one and count!"; $("#q").textContent=text; speak(text);
+      below.innerHTML=`<div class="bigcount" id="cnt"></div>`;
+      let c=0;
+      items.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+        if(b.classList.contains("counted")) return;
+        b.classList.add("counted"); c++; $("#cnt").textContent=c; speak(WORDS[c]);
+        if(c===n){ setTimeout(()=>{ right(); speak(`${WORDS[n]}! Great counting!`); },700); setTimeout(round,2600); }
+      }));
+    } else {
+      const text="How many are there?"; $("#q").textContent=text; speak(text);
+      const set = new Set([n]); while(set.size<3){ set.add(1+rand(Math.max(max,4))); }
+      const ch=document.createElement("div"); ch.className="choices";
+      shuffle([...set]).forEach(v=>{
+        const b=document.createElement("button"); b.className="choice num"; b.textContent=v;
+        b.addEventListener("click",()=>{
+          if(v===n){ right(b); streak++; if(streak>=3 && max<10){ max++; streak=0; } setTimeout(round,1400); }
+          else { wrong(b); streak=0; }
+        });
+        ch.appendChild(b);
+      });
+      below.appendChild(ch);
+    }
+  }
+  round();
+}
+
+/* ---------- CODE: program the bee ---------- */
+const LEVELS = [
+  {size:3, bee:[0,1], flower:[2,1], rocks:[]},
+  {size:3, bee:[0,2], flower:[0,0], rocks:[]},
+  {size:4, bee:[0,3], flower:[3,3], rocks:[]},
+  {size:4, bee:[0,0], flower:[2,2], rocks:[]},
+  {size:4, bee:[0,3], flower:[3,0], rocks:[[1,2],[2,1]]},
+  {size:5, bee:[0,4], flower:[4,0], rocks:[[2,2],[1,3],[3,1]]},
+  {size:5, bee:[2,4], flower:[2,0], rocks:[[2,2],[1,2],[3,2]]}
+];
+const DIRS = {up:[0,-1,"⬆️"], down:[0,1,"⬇️"], left:[-1,0,"⬅️"], right:[1,0,"➡️"]};
+function playCode(){
+  const A = $("#playArea");
+  A.innerHTML = `<div class="play">
+    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
+    <div class="board" id="board"></div>
+    <div class="seq" id="seq"></div>
+    <div class="arrows">
+      <span></span><button class="arrow" data-d="up" aria-label="up">⬆️</button><span></span>
+      <button class="arrow" data-d="left" aria-label="left">⬅️</button><button class="arrow" data-d="down" aria-label="down">⬇️</button><button class="arrow" data-d="right" aria-label="right">➡️</button>
+    </div>
+    <div class="row"><button class="btn" id="undo">↩️ Undo</button><button class="btn" id="clr">🗑️ Clear</button><button class="btn go" id="run">▶ Go!</button></div>
+  </div>`;
+  let lvl = 0, prog = [], pos, running=false;
+  try{ lvl = Math.min(parseInt(localStorage.getItem("ll-code")||"0",10)||0, LEVELS.length-1); }catch(e){}
+  const L = ()=>LEVELS[lvl];
+  const isRock = (x,y)=>L().rocks.some(r=>r[0]===x&&r[1]===y);
+  function draw(trail=[]){
+    const b=$("#board"), n=L().size; b.style.gridTemplateColumns=`repeat(${n},1fr)`; b.innerHTML="";
+    for(let y=0;y<n;y++) for(let x=0;x<n;x++){
+      const c=document.createElement("div"); c.className="cell";
+      if(trail.some(t=>t[0]===x&&t[1]===y)) c.classList.add("path");
+      if(isRock(x,y)) c.textContent="🪨";
+      if(L().flower[0]===x&&L().flower[1]===y) c.textContent="🌸";
+      if(pos[0]===x&&pos[1]===y) c.textContent="🐝";
+      b.appendChild(c);
+    }
+  }
+  function drawSeq(active=-1){
+    const s=$("#seq"); s.innerHTML="";
+    if(!prog.length){ s.innerHTML=`<span class="hint">Tap arrows to make a plan</span>`; return; }
+    prog.forEach((d,i)=>{ const e=document.createElement("div"); e.className="step"+(i===active?" now":""); e.textContent=DIRS[d][2]; s.appendChild(e); });
+  }
+  function start(){
+    pos=[...L().bee]; prog=[]; draw(); drawSeq();
+    const text = lvl===0 ? "Help the bee fly to the flower! Tap the arrows, then press Go." : `Level ${lvl+1}. Help the bee find the flower!`;
+    $("#q").textContent = "Help 🐝 reach 🌸"; speak(text);
+  }
+  A.querySelectorAll(".arrow").forEach(b=>b.addEventListener("click",()=>{
+    if(running || prog.length>=12) return; prog.push(b.dataset.d); drawSeq(); speak(b.dataset.d);
+  }));
+  $("#undo").addEventListener("click",()=>{ if(!running){ prog.pop(); drawSeq(); }});
+  $("#clr").addEventListener("click",()=>{ if(!running){ prog=[]; pos=[...L().bee]; draw(); drawSeq(); }});
+  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
+  $("#run").addEventListener("click",async()=>{
+    if(running||!prog.length) return; running=true; pos=[...L().bee]; const trail=[[...pos]]; draw(trail);
+    let ok=true;
+    for(let i=0;i<prog.length;i++){
+      drawSeq(i); await new Promise(r=>setTimeout(r,550));
+      const [dx,dy]=DIRS[prog[i]], nx=pos[0]+dx, ny=pos[1]+dy;
+      if(nx<0||ny<0||nx>=L().size||ny>=L().size||isRock(nx,ny)){ ok=false; speak(isRock(nx,ny)?"Bump! A rock is in the way.":"Bump! That is the edge."); break; }
+      pos=[nx,ny]; trail.push([...pos]); draw(trail);
+    }
+    await new Promise(r=>setTimeout(r,300));
+    if(ok && pos[0]===L().flower[0] && pos[1]===L().flower[1]){
+      right(); setTimeout(()=>{ lvl=(lvl+1)%LEVELS.length; try{localStorage.setItem("ll-code",String(lvl));}catch(e){} running=false; start(); },1800);
+    } else {
+      if(ok) speak("Not there yet! Change your plan and try again.");
+      setTimeout(()=>{ pos=[...L().bee]; draw(); drawSeq(); running=false; },1200);
+    }
+  });
+  start();
+}
+
+/* ---------- DRAW: free draw + trace ---------- */
+const TRACE = {
+  none:"",
+  circle:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
+  square:`<svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
+  triangle:`<svg viewBox="0 0 100 100"><polygon points="50,12 90,88 10,88" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
+  house:`<svg viewBox="0 0 100 100"><polygon points="50,10 88,45 12,45" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><rect x="20" y="45" width="60" height="45" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><rect x="42" y="62" width="16" height="28" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
+  sun:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><g stroke="#cfc6e0" stroke-width="3" stroke-dasharray="4 5"><line x1="50" y1="5" x2="50" y2="22"/><line x1="50" y1="78" x2="50" y2="95"/><line x1="5" y1="50" x2="22" y2="50"/><line x1="78" y1="50" x2="95" y2="50"/><line x1="18" y1="18" x2="30" y2="30"/><line x1="70" y1="70" x2="82" y2="82"/><line x1="82" y1="18" x2="70" y2="30"/><line x1="18" y1="82" x2="30" y2="70"/></g></svg>`
+};
+function playDraw(){
+  const A = $("#playArea");
+  A.innerHTML = `<div class="play">
+    <div class="modes" id="trace">${Object.keys(TRACE).map((k,i)=>`<button class="mode${i?"":" on"}" data-t="${k}">${k==="none"?"Free draw":"Trace "+k}</button>`).join("")}</div>
+    <div class="canvas-wrap"><canvas id="cv"></canvas><div class="guide" id="guide"></div></div>
+    <div class="palette" id="pal"></div>
+    <div class="row">
+      <button class="tool" data-s="8">Thin</button><button class="tool on" data-s="18">Thick</button><button class="tool" data-s="34">Fat</button>
+      <button class="tool" id="eraser">🧽 Eraser</button><button class="btn" id="wipe">🗑️ New page</button>
+    </div></div>`;
+  const cv=$("#cv"), ctx=cv.getContext("2d");
+  let color="#ff4d4d", size=18, erasing=false, drawing=false, last=null;
+  function fit(){
+    const r=cv.getBoundingClientRect(), d=window.devicePixelRatio||1;
+    const img = cv.width ? ctx.getImageData(0,0,cv.width,cv.height) : null;
+    cv.width=r.width*d; cv.height=r.height*d; ctx.setTransform(d,0,0,d,0,0);
+    ctx.fillStyle="#fff"; ctx.fillRect(0,0,r.width,r.height);
+    if(img) ctx.putImageData(img,0,0);
+  }
+  fit(); window.onresize = ()=>{ if(current==="draw" && cv.isConnected && cv.offsetParent) fit(); };
+  const pal=$("#pal");
+  ["#ff4d4d","#ff922b","#ffd43b","#40c057","#3b8cff","#9b59ff","#ff6ec7","#8b5a2b","#2b2340"].forEach((c,i)=>{
+    const b=document.createElement("button"); b.className="swatch"+(i?"":" on"); b.style.background=c; b.setAttribute("aria-label","color");
+    b.addEventListener("click",()=>{ color=c; erasing=false; $("#eraser").classList.remove("on"); pal.querySelectorAll(".swatch").forEach(x=>x.classList.toggle("on",x===b)); });
+    pal.appendChild(b);
+  });
+  A.querySelectorAll("[data-s]").forEach(b=>b.addEventListener("click",()=>{ size=+b.dataset.s; A.querySelectorAll("[data-s]").forEach(x=>x.classList.toggle("on",x===b)); }));
+  $("#eraser").addEventListener("click",e=>{ erasing=!erasing; e.currentTarget.classList.toggle("on",erasing); });
+  $("#wipe").addEventListener("click",()=>{ const r=cv.getBoundingClientRect(); ctx.fillStyle="#fff"; ctx.fillRect(0,0,r.width,r.height); speak("A fresh new page!"); });
+  A.querySelectorAll("[data-t]").forEach(b=>b.addEventListener("click",()=>{
+    $("#guide").innerHTML=TRACE[b.dataset.t]; A.querySelectorAll("[data-t]").forEach(x=>x.classList.toggle("on",x===b));
+    if(b.dataset.t!=="none") speak(`Trace the ${b.dataset.t} with your finger!`); else speak("Draw anything you like!");
+  }));
+  const pt=e=>{ const r=cv.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; };
+  function line(a,b){
+    ctx.strokeStyle = erasing ? "#fff" : color; ctx.lineWidth = erasing ? size*1.8 : size;
+    ctx.lineCap="round"; ctx.lineJoin="round"; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+  }
+  cv.addEventListener("pointerdown",e=>{ drawing=true; last=pt(e); line(last,last); try{cv.setPointerCapture(e.pointerId);}catch(_){} });
+  cv.addEventListener("pointermove",e=>{ if(!drawing) return; const p=pt(e); line(last,p); last=p; });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev=>cv.addEventListener(ev,()=>{ drawing=false; }));
+  speak("Let's draw! Pick a color and use your finger.");
+}
+
+renderStars();
+</script>
+</body>
+</html>
