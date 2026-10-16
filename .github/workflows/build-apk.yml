@@ -42,18 +42,18 @@ jobs:
         run: gradle -p android assembleRelease --no-daemon
 
       - name: Rename APK
-        run: cp android/app/build/outputs/apk/release/app-release.apk little-learners.apk
+        run: cp android/app/build/outputs/apk/release/app-release.apk nuzaim-learns.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: little-learners-apk
-          path: little-learners.apk
+          name: nuzaim-learns-apk
+          path: nuzaim-learns.apk
 
       - name: Publish as a GitHub release (easy phone download)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo "Download little-learners.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
-          gh release create "apk-v${{ github.run_number }}" little-learners.apk \
-            --title "Little Learners APK (build ${{ github.run_number }})" \
+          { echo "Download nuzaim-learns.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
+          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk \
+            --title "Nuzaim Learns APK (build ${{ github.run_number }})" \
             --notes-file notes.md

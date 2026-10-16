@@ -14,7 +14,7 @@
     </queries>
 
     <application
-        android:label="Little Learners"
+        android:label="Nuzaim Learns"
         android:icon="@mipmap/ic_launcher"
         android:hardwareAccelerated="true"
         android:allowBackup="false"

@@ -24,7 +24,7 @@ import androidx.webkit.WebViewAssetLoader;
 import java.util.Locale;
 
 /**
- * Little Learners: wraps the web app (assets/index.html) in a WebView.
+ * Nuzaim Learns: wraps the web app (assets/index.html) in a WebView.
  * The page is served from https://appassets.androidplatform.net so that
  * embedded YouTube videos get a proper https origin.
  */

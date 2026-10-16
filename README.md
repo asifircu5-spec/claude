@@ -1,4 +1,4 @@
-# Little Learners 🔺🔢🐝🖍️
+# Nuzaim Learns 🔺🔢🐝🖍️
 
 A playful learning web app for **3-year-olds**, built as a single `index.html` with no installs or build step.
 
@@ -31,4 +31,4 @@ Short sessions (10–15 minutes) with an adult nearby work best at this age. Sta
 
 ## Android app (APK)
 
-The `android/` folder wraps the app in an Android WebView. Every push to `main` runs the **Build Android APK** workflow, which builds `little-learners.apk` and attaches it to a new release under **Releases**. Download it on an Android phone, open it, and allow installing from this source when asked. The APK is signed with a development key, so it is for personal use, not the Play Store.
+The `android/` folder wraps the app in an Android WebView. Every push to `main` runs the **Build Android APK** workflow, which builds `nuzaim-learns.apk` and attaches it to a new release under **Releases**. Download it on an Android phone, open it, and allow installing from this source when asked. The APK is signed with a development key, so it is for personal use, not the Play Store.
