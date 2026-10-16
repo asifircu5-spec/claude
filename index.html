@@ -15,19 +15,22 @@
   --num:#4dabf7;   --num-bg:#dbefff;
   --code:#51cf66;  --code-bg:#ddf8e2;
   --draw:#fcc419;  --draw-bg:#fff3c4;
+  --sci:#845ef7;   --sci-bg:#ece5ff;
+  --trav:#12b886;  --trav-bg:#d3f9ec;
+  --move:#fd7e14;  --move-bg:#ffe8cc;
   --shadow:0 6px 0 rgba(43,35,64,.12);
   --radius:28px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14;
+    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14;
     --shadow:0 6px 0 rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
   --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14;
+  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14;
   --shadow:0 6px 0 rgba(0,0,0,.35);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -51,7 +54,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .tile .em{font-size:clamp(56px,14vw,84px);line-height:1}
 .tile b{font-size:clamp(22px,5vw,30px)}
 .tile small{font-size:15px;color:var(--soft);text-align:center;line-height:1.2}
-.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}
+.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}.t-sci{background:var(--sci-bg)}.t-trav{background:var(--trav-bg)}.t-move{background:var(--move-bg)}
+.grid .tile:last-child:nth-child(odd){grid-column:span 2}
 .note{margin-top:20px;font-size:15px;color:var(--soft);line-height:1.4;background:var(--card);border-radius:18px;padding:12px 16px}
 
 /* Section */
@@ -107,6 +111,17 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 .tool{border-radius:16px;padding:6px 14px;font-weight:800;font-size:18px;background:var(--bg);border:3px solid var(--line)}
 .tool.on{border-color:var(--accent);background:var(--accent);color:#fff}
 
+/* Science tank */
+.tank{position:relative;height:200px;border-radius:22px;overflow:hidden;margin:0 auto 14px;max-width:420px;
+  background:linear-gradient(#e7f5ff 0 22%,#74c0fc 22% 100%)}
+.tank .obj{position:absolute;left:50%;top:4%;transform:translateX(-50%);font-size:64px;transition:top 1.4s ease-in}
+.bigemoji{font-size:clamp(80px,22vw,130px);text-align:center;line-height:1.1;margin-bottom:10px}
+.choice.word{flex-direction:column;font-size:clamp(40px,11vw,60px);font-weight:800;gap:2px}
+.choice.word small{font-size:18px}
+.movecard{text-align:center}
+.movecard .act{font-size:clamp(26px,7vw,36px);font-weight:800;margin:4px 0 6px}
+.movecard .counter{font-size:72px;font-weight:800;color:var(--accent);min-height:90px}
+
 /* Videos */
 .vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .vid{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);text-align:left;padding:0}
@@ -145,8 +160,11 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
       <button class="tile t-num" data-go="num"><div class="em">🔢</div><b>Count</b><small>numbers 1 to 10</small></button>
       <button class="tile t-code" data-go="code"><div class="em">🐝</div><b>Code</b><small>help the bee find the flower</small></button>
       <button class="tile t-draw" data-go="draw"><div class="em">🖍️</div><b>Draw</b><small>scribble, trace, create</small></button>
+      <button class="tile t-sci" data-go="sci"><div class="em">🔬</div><b>Science</b><small>sink or float · animal homes</small></button>
+      <button class="tile t-trav" data-go="trav"><div class="em">✈️</div><b>Travel</b><small>land, water, sky · what to wear</small></button>
+      <button class="tile t-move" data-go="move"><div class="em">🤸</div><b>Move</b><small>jump, clap, stomp &amp; count</small></button>
     </div>
-    <div class="note"><b>For grown-ups:</b> Each area has a game and a <b>Watch</b> tab with real videos from public YouTube channels (Sesame Street, Art for Kids Hub, CodeMonkey and others). Tap 🔊 to hear instructions read aloud. For a 3-year-old, short sessions of 10–15 minutes with you nearby work best.</div>
+    <div class="note"><b>For grown-ups:</b> Each area has a game and a <b>Watch</b> tab with live-action videos (real people, animals and places) from public YouTube channels such as Blippi, Ms Rachel, Danny Go!, Dream English Kids and Art for Kids Hub. Tap 🔊 to hear instructions read aloud. For a 3-year-old, short sessions of 10–15 minutes with you nearby work best.</div>
   </main>
 
   <!-- SECTION -->
@@ -170,20 +188,20 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 
 <script>
 const EMBED = true; // false = open videos on YouTube instead of playing inside the app
-/* ---------- Videos (each one checked on its YouTube page: title + uploading channel) ---------- */
+/* ---------- Videos: live-action only (real people, animals, places). Checked against YouTube. ---------- */
 const VIDEOS = {
   think: [
-    {id:"RgLsdBgJqbQ", t:"Let's Find Shapes with Elmo!", c:"Sesame Street"},
-    {id:"Pt1OlWrF12s", t:"Zoe and Elmo Learn About Circle Shapes", c:"Takalani Sesame"},
-    {id:"iaidVGM27TU", t:"Songs About Colors with Elmo & Friends", c:"Sesame Street"},
+    {id:"T9wMikE-0o0", t:"Blippi Learns Colors at the Indoor Play Place", c:"Blippi"},
+    {id:"4dMoYG9TUGM", t:"Blippi Learns Colors and Shapes at the Indoor Playground", c:"Blippi"},
+    {id:"hOHrqPI9bVk", t:"Learn Numbers, Colors, Counting and Shapes", c:"Ms Rachel"},
     {id:"IKlvbyN0id8", t:"Big Small Action Song (Opposites)", c:"Dream English Kids"}
   ],
   num: [
-    {id:"mu4-OvYjMWo", t:"Numberblocks – Numbers 1 to 10!", c:"Blocks Universe"},
-    {id:"C_Qfr56WG48", t:"Time to Count with Elmo and Friends", c:"Sesame Street"}
+    {id:"8DGKjUB6YjA", t:"Learn to Count 1 to 10 with Blippi", c:"Blippi Playtime"},
+    {id:"Q1W9eS11DCk", t:"Learning Numbers with Blippi and Ice Cream", c:"Blippi"},
+    {id:"hOHrqPI9bVk", t:"Learn Numbers, Colors, Counting and Shapes", c:"Ms Rachel"}
   ],
   code: [
-    {id:"QbhQ6G61SMs", t:"Sequencing – Coding Concepts for Kids", c:"CodeMonkey"},
     {id:"HrozLD1oetI", t:"An Introduction to Coding with Bee-Bot", c:"EdThings"},
     {id:"rf-1hfDPAw0", t:"Coding Without a Computer: Sequencing (ages 3–6)", c:"It Starts at Home by Sonali Kapoor"}
   ],
@@ -192,6 +210,23 @@ const VIDEOS = {
     {id:"4Os0j46SFrU", t:"How To Draw A Funny Monster – Preschool", c:"Art for Kids Hub"},
     {id:"dvLJftSrKJk", t:"How To Draw A Bee – Preschool", c:"Art for Kids Hub"},
     {id:"1gTJQOChf94", t:"How To Draw Pizza – Preschool", c:"Art for Kids Hub"}
+  ],
+  sci: [
+    {id:"oIYr10Nntbw", t:"Blippi's Sink or Float Game at the Playground", c:"Blippi"},
+    {id:"7J65syI54Ho", t:"Blippi: Does It Sink or Float?", c:"Blippi"},
+    {id:"GxWT3DLexqA", t:"Animals Up Close", c:"Nat Geo Kids"},
+    {id:"hkBhJxZupeE", t:"The Cutest Baby Animals", c:"Nat Geo Kids"}
+  ],
+  trav: [
+    {id:"s06Xd9-C_3w", t:"Blippi Learns About Airplanes", c:"Blippi"},
+    {id:"FtQavremZQQ", t:"Blippi Explores a Steam Train", c:"Blippi"},
+    {id:"NTybXlOYlgU", t:"Blippi Explores a Boat and Learns About Sea Animals", c:"Blippi"}
+  ],
+  move: [
+    {id:"-y5yuLuw7KQ", t:"Move Your Body! (Exercise Dance Song)", c:"Danny Go!"},
+    {id:"DGGT9CThauE", t:"Dance Like This! Clap, Shake, Jump", c:"Danny Go!"},
+    {id:"vXIz152zx6E", t:"Wiggle, Bounce, and Shake!", c:"Danny Go!"},
+    {id:"IKlvbyN0id8", t:"Big Small Action Song", c:"Dream English Kids"}
   ]
 };
 
@@ -199,7 +234,10 @@ const SECTIONS = {
   think:{title:"🔺 Think", accent:"var(--think)"},
   num:{title:"🔢 Count", accent:"var(--num)"},
   code:{title:"🐝 Code", accent:"var(--code)"},
-  draw:{title:"🖍️ Draw", accent:"var(--draw)"}
+  draw:{title:"🖍️ Draw", accent:"var(--draw)"},
+  sci:{title:"🔬 Science", accent:"var(--sci)"},
+  trav:{title:"✈️ Travel", accent:"var(--trav)"},
+  move:{title:"🤸 Move", accent:"var(--move)"}
 };
 
 /* ---------- Helpers ---------- */
@@ -261,7 +299,7 @@ function go(sec){
   $("#secTitle").textContent = SECTIONS[sec].title;
   setTab("play");
   renderVideos(sec);
-  ({think:playThink, num:playNum, code:playCode, draw:playDraw})[sec]();
+  ({think:playThink, num:playNum, code:playCode, draw:playDraw, sci:playSci, trav:playTravel, move:playMove})[sec]();
   window.scrollTo(0,0);
 }
 function home(){
@@ -522,6 +560,141 @@ function playDraw(){
   cv.addEventListener("pointermove",e=>{ if(!drawing) return; const p=pt(e); line(last,p); last=p; });
   ["pointerup","pointercancel","pointerleave"].forEach(ev=>cv.addEventListener(ev,()=>{ drawing=false; }));
   speak("Let's draw! Pick a color and use your finger.");
+}
+
+/* ---------- SCIENCE: sink or float, animal homes ---------- */
+const FLOATS = [["🦆","rubber duck"],["🍃","leaf"],["🪶","feather"],["🍎","apple"],["⚽","ball"],["🛶","canoe"]];
+const SINKS  = [["🪨","rock"],["🔑","key"],["🪙","coin"],["⚓","anchor"],["🔩","bolt"]];
+const HOMES = {water:{e:"🌊",n:"water",a:[["🐟","fish"],["🐙","octopus"],["🐳","whale"],["🐬","dolphin"],["🦀","crab"]]},
+               farm:{e:"🚜",n:"farm",a:[["🐄","cow"],["🐖","pig"],["🐑","sheep"],["🐔","chicken"],["🐴","horse"]]},
+               jungle:{e:"🌴",n:"jungle",a:[["🐒","monkey"],["🦜","parrot"],["🐅","tiger"],["🦥","sloth"]]}};
+function playSci(){
+  const A=$("#playArea");
+  A.innerHTML=`<div class="play">
+    <div class="modes"><button class="mode on" data-m="sink">Sink or Float</button><button class="mode" data-m="home">Where Do They Live?</button></div>
+    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
+    <div id="stage"></div><div class="choices" id="ch"></div></div>`;
+  let mode="sink", busy=false;
+  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); busy=false; round(); }));
+  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
+  function round(){
+    const st=$("#stage"), ch=$("#ch"); ch.innerHTML="";
+    if(mode==="sink"){
+      const floats=Math.random()<.5, [em,name]=pick(floats?FLOATS:SINKS);
+      st.innerHTML=`<div class="tank"><div class="obj" id="obj">${em}</div></div>`;
+      const text=`Will the ${name} sink or float?`; $("#q").textContent=text; speak(text);
+      [["float","⬆️","Float"],["sink","⬇️","Sink"]].forEach(([k,ar,lab])=>{
+        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${ar}<small>${lab}</small>`;
+        b.addEventListener("click",()=>{
+          if(busy) return;
+          if((k==="float")===floats){
+            busy=true; addStar(); celebrate(); b.classList.add("pop");
+            $("#obj").style.top = floats ? "12%" : "68%";
+            speak(`Yes! The ${name} ${floats?"floats":"sinks"}!`);
+            setTimeout(()=>{ busy=false; round(); },2600);
+          } else wrong(b);
+        });
+        ch.appendChild(b);
+      });
+    } else {
+      const keys=Object.keys(HOMES), home=pick(keys), [em,name]=pick(HOMES[home].a);
+      st.innerHTML=`<div class="bigemoji">${em}</div>`;
+      const text=`Where does the ${name} live?`; $("#q").textContent=text; speak(text);
+      keys.forEach(k=>{
+        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${HOMES[k].e}<small>${HOMES[k].n}</small>`;
+        b.addEventListener("click",()=>{
+          if(busy) return;
+          if(k===home){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! The ${name} lives on the ${HOMES[k].n}!`.replace("on the water","in the water").replace("on the jungle","in the jungle")); setTimeout(()=>{busy=false; round();},2200); }
+          else wrong(b);
+        });
+        ch.appendChild(b);
+      });
+    }
+  }
+  round();
+}
+
+/* ---------- TRAVEL: land / water / sky, what to wear ---------- */
+const WAYS = {land:{e:"🛣️",n:"land",v:[["🚗","car"],["🚌","bus"],["🚂","train"],["🚲","bicycle"],["🚜","tractor"]]},
+              water:{e:"🌊",n:"water",v:[["⛵","sailboat"],["🚢","ship"],["🛶","canoe"],["🚤","speedboat"]]},
+              sky:{e:"☁️",n:"sky",v:[["✈️","airplane"],["🚁","helicopter"],["🪂","parachute"]]}};
+const TRIPS = [
+  {place:"the beach", e:"🏖️", wear:[["🕶️","sunglasses"],["👒","sun hat"],["🩳","shorts"]]},
+  {place:"the snow", e:"⛄", wear:[["🧤","mittens"],["🧣","scarf"],["🧥","warm coat"]]},
+  {place:"a rainy day walk", e:"🌧️", wear:[["☂️","umbrella"],["🥾","boots"]]}
+];
+function playTravel(){
+  const A=$("#playArea");
+  A.innerHTML=`<div class="play">
+    <div class="modes"><button class="mode on" data-m="way">Land, Water or Sky</button><button class="mode" data-m="wear">What to Wear?</button></div>
+    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
+    <div id="stage"></div><div class="choices" id="ch"></div></div>`;
+  let mode="way", busy=false;
+  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); busy=false; round(); }));
+  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
+  function round(){
+    const st=$("#stage"), ch=$("#ch"); ch.innerHTML="";
+    if(mode==="way"){
+      const keys=Object.keys(WAYS), way=pick(keys), [em,name]=pick(WAYS[way].v);
+      st.innerHTML=`<div class="bigemoji">${em}</div>`;
+      const text=`Where does the ${name} go? Land, water, or sky?`; $("#q").textContent=`Where does the ${name} go?`; speak(text);
+      keys.forEach(k=>{
+        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${WAYS[k].e}<small>${WAYS[k].n}</small>`;
+        b.addEventListener("click",()=>{
+          if(busy) return;
+          if(k===way){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! The ${name} goes ${k==="land"?"on the land":k==="water"?"on the water":"in the sky"}!`); setTimeout(()=>{busy=false; round();},2200); }
+          else wrong(b);
+        });
+        ch.appendChild(b);
+      });
+    } else {
+      const trip=pick(TRIPS), good=pick(trip.wear);
+      const others=shuffle(TRIPS.filter(t=>t!==trip).map(t=>pick(t.wear)));
+      st.innerHTML=`<div class="bigemoji">${trip.e}</div>`;
+      const text=`We are going to ${trip.place}! What should we take?`; $("#q").textContent=`Going to ${trip.place}!`; speak(text);
+      shuffle([good,...others]).forEach(item=>{
+        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${item[0]}<small>${item[1]}</small>`;
+        b.addEventListener("click",()=>{
+          if(busy) return;
+          if(item===good){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! Take the ${good[1]} to ${trip.place}!`); setTimeout(()=>{busy=false; round();},2200); }
+          else wrong(b);
+        });
+        ch.appendChild(b);
+      });
+    }
+  }
+  round();
+}
+
+/* ---------- MOVE: follow-along exercise with counting ---------- */
+const MOVES = [
+  ["🦘","Jump like a kangaroo",5],["👏","Clap your hands",5],["🐘","Stomp like an elephant",6],
+  ["🐰","Hop like a bunny",5],["🙌","Reach up high to the sky",3],["🦶","Touch your toes",3],
+  ["🚶","March in place",8],["🦩","Stand on one foot like a flamingo",5],["🐸","Jump like a frog",3],
+  ["🌀","Spin around slowly",2],["🐛","Wiggle like a worm",5],["🧊","Freeze like a statue",5]
+];
+let moveToken = 0;
+function playMove(){
+  const A=$("#playArea");
+  A.innerHTML=`<div class="play movecard">
+    <div class="bigemoji" id="mEm"></div>
+    <div class="act" id="mAct"></div>
+    <div class="counter" id="mCnt"></div>
+    <div class="row"><button class="btn go" id="mGo">▶ Let's move!</button><button class="btn" id="mNext">🔀 Next move</button></div>
+    <p style="color:var(--soft);font-size:15px;margin:14px 0 0">Grown-ups: clear some space and move along with your child.</p></div>`;
+  let cur=null;
+  function show(){ moveToken++; const m=pick(MOVES.filter(x=>x!==cur)); cur=m; $("#mEm").textContent=m[0]; $("#mAct").textContent=m[1]+"!"; $("#mCnt").textContent=""; speak(m[1]+"!"); }
+  async function go(){
+    const tok=++moveToken, [,act,n]=cur, wait=ms=>new Promise(r=>setTimeout(r,ms));
+    speak(`${act}! Ready? Go!`); await wait(2300);
+    for(let i=1;i<=n;i++){ if(tok!==moveToken || current!=="move") return; $("#mCnt").textContent=i; speak(WORDS[i]); await wait(1300); }
+    if(tok!==moveToken) return;
+    $("#mCnt").textContent="🎉"; addStar(); celebrate(); speak("Great moving! You did it!");
+    await wait(2500); if(tok===moveToken && current==="move") show();
+  }
+  $("#mGo").addEventListener("click",go);
+  $("#mNext").addEventListener("click",show);
+  show();
 }
 
 renderStars();

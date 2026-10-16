@@ -8,21 +8,17 @@ It has four areas, each with a **Play** game and a **Watch** tab of real videos 
 |---|---|---|
 | 🔺 Think | Qualitative: shapes, colors, big & small | Tap the right shape, color or size |
 | 🔢 Count | Quantitative: numbers 1–10 | Tap-and-count, then "How many?" (gets harder as the child succeeds) |
-| 🐝 Code | Early coding: sequencing & planning | Plan arrow moves, press **Go**, and watch the bee fly to the flower (7 levels, rocks appear later) |
-| 🖍️ Draw | Drawing & fine motor | Finger painting with big brushes, or trace a circle, square, triangle, house or sun |
+| 🐝 Code | Early coding: sequencing & planning | Plan arrow moves, press **Go**, and watch the bee fly to the flower |
+| 🖍️ Draw | Drawing & fine motor | Finger painting, or trace a circle, square, triangle, house or sun |
+| 🔬 Science | Observing & predicting | Sink or float (with a water tank), and where animals live |
+| ✈️ Travel | Vehicles & places | Land, water or sky, and what to take on a trip |
+| 🤸 Move | Exercise & body control | Follow-along moves (jump, stomp, balance) counted out loud |
 
 Instructions are read aloud (🔊) using the browser's built-in speech, so the child doesn't need to read. Correct answers earn ⭐ stars.
 
 ## Videos used
 
-Each video was checked on its YouTube page for title and uploading channel (October 2026). Videos play through YouTube's privacy-enhanced embed (`youtube-nocookie.com`). If a channel disables embedding, a link to open it on YouTube is shown under the player.
-
-- **Think:** Sesame Street — *Let's Find Shapes with Elmo!*, *Songs About Colors with Elmo & Friends*; Takalani Sesame — *Zoe and Elmo Learn About Circle Shapes*; Dream English Kids — *Big Small Action Song*
-- **Count:** Blocks Universe — *Numberblocks: Numbers 1 to 10!*; Sesame Street — *Time to Count with Elmo and Friends*
-- **Code:** CodeMonkey — *Sequencing: Coding Concepts Explained for Kids*; EdThings — *An Introduction to Coding with Bee-Bot*; It Starts at Home by Sonali Kapoor — *Kids Coding Activities Without Computer: Sequencing (3–6 yrs)*
-- **Draw:** Art for Kids Hub — *How To Draw A Turtle / A Funny Monster / A Bee / Pizza — Preschool*
-
-Note: the CodeMonkey and Bee-Bot videos are aimed at slightly older children or at grown-ups introducing coding; they work best watched together.
+All videos are live-action (real people, real animals, real places), from public YouTube channels: Blippi, Ms Rachel, Danny Go!, Dream English Kids, Nat Geo Kids, Art for Kids Hub, EdThings and It Starts at Home. Some presenters use on-screen graphics, but there are no cartoon shows. Every build checks each video with YouTube's embed service (see the **Check every video** step in the build log), so a removed or non-embeddable video shows up there.
 
 ## Run it
 

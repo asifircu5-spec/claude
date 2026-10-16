@@ -24,6 +24,17 @@ jobs:
         with:
           gradle-version: '8.7'
 
+      - name: Check every video exists and can play inside the app
+        run: |
+          for id in $(grep -oE 'id:"[A-Za-z0-9_-]{11}"' index.html | cut -d'"' -f2 | sort -u); do
+            code=$(curl -s -o r.json -w '%{http_code}' "https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=$id")
+            if [ "$code" = "200" ]; then
+              echo "OK   $id | $(jq -r .author_name r.json) | $(jq -r .title r.json)"
+            else
+              echo "FAIL $id | HTTP $code (401 = embedding disabled, 404 = missing)"
+            fi
+          done
+
       - name: Copy the web app into the Android assets
         run: cp index.html android/app/src/main/assets/index.html
 
