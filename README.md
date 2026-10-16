@@ -12,6 +12,7 @@ It has four areas, each with a **Play** game and a **Watch** tab of real videos 
 | 🖍️ Draw | Drawing & fine motor | Finger painting, or trace a circle, square, triangle, house or sun |
 | 🔬 Science | Observing & predicting | Sink or float (with a water tank), and where animals live |
 | ✈️ Travel | Vehicles & places | Land, water or sky, and what to take on a trip |
+| 🧭 Explore | Curiosity | Activity ideas to do together, and "Did you know?" facts read aloud |
 | 🤸 Move | Exercise & body control | Follow-along moves (jump, stomp, balance) counted out loud |
 
 Instructions are read aloud (🔊) using the browser's built-in speech, so the child doesn't need to read. Correct answers earn ⭐ stars.

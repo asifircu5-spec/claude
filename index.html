@@ -18,19 +18,20 @@
   --sci:#845ef7;   --sci-bg:#ece5ff;
   --trav:#12b886;  --trav-bg:#d3f9ec;
   --move:#fd7e14;  --move-bg:#ffe8cc;
+  --exp:#e64980;   --exp-bg:#ffdeeb;
   --shadow:0 6px 0 rgba(43,35,64,.12);
   --radius:28px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14;
+    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14; --exp-bg:#4a1f33;
     --shadow:0 6px 0 rgba(0,0,0,.35);
   }
 }
 :root[data-theme="dark"]{
   --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14;
+  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14; --exp-bg:#4a1f33;
   --shadow:0 6px 0 rgba(0,0,0,.35);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -54,9 +55,16 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .tile .em{font-size:clamp(56px,14vw,84px);line-height:1}
 .tile b{font-size:clamp(22px,5vw,30px)}
 .tile small{font-size:15px;color:var(--soft);text-align:center;line-height:1.2}
-.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}.t-sci{background:var(--sci-bg)}.t-trav{background:var(--trav-bg)}.t-move{background:var(--move-bg)}
+.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}.t-sci{background:var(--sci-bg)}.t-trav{background:var(--trav-bg)}.t-move{background:var(--move-bg)}.t-exp{background:var(--exp-bg)}
 .grid .tile:last-child:nth-child(odd){grid-column:span 2}
 .note{margin-top:20px;font-size:15px;color:var(--soft);line-height:1.4;background:var(--card);border-radius:18px;padding:12px 16px}
+
+/* Hello card */
+.hello{display:flex;align-items:center;gap:16px;background:var(--card);border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
+.hello .ph{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none;border:5px solid var(--draw);background:var(--bg);padding:0}
+.hello .ph img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+.hello b{display:block;font-size:clamp(26px,6.5vw,34px);line-height:1.1}
+.hello span{color:var(--soft);font-size:18px}
 
 /* Section */
 .sec-title{font-size:clamp(28px,7vw,40px);font-weight:800;margin:4px 0 8px;display:flex;align-items:center;gap:10px}
@@ -122,6 +130,15 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 .movecard .act{font-size:clamp(26px,7vw,36px);font-weight:800;margin:4px 0 6px}
 .movecard .counter{font-size:72px;font-weight:800;color:var(--accent);min-height:90px}
 
+/* Explore */
+.idea{text-align:left;line-height:1.35}
+.idea h3{margin:0 0 4px;font-size:clamp(24px,6vw,30px);text-align:center}
+.idea .tag{font-size:15px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 4px}
+.idea ol{margin:0;padding-left:24px;font-size:19px}
+.idea p{margin:0;font-size:18px}
+.idea .safe{background:var(--bg);border-radius:14px;padding:8px 12px;font-size:16px;margin-top:12px}
+.fact{text-align:center;font-size:clamp(24px,6vw,32px);font-weight:700;line-height:1.3;min-height:120px}
+
 /* Videos */
 .vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .vid{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:var(--shadow);text-align:left;padding:0}
@@ -155,6 +172,10 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 
   <!-- HOME -->
   <main id="home">
+    <div class="hello" id="hello">
+      <button class="ph" id="helloPh" aria-label="Say hello"><img src="nuzaim.jpg" alt="Nuzaim" onerror="this.closest('.ph').style.display='none'"></button>
+      <div><b>Hi, Nuzaim! 👋</b><span>What shall we learn today?</span></div>
+    </div>
     <div class="grid">
       <button class="tile t-think" data-go="think"><div class="em">🔺</div><b>Think</b><small>shapes · colors · big &amp; small</small></button>
       <button class="tile t-num" data-go="num"><div class="em">🔢</div><b>Count</b><small>numbers 1 to 10</small></button>
@@ -162,6 +183,7 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
       <button class="tile t-draw" data-go="draw"><div class="em">🖍️</div><b>Draw</b><small>scribble, trace, create</small></button>
       <button class="tile t-sci" data-go="sci"><div class="em">🔬</div><b>Science</b><small>sink or float · animal homes</small></button>
       <button class="tile t-trav" data-go="trav"><div class="em">✈️</div><b>Travel</b><small>land, water, sky · what to wear</small></button>
+      <button class="tile t-exp" data-go="exp"><div class="em">🧭</div><b>Explore</b><small>ideas to try · did you know?</small></button>
       <button class="tile t-move" data-go="move"><div class="em">🤸</div><b>Move</b><small>jump, clap, stomp &amp; count</small></button>
     </div>
     <div class="note"><b>For grown-ups:</b> Each area has a game and a <b>Watch</b> tab with live-action videos (real people, animals and places) from public YouTube channels such as Blippi, Ms Rachel, Danny Go!, Dream English Kids and Art for Kids Hub. Tap 🔊 to hear instructions read aloud. For a 3-year-old, short sessions of 10–15 minutes with you nearby work best.</div>
@@ -227,6 +249,12 @@ const VIDEOS = {
     {id:"DGGT9CThauE", t:"Dance Like This! Clap, Shake, Jump", c:"Danny Go!"},
     {id:"vXIz152zx6E", t:"Wiggle, Bounce, and Shake!", c:"Danny Go!"},
     {id:"ho0jqU6L88U", t:"Big Small Action Song", c:"Dream English Kids"}
+  ],
+  exp: [
+    {id:"UksLudzbUdU", t:"Blippi Visits a Zoo", c:"Blippi"},
+    {id:"EKI3Xs2dqPA", t:"Blippi Visits a Baby Animal Farm", c:"Blippi"},
+    {id:"r5VhH5fhPLE", t:"Relax with Cute Ocean Animals", c:"Nat Geo Kids"},
+    {id:"hkBhJxZupeE", t:"The Cutest Baby Animals You've Ever Seen", c:"Nat Geo Animals"}
   ]
 };
 
@@ -237,7 +265,8 @@ const SECTIONS = {
   draw:{title:"🖍️ Draw", accent:"var(--draw)"},
   sci:{title:"🔬 Science", accent:"var(--sci)"},
   trav:{title:"✈️ Travel", accent:"var(--trav)"},
-  move:{title:"🤸 Move", accent:"var(--move)"}
+  move:{title:"🤸 Move", accent:"var(--move)"},
+  exp:{title:"🧭 Explore", accent:"var(--exp)"}
 };
 
 /* ---------- Helpers ---------- */
@@ -299,7 +328,7 @@ function go(sec){
   $("#secTitle").textContent = SECTIONS[sec].title;
   setTab("play");
   renderVideos(sec);
-  ({think:playThink, num:playNum, code:playCode, draw:playDraw, sci:playSci, trav:playTravel, move:playMove})[sec]();
+  ({think:playThink, num:playNum, code:playCode, draw:playDraw, sci:playSci, trav:playTravel, move:playMove, exp:playExplore})[sec]();
   window.scrollTo(0,0);
 }
 function home(){
@@ -697,6 +726,72 @@ function playMove(){
   show();
 }
 
+/* ---------- EXPLORE: ideas to try together, did-you-know facts ---------- */
+const IDEAS = [
+  {e:"🐞",t:"Bug hunt",need:"A garden, park or plant pots",steps:["Look under leaves and stones together","Count the bugs you find","Say each bug's color out loud"],learn:"Noticing, counting, nature words",safe:"Look, don't touch. Wash hands after."},
+  {e:"🌱",t:"Grow a seed",need:"A cup, soil or wet cotton, a bean or lentil seed",steps:["Put the seed in soil or on wet cotton","Place it near a window","Add a little water each day and watch it sprout"],learn:"Patience, how plants grow",safe:"Seeds are for planting, not eating."},
+  {e:"🔦",t:"Shadow puppets",need:"A torch or phone light, a wall",steps:["Turn the room lights off","Shine the light on the wall","Make a bird, dog or bunny with your hands"],learn:"Light and shadow, imagination",safe:""},
+  {e:"🏰",t:"Pillow fort",need:"Pillows, cushions, a bedsheet",steps:["Stack cushions into walls","Drape the sheet over the top","Read a book inside your fort"],learn:"Building, balance, planning",safe:""},
+  {e:"🧦",t:"Sock sorting",need:"A pile of clean socks",steps:["Find two socks that match","Make pairs","Sort them by color or by size"],learn:"Matching, colors, big and small",safe:""},
+  {e:"🖌️",t:"Water painting",need:"A paintbrush, a cup of water, a wall or floor outside",steps:["Dip the brush in water","Paint shapes on the wall","Watch your picture disappear as it dries"],learn:"Drawing, how water dries",safe:""},
+  {e:"🫧",t:"Bubble chase",need:"Soap water and a bubble wand (or a bent pipe cleaner)",steps:["Blow bubbles","Clap or pop them","Count how many you can catch"],learn:"Movement, counting",safe:"Keep soap away from eyes."},
+  {e:"☁️",t:"Cloud watching",need:"A sky with clouds",steps:["Lie down outside","Look at the clouds","Ask: what animal does that cloud look like?"],learn:"Imagination, talking",safe:"Never look straight at the sun."},
+  {e:"🥁",t:"Kitchen band",need:"Pots, wooden spoons, plastic boxes",steps:["Turn pots upside down","Tap them with spoons","Play loud, then soft, then fast, then slow"],learn:"Rhythm, loud and quiet",safe:""},
+  {e:"📦",t:"Cardboard box car",need:"A big cardboard box, crayons",steps:["Climb inside the box","Draw wheels and lights on it","Drive to pretend places: the zoo, the beach, the moon"],learn:"Pretend play, drawing",safe:""},
+  {e:"🧊",t:"Ice treasure",need:"An ice cube tray, small toys too big to swallow, warm water",steps:["Freeze toys in ice the night before","Pour warm water to melt the ice","Rescue the toys!"],learn:"Melting, hot and cold",safe:"Use only toys too big to fit in the mouth. Stay close."},
+  {e:"🥕",t:"Little kitchen helper",need:"Vegetables, a bowl of water",steps:["Wash the vegetables together","Name each one and its color","Count them into a basket"],learn:"Food words, colors, counting",safe:"Grown-ups handle knives and the stove."},
+  {e:"👂",t:"Sound walk",need:"A short walk",steps:["Walk quietly","Stop and listen","Name each sound: bird, car, wind, people talking"],learn:"Listening, describing",safe:"Hold hands near roads."},
+  {e:"🍂",t:"Leaf collection",need:"A bag, a park or garden",steps:["Collect leaves of different shapes","Line them up from small to big","Find the biggest and the smallest"],learn:"Size order, shapes, nature",safe:""}
+];
+const FACTS = [
+  ["🐙","An octopus has three hearts."],
+  ["🦋","Butterflies taste with their feet."],
+  ["🐝","Bees make honey from the nectar inside flowers."],
+  ["☀️","The Sun is a star. It looks small because it is very far away."],
+  ["🐘","Elephants suck water into their trunks, then squirt it into their mouths."],
+  ["🐧","Penguins are birds, but they cannot fly. They swim instead."],
+  ["🐳","The blue whale is the biggest animal that has ever lived."],
+  ["🐸","Frogs start life as tadpoles that swim in water."],
+  ["🌙","The Moon does not make its own light. It shines because sunlight lands on it."],
+  ["🌈","When sunlight shines through raindrops, we can see a rainbow."],
+  ["🐌","A snail carries its shell, its home, on its back."],
+  ["🌱","Plants drink water through their roots."],
+  ["🐄","A cow's stomach has four parts."],
+  ["🦒","A giraffe has a very long, dark-colored tongue."]
+];
+function playExplore(){
+  const A=$("#playArea");
+  A.innerHTML=`<div class="play">
+    <div class="modes"><button class="mode on" data-m="idea">Ideas to Try</button><button class="mode" data-m="fact">Did You Know?</button></div>
+    <div id="box"></div>
+    <div class="row"><button class="btn go" id="nx">🎲 Another one</button></div></div>`;
+  let mode="idea", i=-1, j=-1;
+  const order={idea:shuffle([...IDEAS.keys()]), fact:shuffle([...FACTS.keys()])};
+  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); next(); }));
+  $("#nx").addEventListener("click",next);
+  function next(){
+    const box=$("#box");
+    if(mode==="idea"){
+      i=(i+1)%IDEAS.length; const d=IDEAS[order.idea[i]];
+      box.innerHTML=`<div class="idea"><div class="bigemoji">${d.e}</div><h3></h3>
+        <div class="tag">You need</div><p class="need"></p>
+        <div class="tag">Let's do it</div><ol>${d.steps.map(()=>"<li></li>").join("")}</ol>
+        <div class="tag">Learning</div><p class="learn"></p>${d.safe?'<div class="safe"></div>':""}</div>`;
+      box.querySelector("h3").textContent=d.t; box.querySelector(".need").textContent=d.need;
+      box.querySelectorAll("li").forEach((li,k)=>li.textContent=d.steps[k]); box.querySelector(".learn").textContent=d.learn;
+      if(d.safe) box.querySelector(".safe").textContent="⚠️ "+d.safe;
+      speak(`Let's try: ${d.t}!`);
+    } else {
+      j=(j+1)%FACTS.length; const [em,f]=FACTS[order.fact[j]];
+      box.innerHTML=`<div class="bigemoji">${em}</div><div class="prompt" style="justify-content:center"><button class="say" aria-label="Say it again">🔊</button></div><div class="fact"></div>`;
+      box.querySelector(".fact").textContent=f; box.querySelector(".say").addEventListener("click",()=>speak(f));
+      speak("Did you know? "+f);
+    }
+  }
+  next();
+}
+
+$("#helloPh").addEventListener("click",()=>{ speak("Hi Nuzaim! What shall we learn today?"); $("#helloPh").classList.remove("pop"); void $("#helloPh").offsetWidth; $("#helloPh").classList.add("pop"); });
 renderStars();
 </script>
 </body>
