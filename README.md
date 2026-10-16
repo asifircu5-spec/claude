@@ -18,7 +18,7 @@ Instructions are read aloud (🔊) using the browser's built-in speech, so the c
 
 ## Videos used
 
-All videos are live-action (real people, real animals, real places), from public YouTube channels: Blippi, Ms Rachel, Danny Go!, Dream English Kids, Nat Geo Kids, Art for Kids Hub, EdThings and It Starts at Home. Some presenters use on-screen graphics, but there are no cartoon shows. Every build checks each video with YouTube's embed service (see the **Check every video** step in the build log), so a removed or non-embeddable video shows up there.
+All videos are live-action (real people, real animals, real places), from public YouTube channels: Blippi, Ms Rachel, Danny Go!, Dream English Kids, Nat Geo Kids, Nat Geo Animals, Art for Kids Hub, EdThings and It Starts at Home. Some presenters use on-screen graphics, but there are no cartoon shows. Every build checks each video with YouTube's embed service (see the **Check every video** step in the build log), so a removed or non-embeddable video shows up there.
 
 ## Run it
 
