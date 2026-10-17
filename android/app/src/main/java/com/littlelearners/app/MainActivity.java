@@ -40,6 +40,7 @@ public class MainActivity extends Activity {
     private WebChromeClient chromeClient;
     private TextToSpeech tts;
     private boolean ttsReady = false;
+    private volatile boolean linksLocked = true;
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
@@ -87,6 +88,8 @@ public class MainActivity extends Activity {
                 if (!request.isForMainFrame()) return false;
                 Uri uri = request.getUrl();
                 if (HOST.equals(uri.getHost())) return false;
+                // Parent lock on: never leave the app (e.g. tapping the YouTube logo in a video).
+                if (linksLocked) return true;
                 // Any outside link (e.g. "open on YouTube") opens in the phone's browser/YouTube app.
                 try {
                     startActivity(new Intent(Intent.ACTION_VIEW, uri));
@@ -137,29 +140,45 @@ public class MainActivity extends Activity {
 
     /** Lets the web app read instructions aloud (WebView has no built-in speech). */
     private class SpeechBridge {
-        @JavascriptInterface
-        public void speak(String text) {
-            if (ttsReady && text != null) tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ll");
+        private Locale pick(String lang) {
+            Locale loc = (lang == null || lang.isEmpty()) ? Locale.US : Locale.forLanguageTag(lang);
+            if (tts.isLanguageAvailable(loc) >= TextToSpeech.LANG_AVAILABLE) return loc;
+            Locale base = new Locale(loc.getLanguage());   // e.g. bn-BD missing -> try bn
+            if (tts.isLanguageAvailable(base) >= TextToSpeech.LANG_AVAILABLE) return base;
+            return Locale.US;
         }
 
-        @JavascriptInterface
-        public void speakLang(String text, String lang, float rate, float pitch) {
-            if (!ttsReady || text == null) return;
-            Locale loc = (lang == null || lang.isEmpty()) ? Locale.US : Locale.forLanguageTag(lang);
-            if (tts.isLanguageAvailable(loc) < TextToSpeech.LANG_AVAILABLE) {
-                // e.g. bn-BD: fall back to Bengali in general if the Bangladesh voice is missing
-                Locale base = new Locale(loc.getLanguage());
-                loc = tts.isLanguageAvailable(base) >= TextToSpeech.LANG_AVAILABLE ? base : Locale.US;
-            }
+        private void say(String text, Locale loc, float rate, float pitch) {
+            // Settings are applied fresh for every utterance, so languages never leak between calls.
             tts.setLanguage(loc);
             tts.setSpeechRate(rate);
             tts.setPitch(pitch);
             tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "ll");
-            // restore defaults used by Nuzaim Learns
-            tts.setLanguage(Locale.US);
-            tts.setSpeechRate(0.85f);
-            tts.setPitch(1.2f);
         }
+
+        @JavascriptInterface
+        public void speak(String text) {
+            if (ttsReady && text != null) say(text, Locale.US, 0.85f, 1.2f);
+        }
+
+        @JavascriptInterface
+        public void speakLang(String text, String lang, float rate, float pitch) {
+            if (ttsReady && text != null) say(text, pick(lang), rate, pitch);
+        }
+
+        @JavascriptInterface
+        public boolean hasLang(String lang) {
+            if (!ttsReady || lang == null) return false;
+            Locale loc = Locale.forLanguageTag(lang);
+            return tts.isLanguageAvailable(loc) >= TextToSpeech.LANG_AVAILABLE
+                || tts.isLanguageAvailable(new Locale(loc.getLanguage())) >= TextToSpeech.LANG_AVAILABLE;
+        }
+
+        @JavascriptInterface
+        public boolean isReady() { return ttsReady; }
+
+        @JavascriptInterface
+        public void setLocked(boolean locked) { linksLocked = locked; }
 
         @JavascriptInterface
         public void stop() {

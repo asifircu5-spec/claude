@@ -3,7 +3,7 @@ name: Build Android APK
 on:
   push:
     branches: [main]
-    paths: ['index.html', 'companion/**', 'nuzaim.jpg', 'android/**', '.github/workflows/build-apk.yml']
+    paths: ['index.html', 'nuzaim.jpg', 'tools/**', 'android/**', '.github/workflows/build-apk.yml']
   workflow_dispatch:
 
 permissions:
@@ -26,7 +26,7 @@ jobs:
 
       - name: Check every video exists and can play inside the apps
         run: |
-          for f in index.html companion/index.html; do
+          for f in index.html; do
             echo "[$f]" | tee -a videos.txt
             for id in $( (grep -oE 'id:"[A-Za-z0-9_-]{11}"' $f | cut -d'"' -f2; grep -oE 'embed/[A-Za-z0-9_-]{11}' $f | cut -d/ -f2) | sort -u); do
               code=$(curl -s -o r.json -w '%{http_code}' "https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=$id")
@@ -38,31 +38,27 @@ jobs:
             done
           done
 
+      - name: Fetch current country facts from Wikidata
+        run: python3 tools/build_countries.py countries.json
+
       - name: Build Nuzaim Learns
         run: |
-          cp index.html nuzaim.jpg android/app/src/main/assets/
+          cp index.html nuzaim.jpg countries.json android/app/src/main/assets/
           gradle -p android assembleRelease --no-daemon
           cp android/app/build/outputs/apk/release/app-release.apk nuzaim-learns.apk
-
-      - name: Build Nuzaim Companion
-        run: |
-          rm -f android/app/src/main/assets/index.html
-          cp companion/index.html nuzaim.jpg android/app/src/main/assets/
-          gradle -p android clean assembleRelease --no-daemon -PappId=com.nuzaim.companion "-PappLabel=Nuzaim Companion"
-          cp android/app/build/outputs/apk/release/app-release.apk nuzaim-companion.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: apks
           path: |
             nuzaim-learns.apk
-            nuzaim-companion.apk
+            countries.json
 
       - name: Publish as a GitHub release (easy phone download)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo "Download nuzaim-learns.apk or nuzaim-companion.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
-          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk nuzaim-companion.apk \
-            --title "Nuzaim apps (build ${{ github.run_number }})" \
+          { echo "Download nuzaim-learns.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
+          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk countries.json \
+            --title "Nuzaim Learns (build ${{ github.run_number }})" \
             --notes-file notes.md
