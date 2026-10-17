@@ -132,8 +132,8 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .hn{background:var(--bg);border-radius:8px;aspect-ratio:1;font-size:clamp(12px,3.4vw,18px);font-weight:800;padding:0;font-variant-numeric:tabular-nums}
 .hn.on{background:var(--accent);color:#fff}
 .tpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-bottom:12px}
-.tpick button{background:var(--bg);border-radius:12px;aspect-ratio:1;font-size:22px;font-weight:800}
-.tpick button.on{background:var(--accent);color:#fff}
+.tpick .tpb{background:var(--bg);border-radius:12px;aspect-ratio:1;font-size:22px;font-weight:800;min-width:0;box-shadow:var(--shadow)}
+.tpick .tpb.on{background:var(--accent);color:#fff}
 .trows{display:flex;flex-direction:column;gap:6px}
 .trow{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);border-radius:14px;padding:8px 12px;font-size:clamp(19px,5vw,24px);font-weight:800;text-align:left;font-variant-numeric:tabular-nums}
 .trow .en{color:var(--soft);text-align:right}
@@ -744,7 +744,7 @@ const enChant = (a, b) => `${enWord(a)} times ${enWord(b)} is ${enWord(a*b)}`;
 function timesTables(Z){
   Z.innerHTML = `<div class="tpick" id="tp"></div><div id="tt"></div>
     <p class="muted">${T("Times tables are for older children. Sit together and chant along.","নামতা বড় বাচ্চাদের জন্য। পাশে বসে একসাথে সুর করে বলুন।")}</p>`;
-  for(let a=1;a<=25;a++){ const b = choiceBtn(N(a)); b.dataset.a = a; b.addEventListener("click", () => table(a)); $("#tp").appendChild(b); }
+  for(let a=1;a<=25;a++){ const b = choiceBtn(N(a), "tpb"); b.dataset.a = a; b.addEventListener("click", () => table(a)); $("#tp").appendChild(b); }
   const table = a => {
     epoch++; hush();
     Z.querySelectorAll("#tp button").forEach(x => x.classList.toggle("on", +x.dataset.a === a));
@@ -1120,7 +1120,7 @@ function countryList(Z, data){
     const fl = $("#fl"); fl.innerHTML = "";
     const qq = (q || "").trim().toLowerCase();
     all.filter(c => !qq || (c.name.en || "").toLowerCase().includes(qq) || (c.name.bn || "").includes(qq) || c.iso.toLowerCase() === qq).forEach(c => {
-      const b = choiceBtn(`<div class="f">${flagOf(c.iso)}</div><span></span>`); b.querySelector("span").textContent = lab(c.name);
+      const b = choiceBtn(`<div class="f">${flagOf(c.iso)}</div><span></span>`, "cb"); b.querySelector("span").textContent = lab(c.name);
       b.addEventListener("click", () => { showCountry(c); window.scrollTo({top: Z.offsetTop - 10, behavior: "smooth"}); });
       fl.appendChild(b);
     });
@@ -1327,7 +1327,7 @@ function routine(Z, which){
   const draw = () => {
     $("#td").innerHTML = "";
     list.forEach((it, i) => {
-      const b = choiceBtn(`<span class="e">${it[0]}</span><span class="t"></span><span class="ck">${done.includes(i) ? "✓" : ""}</span>`);
+      const b = choiceBtn(`<span class="e">${it[0]}</span><span class="t"></span><span class="ck">${done.includes(i) ? "✓" : ""}</span>`, "cb");
       b.querySelector(".t").textContent = T(it[1], it[2]); if(done.includes(i)) b.classList.add("done");
       b.addEventListener("click", () => {
         if(done.includes(i)) done = done.filter(x => x !== i); else { done.push(i); speak(T(it[1], it[2]) + " ✓"); }
@@ -1438,7 +1438,7 @@ PLAY.story = A => {
 };
 function storyList(Z){
   Z.innerHTML = `<div class="slist" id="sl"></div>`;
-  STORIES.forEach(s => { const b = choiceBtn(`<span class="e">${s.e}</span><span></span><small>${N(s.p.length)} ${T("pages","পাতা")}</small>`); b.querySelectorAll("span")[1].textContent = T(...s.t); b.addEventListener("click", () => reader(Z, s, 0)); $("#sl").appendChild(b); });
+  STORIES.forEach(s => { const b = choiceBtn(`<span class="e">${s.e}</span><span></span><small>${N(s.p.length)} ${T("pages","পাতা")}</small>`, "cb"); b.querySelectorAll("span")[1].textContent = T(...s.t); b.addEventListener("click", () => reader(Z, s, 0)); $("#sl").appendChild(b); });
   speak(T("Pick a story!","একটা গল্প বেছে নাও!"));
 }
 function reader(Z, s, i){
@@ -1457,7 +1457,7 @@ function rhymeList(Z){
   Z.innerHTML = `<div class="slist" id="sl"></div><div id="rv" style="margin-top:14px"></div>
     <p class="muted">${T("Bangla folk rhymes have many versions; this is one common one.","লোকছড়ার নানা রূপ আছে; এখানে একটা প্রচলিত রূপ দেওয়া হলো।")}</p>`;
   RHYMES.forEach(r => {
-    const b = choiceBtn(`<span class="e">${r.e}</span><span></span><small>${r.lang === "bn" ? "বাংলা" : "English"}</small>`); b.querySelectorAll("span")[1].textContent = r.t;
+    const b = choiceBtn(`<span class="e">${r.e}</span><span></span><small>${r.lang === "bn" ? "বাংলা" : "English"}</small>`, "cb"); b.querySelectorAll("span")[1].textContent = r.t;
     b.addEventListener("click", () => {
       $("#rv").innerHTML = `<div class="rhyme"></div><div class="row"><button class="btn go" id="rs">🔊 ${T("Read aloud","পড়ে শোনাও")}</button></div>`;
       $("#rv .rhyme").textContent = r.x;
@@ -1515,7 +1515,7 @@ function seasons(Z){
     $("#ssay").addEventListener("click", talk); talk();
   };
   SEASONS.forEach((s, i) => {
-    const b = choiceBtn(`${i === now ? `<span class="now">${T("now","এখন")}</span>` : ""}<span class="e">${s.e}</span><span>${s.bn}</span><small>${s.en}</small>`);
+    const b = choiceBtn(`${i === now ? `<span class="now">${T("now","এখন")}</span>` : ""}<span class="e">${s.e}</span><span>${s.bn}</span><small>${s.en}</small>`, "cb");
     b.addEventListener("click", () => show(i)); $("#sc").appendChild(b);
   });
   show(now);
@@ -1528,7 +1528,7 @@ function festivals(Z){
     const talk = () => speak(T(...f.t) + "। " + T(...f.d));
     $("#fsay").addEventListener("click", talk); talk();
   };
-  FESTIVALS.forEach(f => { const b = choiceBtn(`<span class="e">${f.e}</span><span></span>`); b.querySelectorAll("span")[1].textContent = T(...f.t); b.addEventListener("click", () => show(f)); $("#fc").appendChild(b); });
+  FESTIVALS.forEach(f => { const b = choiceBtn(`<span class="e">${f.e}</span><span></span>`, "cb"); b.querySelectorAll("span")[1].textContent = T(...f.t); b.addEventListener("click", () => show(f)); $("#fc").appendChild(b); });
   show(FESTIVALS[0]);
 }
 
