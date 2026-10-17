@@ -2,20 +2,13 @@
 
 A playful learning web app for **3-year-olds**, built as a single `index.html` with no installs or build step.
 
-It has four areas, each with a **Play** game and a **Watch** tab of real videos from public YouTube channels:
+It has 14 sections, each switchable between **Bangla and English**: Letters (all স্বরবর্ণ, ব্যঞ্জনবর্ণ, A–Z with tracing), Numbers (1–100 in Bangla, English and Roman numerals; নামতা 1–25), Think (shapes, colors, sizes, memory, patterns), Code, Draw, Science, Travel, World (196 countries: flag, capital, currency, leaders, parliament), Explore, Move, **My Body** (tap a drawn child or face to hear each part's name; find-it game; five senses; "Touch your…"), My Day (routines, brushing and handwashing timers, safety), Stories & Rhymes, and Seasons & Festivals. A grown-ups area (press and hold 3 seconds) has a daily time limit, a lock that keeps the child inside the app, and progress.
 
-| Area | Skill | Game |
-|---|---|---|
-| 🔺 Think | Qualitative: shapes, colors, big & small | Tap the right shape, color or size |
-| 🔢 Count | Quantitative: numbers 1–10 | Tap-and-count, then "How many?" (gets harder as the child succeeds) |
-| 🐝 Code | Early coding: sequencing & planning | Plan arrow moves, press **Go**, and watch the bee fly to the flower |
-| 🖍️ Draw | Drawing & fine motor | Finger painting, or trace a circle, square, triangle, house or sun |
-| 🔬 Science | Observing & predicting | Sink or float (with a water tank), and where animals live |
-| ✈️ Travel | Vehicles & places | Land, water or sky, and what to take on a trip |
-| 🧭 Explore | Curiosity | Activity ideas to do together, and "Did you know?" facts read aloud |
-| 🤸 Move | Exercise & body control | Follow-along moves (jump, stomp, balance) counted out loud |
+Instructions are read aloud using the phone's text-to-speech; Bangla needs a Bangla voice installed.
 
-Instructions are read aloud (🔊) using the browser's built-in speech, so the child doesn't need to read. Correct answers earn ⭐ stars.
+## Country facts
+
+`tools/build_countries.py` runs on every build. It fetches capitals, leaders and parliaments from Wikidata and currencies from Unicode CLDR. A leader is shown only when two Wikidata records agree; otherwise the app says to check an official source. `tools/overrides.json` holds hand-verified corrections with sources; each one expires after 180 days or as soon as Wikidata agrees. The build's release notes include a report of every disagreement.
 
 ## Videos used
 
@@ -33,7 +26,3 @@ Short sessions (10–15 minutes) with an adult nearby work best at this age. Sta
 ## Android app (APK)
 
 The `android/` folder wraps the app in an Android WebView. Every push to `main` runs the **Build Android APK** workflow, which builds `nuzaim-learns.apk` and attaches it to a new release under **Releases**. Download it on an Android phone, open it, and allow installing from this source when asked. The APK is signed with a development key, so it is for personal use, not the Play Store.
-
-## Nuzaim Companion (second app)
-
-`companion/index.html` is a separate, simpler app (English, Bangla, numbers, colors, coding, drawing, science, travel, real-life habits). The same workflow builds it as `nuzaim-companion.apk` with its own app ID, so both apps can be installed side by side. In the Android app, its `speechSynthesis` calls are routed to the phone's text-to-speech engine; Bangla speech needs a Bangla voice installed on the phone.

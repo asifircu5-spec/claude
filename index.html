@@ -24,6 +24,8 @@
   --story:#ae3ec9; --story-bg:#f8e3ff;
   --season:#d9480f;--season-bg:#ffe4d6;
   --world:#0b7285; --world-bg:#c5f6fa;
+  --body:#a61e4d;  --body-bg:#ffe0ea;
+  --skin:#c68a5e; --skin-d:#a86f47; --hair:#2e1f16; --shirt:#4dabf7; --shorts:#2f9e44;
   --good:#2f9e44; --bad:#e03131;
   --shadow:0 6px 0 rgba(43,35,64,.12);
   --radius:28px;
@@ -33,14 +35,14 @@
   :root:not([data-theme="light"]){
     --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
     --abc-bg:#123c44; --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35;
-    --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44;
+    --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44; --body-bg:#4a1a2a;
     --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
   --abc-bg:#123c44; --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35;
-  --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44;
+  --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44; --body-bg:#4a1a2a;
   --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -241,6 +243,21 @@ canvas{display:block;width:100%;height:clamp(300px,52vh,500px);touch-action:none
 .flags .f{font-size:42px;line-height:1.1}
 .flags span{overflow-wrap:anywhere}
 .flagbig{font-size:clamp(100px,30vw,160px);line-height:1.05;text-align:center}
+
+/* My Body */
+.bodywrap{display:flex;justify-content:center;background:var(--bg);border-radius:24px;padding:8px;margin-bottom:12px}
+.bodysvg{width:min(100%,360px);height:auto;touch-action:manipulation}
+.bodysvg [data-p]{cursor:pointer}
+.bodysvg [data-p].hit{filter:drop-shadow(0 0 7px var(--body)) drop-shadow(0 0 3px #fff)}
+.bodysvg .ln{fill:none;stroke:#5a3a28;stroke-width:3;stroke-linecap:round}
+.bodysvg .hitbox{fill:transparent}
+.namecard{background:var(--bg);border-radius:20px;padding:10px 14px;text-align:center;min-height:118px}
+.namecard .nm{font-size:clamp(28px,8vw,40px);font-weight:800;line-height:1.15}
+.namecard .alt{color:var(--soft);font-size:19px;font-weight:700}
+.namecard p{margin:4px 0 0;font-size:19px;line-height:1.35}
+.simon{text-align:center}
+.simon .e{font-size:clamp(90px,26vw,140px);line-height:1.1}
+.simon .act{font-size:clamp(26px,7vw,36px);font-weight:800;min-height:50px}
 
 /* Parent panel & break */
 .overlay{position:fixed;inset:0;z-index:30;background:var(--bg);overflow-y:auto;padding-block:16px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
@@ -485,6 +502,11 @@ const VIDEOS = {
   season: [
     {id:"V0v1ogEYXmo", t:"Blippi Learns About the Weather", c:"Blippi"}
   ],
+  body: [
+    {id:"_AEYqPRz7gI", t:"Silly Learning Body Parts Fun", c:"Ms Rachel"},
+    {id:"TChbAnGaALk", t:"Blippi Learns about Body Parts", c:"Blippi"},
+    {id:"vCRJz_6PM2c", t:"Blippi Learns Human Body Parts at a Fun Indoor Playground", c:"Blippi"}
+  ],
   story: [], world: []
 };
 
@@ -500,6 +522,7 @@ const SECTIONS = [
   ["world","🌍","World","পৃথিবী","countries · flags · capitals","দেশ · পতাকা · রাজধানী"],
   ["exp","🧭","Explore","খুঁজে দেখো","ideas to try · did you know?","করে দেখো · তুমি কি জানো?"],
   ["move","🤸","Move","নড়াচড়া","jump, clap, stomp","লাফাও, হাততালি দাও"],
+  ["body","🧒","My Body","আমার শরীর","tap to name parts · senses","ছুঁয়ে নাম জানো · পঞ্চইন্দ্রিয়"],
   ["day","🗓️","My Day","আমার দিন","routine · timers · safety","রুটিন · টাইমার · নিরাপত্তা"],
   ["story","📚","Stories","গল্প ও ছড়া","stories · rhymes","গল্প · ছড়া"],
   ["season","🌦️","Seasons","ঋতু ও উৎসব","six seasons · festivals","ছয় ঋতু · উৎসব"]
@@ -1285,6 +1308,157 @@ PLAY.move = A => {
   $("#mNext").addEventListener("click", show);
   show();
 };
+
+/* =====================================================================
+   MY BODY: tap a part to hear its name, find it, senses, touch your…
+   ===================================================================== */
+const BODY = {
+  head:["🙂","head","মাথা","Your brain is inside your head. It helps you think.","মাথার ভেতরে মস্তিষ্ক থাকে। মস্তিষ্ক দিয়ে আমরা ভাবি।"],
+  hair:["💇","hair","চুল","Hair grows on your head.","চুল মাথায় গজায়।"],
+  eye:["👁️","eyes","চোখ","We see with our eyes.","চোখ দিয়ে আমরা দেখি।"],
+  ear:["👂","ears","কান","We hear with our ears.","কান দিয়ে আমরা শুনি।"],
+  nose:["👃","nose","নাক","We smell with our nose, and breathe through it too.","নাক দিয়ে আমরা গন্ধ নিই, নিঃশ্বাসও নিই।"],
+  mouth:["👄","mouth","মুখ","We eat and talk with our mouth.","মুখ দিয়ে আমরা খাই আর কথা বলি।"],
+  neck:["🦒","neck","গলা","Your neck helps your head turn.","গলার সাহায্যে মাথা ঘোরাতে পারি।"],
+  shoulder:["🤷","shoulders","কাঁধ","Shoulders help your arms move.","কাঁধের সাহায্যে হাত নাড়াতে পারি।"],
+  arm:["💪","arms","বাহু","Arms help you reach, hug and carry.","বাহু দিয়ে আমরা জড়িয়ে ধরি, জিনিস বহন করি।"],
+  elbow:["💪","elbows","কনুই","Your elbows let your arms bend.","কনুইয়ের জন্য হাত ভাঁজ হয়।"],
+  hand:["✋","hands","হাত","We hold, clap and wave with our hands. You have ten fingers!","হাত দিয়ে আমরা ধরি, হাততালি দিই, হাত নাড়ি। তোমার দশটা আঙুল আছে!"],
+  chest:["❤️","chest","বুক","Your heart is inside your chest. It beats all the time.","বুকের ভেতরে হৃৎপিণ্ড থাকে। এটা সবসময় ধুকধুক করে।"],
+  tummy:["🍽️","tummy","পেট","Food goes to your tummy after you eat.","খাওয়ার পর খাবার পেটে যায়।"],
+  leg:["🦵","legs","পা","We walk, run and jump with our legs.","পা দিয়ে আমরা হাঁটি, দৌড়াই আর লাফাই।"],
+  knee:["🦵","knees","হাঁটু","Your knees let your legs bend.","হাঁটুর জন্য পা ভাঁজ হয়।"],
+  foot:["🦶","feet","পায়ের পাতা","Feet help you stand. You have ten toes!","পায়ের পাতায় ভর দিয়ে দাঁড়াই। তোমার পায়ে দশটা আঙুল!"],
+  eyebrow:["🤨","eyebrows","ভুরু","Eyebrows help keep sweat out of your eyes.","ভুরু ঘাম চোখে ঢুকতে বাধা দেয়।"],
+  cheek:["😊","cheeks","গাল","Your cheeks go up when you smile.","হাসলে গাল উপরে ওঠে।"],
+  chin:["🙂","chin","থুতনি","Your chin is at the bottom of your face.","থুতনি মুখের একদম নিচে থাকে।"],
+  lips:["👄","lips","ঠোঁট","Lips help you talk, smile and blow bubbles.","ঠোঁট দিয়ে কথা বলি, হাসি, বুদবুদ ফোলাই।"],
+  teeth:["🦷","teeth","দাঁত","We chew food with our teeth. Brush them twice a day!","দাঁত দিয়ে খাবার চিবাই। দিনে দুইবার ব্রাশ করো!"],
+  tongue:["👅","tongue","জিভ","We taste food with our tongue.","জিভ দিয়ে আমরা স্বাদ নিই।"]
+};
+const bodyName = k => T(BODY[k][1], BODY[k][2]);
+const FIGURE = `<svg class="bodysvg" viewBox="0 0 320 560" role="img" aria-label="A child">
+  <g data-p="leg"><rect x="122" y="352" width="30" height="76" rx="14" fill="var(--skin)"/><rect x="124" y="434" width="26" height="70" rx="12" fill="var(--skin)"/>
+    <rect x="168" y="352" width="30" height="76" rx="14" fill="var(--skin)"/><rect x="170" y="434" width="26" height="70" rx="12" fill="var(--skin)"/></g>
+  <g data-p="knee"><circle cx="137" cy="432" r="15" fill="var(--skin-d)"/><circle cx="183" cy="432" r="15" fill="var(--skin-d)"/></g>
+  <g data-p="foot"><ellipse cx="130" cy="514" rx="28" ry="14" fill="var(--skin)"/><ellipse cx="190" cy="514" rx="28" ry="14" fill="var(--skin)"/>
+    <g fill="var(--skin-d)"><circle cx="106" cy="510" r="4"/><circle cx="105" cy="518" r="3.5"/><circle cx="110" cy="524" r="3"/><circle cx="214" cy="510" r="4"/><circle cx="215" cy="518" r="3.5"/><circle cx="210" cy="524" r="3"/></g></g>
+  <rect x="114" y="318" width="92" height="52" rx="14" fill="var(--shorts)"/>
+  <g data-p="arm"><rect x="84" y="200" width="24" height="60" rx="12" fill="var(--skin)"/><rect x="84" y="266" width="24" height="54" rx="12" fill="var(--skin)"/>
+    <rect x="212" y="200" width="24" height="60" rx="12" fill="var(--skin)"/><rect x="212" y="266" width="24" height="54" rx="12" fill="var(--skin)"/></g>
+  <g data-p="elbow"><circle cx="96" cy="263" r="13" fill="var(--skin-d)"/><circle cx="224" cy="263" r="13" fill="var(--skin-d)"/></g>
+  <g data-p="hand"><circle cx="96" cy="334" r="17" fill="var(--skin)"/><circle cx="224" cy="334" r="17" fill="var(--skin)"/>
+    <g fill="var(--skin)"><rect x="83" y="340" width="6" height="16" rx="3"/><rect x="90" y="343" width="6" height="17" rx="3"/><rect x="97" y="343" width="6" height="17" rx="3"/><rect x="104" y="340" width="6" height="15" rx="3"/>
+    <rect x="210" y="340" width="6" height="15" rx="3"/><rect x="217" y="343" width="6" height="17" rx="3"/><rect x="224" y="343" width="6" height="17" rx="3"/><rect x="231" y="340" width="6" height="16" rx="3"/></g></g>
+  <g data-p="tummy"><rect x="112" y="244" width="96" height="82" rx="24" fill="var(--shirt)"/><circle cx="160" cy="290" r="3" fill="#1c5d99"/></g>
+  <g data-p="chest"><rect x="112" y="178" width="96" height="76" rx="28" fill="var(--shirt)"/><path d="M146 200 q14 10 28 0" class="ln" style="stroke:#1c5d99"/></g>
+  <g data-p="shoulder"><circle cx="110" cy="196" r="19" fill="var(--shirt)"/><circle cx="210" cy="196" r="19" fill="var(--shirt)"/></g>
+  <g data-p="neck"><rect x="146" y="154" width="28" height="30" rx="8" fill="var(--skin-d)"/></g>
+  <g data-p="ear"><circle cx="97" cy="104" r="14" fill="var(--skin)"/><circle cx="223" cy="104" r="14" fill="var(--skin)"/></g>
+  <g data-p="head"><circle cx="160" cy="100" r="62" fill="var(--skin)"/></g>
+  <g data-p="hair"><path d="M98 98 C94 30 226 30 222 98 C208 80 188 72 160 72 C132 72 112 80 98 98Z" fill="var(--hair)"/></g>
+  <g data-p="eye"><circle class="hitbox" cx="138" cy="100" r="17"/><circle class="hitbox" cx="182" cy="100" r="17"/>
+    <ellipse cx="138" cy="100" rx="9" ry="10" fill="#fff"/><circle cx="139" cy="102" r="5" fill="#2b2340"/><ellipse cx="182" cy="100" rx="9" ry="10" fill="#fff"/><circle cx="181" cy="102" r="5" fill="#2b2340"/></g>
+  <g data-p="nose"><circle class="hitbox" cx="160" cy="118" r="14"/><path d="M160 108 q-8 15 0 17 q6 0 6 -3" class="ln"/></g>
+  <g data-p="mouth"><rect class="hitbox" x="136" y="128" width="48" height="24" rx="10"/><path d="M140 134 q20 18 40 0" class="ln" style="stroke:#8a2f3a;stroke-width:5"/></g>
+</svg>`;
+const FACE = `<svg class="bodysvg" viewBox="0 0 320 330" role="img" aria-label="A face">
+  <g data-p="ear"><circle cx="34" cy="180" r="28" fill="var(--skin)"/><circle cx="286" cy="180" r="28" fill="var(--skin)"/></g>
+  <g data-p="head"><circle cx="160" cy="172" r="128" fill="var(--skin)"/></g>
+  <g data-p="chin"><ellipse cx="160" cy="292" rx="50" ry="18" fill="var(--skin-d)" opacity=".55"/></g>
+  <g data-p="hair"><path d="M34 160 C26 20 294 20 286 160 C268 120 226 104 160 104 C94 104 52 120 34 160Z" fill="var(--hair)"/></g>
+  <g data-p="cheek"><circle cx="86" cy="208" r="22" fill="#e8838a" opacity=".55"/><circle cx="234" cy="208" r="22" fill="#e8838a" opacity=".55"/></g>
+  <g data-p="eyebrow"><rect class="hitbox" x="88" y="112" width="56" height="26"/><rect class="hitbox" x="176" y="112" width="56" height="26"/>
+    <path d="M94 128 q22 -14 44 0" class="ln" style="stroke:var(--hair);stroke-width:8"/><path d="M182 128 q22 -14 44 0" class="ln" style="stroke:var(--hair);stroke-width:8"/></g>
+  <g data-p="eye"><ellipse cx="116" cy="160" rx="20" ry="22" fill="#fff"/><circle cx="118" cy="164" r="11" fill="#2b2340"/><circle cx="122" cy="159" r="3.5" fill="#fff"/>
+    <ellipse cx="204" cy="160" rx="20" ry="22" fill="#fff"/><circle cx="202" cy="164" r="11" fill="#2b2340"/><circle cx="206" cy="159" r="3.5" fill="#fff"/></g>
+  <g data-p="nose"><circle class="hitbox" cx="160" cy="198" r="24"/><path d="M160 176 q-14 30 0 34 q10 0 10 -6" class="ln" style="stroke-width:5"/></g>
+  <g data-p="lips"><path d="M104 236 q56 -18 112 0 q-56 66 -112 0Z" fill="#b8434f"/></g>
+  <g data-p="mouth"><path d="M130 244 q30 -6 60 0 q-30 30 -60 0Z" fill="#4a1622"/></g>
+  <g data-p="teeth"><path d="M135 244 q25 -5 50 0 l-3 7 q-22 -4 -44 0Z" fill="#fff"/></g>
+  <g data-p="tongue"><ellipse cx="160" cy="262" rx="15" ry="7" fill="#f0758a"/></g>
+</svg>`;
+PLAY.body = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["body","Body","শরীর"],["face","Face","মুখ"],["find","Find it!","খুঁজে বের করো"],["senses","Five senses","পঞ্চইন্দ্রিয়"],["simon","Touch your…","ধরো তো…"]],"body")}<div id="bz"></div></div>`;
+  bindModes(A, m => ({body:bodyExplore, face:bodyExplore, find:bodyFind, senses:bodySenses, simon:bodySimon})[m]($("#bz"), m));
+  bodyExplore($("#bz"), "body");
+};
+function bodyParts(Z){ return [...new Set([...Z.querySelectorAll("[data-p]")].map(g => g.dataset.p))]; }
+function bodyExplore(Z, which){
+  Z.innerHTML = `<div class="bodywrap">${which === "face" ? FACE : FIGURE}</div><div class="namecard" id="nmc"></div>`;
+  const card = $("#nmc");
+  card.innerHTML = `<div class="nm">👆</div><p>${T("Tap any part to hear its name!","যেকোনো অংশ ছুঁয়ে নাম শোনো!")}</p>`;
+  speak(T("Tap any part to hear its name!","যেকোনো অংশ ছুঁয়ে নাম শোনো!"));
+  Z.querySelectorAll("[data-p]").forEach(g => g.addEventListener("click", e => {
+    e.stopPropagation();
+    const k = g.dataset.p, [em, en, bn, fen, fbn] = BODY[k];
+    Z.querySelectorAll("[data-p]").forEach(x => x.classList.toggle("hit", x.dataset.p === k));
+    card.innerHTML = `<div class="nm"></div><div class="alt"></div><p></p><div class="row" style="margin-top:6px"><button class="mode" id="nb">🔊 বাংলা</button><button class="mode" id="ne">🔊 English</button></div>`;
+    card.querySelector(".nm").textContent = em + " " + T(en, bn);
+    card.querySelector(".alt").textContent = L === "bn" ? en : bn;
+    card.querySelector("p").textContent = T(fen, fbn);
+    $("#nb").addEventListener("click", () => speak(`${bn}। ${fbn}`, "bn-BD"));
+    $("#ne").addEventListener("click", () => speak(`${en}. ${fen}`, "en-US"));
+    speak(T(`${en}. ${fen}`, `${bn}। ${fbn}`));
+  }));
+}
+function bodyFind(Z){
+  const useFace = Math.random() < .4;
+  Z.innerHTML = PROMPT + `<div class="bodywrap">${useFace ? FACE : FIGURE}</div>`; bindSay(Z);
+  const parts = bodyParts(Z), target = pick(parts);
+  ask(T(`Where is the ${BODY[target][1]}? Tap it!`, `${BODY[target][2]} কোথায়? ছুঁয়ে দেখাও!`), T(`Find the ${BODY[target][1]}!`, `${BODY[target][2]} কোথায়?`));
+  let done = false;
+  Z.querySelectorAll("[data-p]").forEach(g => g.addEventListener("click", e => {
+    e.stopPropagation(); if(done) return;
+    const k = g.dataset.p;
+    if(k === target){
+      done = true; Z.querySelectorAll("[data-p]").forEach(x => x.classList.toggle("hit", x.dataset.p === k));
+      right(null, T(`Yes! That is the ${BODY[k][1]}!`, `হ্যাঁ! এটাই ${BODY[k][2]}!`)); later(() => bodyFind(Z), 2200);
+    } else {
+      g.classList.add("hit"); later(() => g.classList.remove("hit"), 700);
+      speak(T(`That is the ${BODY[k][1]}. Find the ${BODY[target][1]}!`, `এটা ${BODY[k][2]}। ${BODY[target][2]} খুঁজে বের করো!`));
+    }
+  }));
+}
+const SENSES = [["eye","see","দেখি"],["ear","hear","শুনি"],["nose","smell","গন্ধ নিই"],["tongue","taste","স্বাদ নিই"],["hand","touch","ছুঁয়ে অনুভব করি"]];
+const SENSE_PIC = {eye:"👀", ear:"👂", nose:"👃", tongue:"👅", hand:"✋"};
+const SENSE_SCENE = {eye:["🌈","🦋","🌙"], ear:["🎵","🐶","🔔"], nose:["🌸","🍞","🥭"], tongue:["🍦","🍋","🍯"], hand:["🧸","🧊","🐰"]};
+function bodySenses(Z){
+  const [k, en, bn] = pick(SENSES);
+  Z.innerHTML = PROMPT + `<div class="bigemoji">${pick(SENSE_SCENE[k])}</div><div class="choices" id="ch"></div>
+    <p class="muted">${T("We have five senses: seeing, hearing, smelling, tasting and touching.","আমাদের পাঁচটি ইন্দ্রিয়: দেখা, শোনা, গন্ধ নেওয়া, স্বাদ নেওয়া আর স্পর্শ।")}</p>`; bindSay(Z);
+  ask(T(`What do we ${en} with?`, `আমরা কী দিয়ে ${bn}?`));
+  shuffle(SENSES.map(x => x[0])).forEach(p => {
+    const b = choiceBtn(`${SENSE_PIC[p]}<small>${esc(bodyName(p))}</small>`, "choice word");
+    b.addEventListener("click", () => {
+      if(p === k){ right(b, T(`Yes! We ${en} with our ${BODY[k][1]}!`, `হ্যাঁ! আমরা ${BODY[k][2]} দিয়ে ${bn}!`)); later(() => bodySenses(Z), 2200); }
+      else wrong(b);
+    });
+    $("#ch").appendChild(b);
+  });
+}
+function bodySimon(Z){
+  const list = ["head","nose","ear","eye","mouth","shoulder","tummy","knee","foot","elbow","chin","cheek","hair","neck"];
+  Z.innerHTML = `<div class="simon"><div class="e" id="se">🧒</div><div class="act" id="sa"></div>
+    <div class="row"><button class="btn go" id="sg">▶ ${T("Start","শুরু")}</button></div>
+    <p class="muted">${T("Grown-ups: play along and touch the part together.","অভিভাবক: সাথে খেলুন, একসাথে অংশটা ধরুন।")}</p></div>`;
+  $("#sa").textContent = T("Listen and touch!","শোনো আর ধরো!");
+  $("#sg").addEventListener("click", async () => {
+    const e = ++epoch, order = shuffle(list.slice()).slice(0, 6);
+    $("#sg").classList.add("hidden");
+    for(const k of order){
+      if(e !== epoch) return;
+      $("#se").textContent = BODY[k][0];
+      const say = T(`Touch your ${BODY[k][1]}!`, `তোমার ${BODY[k][2]} ধরো!`);
+      $("#sa").textContent = say; speak(say);
+      await wait(3600);
+    }
+    if(e !== epoch) return;
+    $("#se").textContent = "🎉"; $("#sa").textContent = T("You did it!","তুমি পেরেছ!");
+    right(null, T("Great listening! You touched them all!","দারুণ! তুমি সবগুলো ধরেছ!"));
+    $("#sg").classList.remove("hidden");
+  });
+}
 
 /* =====================================================================
    MY DAY: routine charts, timers, safety
