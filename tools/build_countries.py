@@ -160,8 +160,16 @@ here = __import__("os").path.dirname(__file__)
 ov = json.load(open(__import__("os").path.join(here, "overrides.json"), encoding="utf-8"))
 for field in ("currency", "headOfState", "headOfGov"):
     for iso, entry in ov.get(field, {}).items():
+        age = (today - datetime.date.fromisoformat(entry["checked"])).days
+        if age > 180:
+            report.append(f"override    {iso}  {field} EXPIRED (checked {entry['checked']}); re-verify or remove")
+            continue
         for c in countries.values():
             if c["iso"] == iso:
+                status_key = {"headOfState": "hosStatus", "headOfGov": "hogStatus"}.get(field)
+                if status_key and c.get(status_key) == "ok":
+                    report.append(f"override    {iso}  {field} not needed: Wikidata now agrees on {[x['en'] for x in c[field]]}")
+                    continue
                 c[field] = entry["items"]
                 if field != "currency":
                     c["hosStatus" if field == "headOfState" else "hogStatus"] = "verified"

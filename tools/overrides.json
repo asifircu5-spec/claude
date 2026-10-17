@@ -1,8 +1,16 @@
 {
-  "_about": "Hand-verified corrections, applied on top of Wikidata/CLDR. Each entry names its source and the date it was checked. Remove an entry once the upstream data is correct.",
+  "_about": "Hand-verified corrections, applied only while Wikidata's two records disagree, and ignored 180 days after 'checked'. Each entry names its source.",
   "currency": {
     "BG": {"items": [{"code": "EUR", "en": "Euro", "bn": "ইউরো"}], "source": "https://trade.ec.europa.eu/access-to-markets/en/news/bulgaria-adopts-euro-1-january-2026", "checked": "2026-10-17"}
   },
-  "headOfState": {},
-  "headOfGov": {}
+  "headOfState": {
+    "BD": {"items": [{"en": "Mirza Fakhrul Islam Alamgir", "bn": "মির্জা ফখরুল ইসলাম আলমগীর", "start": "2026-08-21"}], "source": "https://www.aljazeera.com/news/2026/8/20/bangladesh-elects-ruling-party-veteran-alamgir-as-president", "checked": "2026-10-17"},
+    "FR": {"items": [{"en": "Emmanuel Macron", "bn": "এমানুয়েল মাক্রোঁ", "start": "2017-05-14"}], "source": "https://www.elysee.fr/en/", "checked": "2026-10-17"}
+  },
+  "headOfGov": {
+    "NP": {"items": [{"en": "Balendra Shah", "bn": "বালেন্দ্র শাহ", "start": "2026-03-27"}], "source": "https://www.drishtiias.com/state-pcs-current-affairs/balen-shah-becomes-nepals-youngest-prime-minister/print_manually", "checked": "2026-10-17"},
+    "KR": {"items": [{"en": "Han Seong-sook", "bn": "হান সং-সুক", "start": "2026"}], "source": "https://www.thestandard.com.hk/world/article/336034/S-Korea-parliament-confirms-Han-Seong-sook-as-prime-minister", "checked": "2026-10-17"},
+    "SA": {"items": [{"en": "Mohammed bin Salman", "bn": "মোহাম্মদ বিন সালমান", "start": "2022-09-27"}], "source": "https://www.aljazeera.com/news/2022/9/27/saudis-crown-prince-mohammed-bin-salman-appointed-prime-minister", "checked": "2026-10-17"},
+    "LK": {"items": [{"en": "Harini Amarasuriya", "bn": "হরিনী অমরসুরিয়া", "start": "2024-09-24"}], "source": "https://www.pmoffice.gov.lk/PMprofile.php", "checked": "2026-10-17"}
+  }
 }
