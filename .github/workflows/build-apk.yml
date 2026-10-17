@@ -39,7 +39,9 @@ jobs:
           done
 
       - name: Fetch current country facts from Wikidata
-        run: python3 tools/build_countries.py countries.json
+        run: |
+          pip install --quiet babel
+          python3 tools/build_countries.py countries.json
 
       - name: Build Nuzaim Learns
         run: |
@@ -58,7 +60,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo "Download nuzaim-learns.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; } > notes.md
-          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk countries.json \
+          { echo "Download nuzaim-learns.apk below and open it on your Android phone to install."; echo; echo "Video check (YouTube embed service):"; echo '```'; cat videos.txt; echo '```'; echo; echo "Country data report:"; echo '```'; cat report.txt; echo '```'; } > notes.md
+          gh release create "apk-v${{ github.run_number }}" nuzaim-learns.apk countries.json report.txt \
             --title "Nuzaim Learns (build ${{ github.run_number }})" \
             --notes-file notes.md

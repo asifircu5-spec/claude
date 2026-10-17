@@ -68,7 +68,9 @@ def prop(pid, extra_vars="", extra=""):
             if i["_v"] in seen or not i["en"]:
                 continue
             seen.add(i["_v"])
-            uniq.append({k: v for k, v in i.items() if not k.startswith("_")})
+            d = {k: v for k, v in i.items() if not k.startswith("_")}
+            d["id"] = i["_v"].rsplit("/", 1)[-1]
+            uniq.append(d)
         out[qid] = uniq
     return out
 
@@ -85,6 +87,92 @@ for qid, c in countries.items():
     for f, data in fields.items():
         c[f] = data.get(qid, [])
 
+report = []
+
+# ---------- Currency: Unicode CLDR (via babel) is the primary source ----------
+from babel.numbers import get_territory_currencies, get_currency_name
+today = datetime.date.today()
+for c in countries.values():
+    wd_codes = sorted({x.get("code") for x in c["currency"] if x.get("code")})
+    try:
+        codes = get_territory_currencies(c["iso"], start_date=today, tender=True)
+    except Exception:
+        codes = []
+    if codes:
+        c["currency"] = [{"code": k, "en": get_currency_name(k, locale="en"),
+                          "bn": (lambda b: b if b != k else "")(get_currency_name(k, locale="bn"))} for k in codes]
+    if sorted(codes) != wd_codes:
+        report.append(f"currency  {c['iso']}  CLDR={codes}  Wikidata={wd_codes}")
+
+# ---------- Leaders: show only when two Wikidata records agree ----------
+office_ids = sorted({o["id"] for c in countries.values() for o in c["headOfStateTitle"] + c["headOfGovTitle"]})
+holders = {}
+for i in range(0, len(office_ids), 150):
+    chunk = " ".join("wd:" + o for o in office_ids[i:i+150])
+    for b in query(f"""SELECT ?office ?p ?start ?end ?en ?bn WHERE {{
+        VALUES ?office {{ {chunk} }}
+        ?p p:P39 ?st. ?st ps:P39 ?office; wikibase:rank ?r. FILTER(?r != wikibase:DeprecatedRank)
+        OPTIONAL {{ ?st pq:P580 ?start }} OPTIONAL {{ ?st pq:P582 ?end }}
+        OPTIONAL {{ ?p rdfs:label ?en FILTER(lang(?en)="en") }}
+        OPTIONAL {{ ?p rdfs:label ?bn FILTER(lang(?bn)="bn") }} }}"""):
+        holders.setdefault(val(b, "office").rsplit("/", 1)[-1], []).append({
+            "id": val(b, "p").rsplit("/", 1)[-1], "start": val(b, "start")[:10], "end": val(b, "end")[:10],
+            "en": val(b, "en"), "bn": val(b, "bn")})
+
+def verify(c, role, title_key):
+    cands = c[role]
+    rows = [h for o in c[title_key] for h in holders.get(o["id"], [])]
+    open_ = {}
+    for h in rows:
+        if not h["end"]:
+            open_.setdefault(h["id"], h)
+    cand_ids = [x["id"] for x in cands]
+    starts = [x.get("start") or (open_.get(x["id"]) or {}).get("start", "") for x in cands]
+    others_later = [h for h in rows if h["id"] not in cand_ids and h["start"] and starts and all(s and h["start"] > s for s in starts)]
+    if cands:
+        ok = all(i in open_ for i in cand_ids) and not others_later
+        if ok:
+            for x, s in zip(cands, starts):
+                if s: x["start"] = s
+            return cands, "ok"
+        newest = sorted(others_later, key=lambda h: h["start"])[-1:] if others_later else []
+        report.append(f"{role:<11} {c['iso']}  country item says {[x['en'] for x in cands]}"
+                      f"  office records say {[h['en'] + ' (' + h['start'] + ')' for h in newest] or 'holder has an end date'}")
+        return [], "check"
+    if open_:
+        latest = max((h["start"] for h in open_.values() if h["start"]), default="")
+        newer_closed = [h for h in rows if h["start"] and h["start"] > latest]
+        pick = [h for h in open_.values() if latest and h["start"] == latest]
+        if pick and not newer_closed:
+            return [{k: h[k] for k in ("id", "en", "bn", "start")} for h in pick], "office"
+    if rows or c[title_key]:
+        report.append(f"{role:<11} {c['iso']}  no current holder found")
+    return [], "missing"
+
+for c in countries.values():
+    c["headOfState"], c["hosStatus"] = verify(c, "headOfState", "headOfStateTitle")
+    c["headOfGov"], c["hogStatus"] = verify(c, "headOfGov", "headOfGovTitle")
+    if not c["capital"]:
+        report.append(f"capital     {c['iso']}  missing")
+
+# ---------- Hand-verified corrections ----------
+here = __import__("os").path.dirname(__file__)
+ov = json.load(open(__import__("os").path.join(here, "overrides.json"), encoding="utf-8"))
+for field in ("currency", "headOfState", "headOfGov"):
+    for iso, entry in ov.get(field, {}).items():
+        for c in countries.values():
+            if c["iso"] == iso:
+                c[field] = entry["items"]
+                if field != "currency":
+                    c["hosStatus" if field == "headOfState" else "hogStatus"] = "verified"
+                c.setdefault("checked", {})[field] = {"source": entry["source"], "date": entry["checked"]}
+                report.append(f"override    {iso}  {field} -> {[x['en'] for x in entry['items']]} ({entry['checked']})")
+
+for c in countries.values():
+    for k in ("headOfStateTitle", "headOfGovTitle", "capital", "parliament", "currency", "headOfState", "headOfGov"):
+        for x in c[k]:
+            x.pop("id", None)
+
 result = sorted(countries.values(), key=lambda c: c["name"]["en"] or c["iso"])
 result = [c for c in result if len(c["iso"]) == 2 and c["name"]["en"]]
 out = {
@@ -97,6 +185,7 @@ if len(result) < 150:
 with open(sys.argv[1] if len(sys.argv) > 1 else "countries.json", "w", encoding="utf-8") as f:
     json.dump(out, f, ensure_ascii=False, separators=(",", ":"))
 
-bd = next(c for c in result if c["iso"] == "BD")
-print(len(result), "countries")
-print(json.dumps(bd, ensure_ascii=False, indent=1))
+with open("report.txt", "w", encoding="utf-8") as f:
+    f.write("\n".join(sorted(report)) + "\n")
+print(len(result), "countries;", len(report), "report lines")
+print("\n".join(sorted(report)))

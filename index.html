@@ -4,41 +4,51 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Nuzaim Learns</title>
-<meta name="description" content="A playful learning app for 3-year-olds: shapes & colors, counting, first coding steps and drawing, with videos from public sources.">
+<meta name="description" content="A playful bilingual (Bangla and English) learning app for a 3-year-old.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Baloo+Da+2:wght@500;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#fff8ec; --ink:#2b2340; --soft:#6b6385; --card:#ffffff; --line:#f0e4cf;
+  --abc:#1098ad;   --abc-bg:#d0f4f8;
   --think:#ff6b6b; --think-bg:#ffe3e3;
   --num:#4dabf7;   --num-bg:#dbefff;
-  --code:#51cf66;  --code-bg:#ddf8e2;
-  --draw:#fcc419;  --draw-bg:#fff3c4;
+  --code:#37b24d;  --code-bg:#ddf8e2;
+  --draw:#f59f00;  --draw-bg:#fff3c4;
   --sci:#845ef7;   --sci-bg:#ece5ff;
   --trav:#12b886;  --trav-bg:#d3f9ec;
-  --move:#fd7e14;  --move-bg:#ffe8cc;
   --exp:#e64980;   --exp-bg:#ffdeeb;
+  --move:#fd7e14;  --move-bg:#ffe8cc;
+  --day:#4c6ef5;   --day-bg:#e0e7ff;
+  --story:#ae3ec9; --story-bg:#f8e3ff;
+  --season:#d9480f;--season-bg:#ffe4d6;
+  --world:#0b7285; --world-bg:#c5f6fa;
+  --good:#2f9e44; --bad:#e03131;
   --shadow:0 6px 0 rgba(43,35,64,.12);
   --radius:28px;
+  --font:"Baloo 2","Baloo Da 2","Noto Sans Bengali",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-    --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14; --exp-bg:#4a1f33;
-    --shadow:0 6px 0 rgba(0,0,0,.35);
+    --abc-bg:#123c44; --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35;
+    --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44;
+    --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
   }
 }
 :root[data-theme="dark"]{
   --bg:#1d1a2b; --ink:#fdf7ff; --soft:#bdb3d6; --card:#2a2640; --line:#3a3456;
-  --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35; --move-bg:#4a2e14; --exp-bg:#4a1f33;
-  --shadow:0 6px 0 rgba(0,0,0,.35);
+  --abc-bg:#123c44; --think-bg:#4a2730; --num-bg:#1f3550; --code-bg:#1f4128; --draw-bg:#4a3d14; --sci-bg:#33285a; --trav-bg:#163f35;
+  --exp-bg:#4a1f33; --move-bg:#4a2e14; --day-bg:#262f5c; --story-bg:#3f1f4a; --season-bg:#4a2614; --world-bg:#123a44;
+  --shadow:0 6px 0 rgba(0,0,0,.35); color-scheme:dark;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%}
-body{background:var(--bg);color:var(--ink);font-family:"Baloo 2",system-ui,sans-serif;font-size:20px;
-  user-select:none;-webkit-user-select:none;overflow-x:hidden}
-button{font-family:inherit;color:inherit;cursor:pointer;border:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:20px;user-select:none;-webkit-user-select:none;overflow-x:hidden}
+button,input{font-family:inherit;color:inherit}
+button{cursor:pointer;border:0}
+button:focus-visible{outline:4px solid var(--ink);outline-offset:2px}
 .wrap{max-width:900px;margin:0 auto;padding-block:16px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
 .brand{font-weight:800;font-size:clamp(26px,6vw,40px);line-height:1}
@@ -49,41 +59,44 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 
 /* Home */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.tile{border-radius:var(--radius);padding:18px 12px;min-height:170px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;gap:4px;box-shadow:var(--shadow);transition:transform .12s}
+@media (min-width:640px){.grid{grid-template-columns:repeat(3,1fr)}}
+.tile{border-radius:var(--radius);padding:16px 10px;min-height:150px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;box-shadow:var(--shadow);transition:transform .12s}
 .tile:active{transform:scale(.95)}
-.tile .em{font-size:clamp(56px,14vw,84px);line-height:1}
-.tile b{font-size:clamp(22px,5vw,30px)}
-.tile small{font-size:15px;color:var(--soft);text-align:center;line-height:1.2}
-.t-think{background:var(--think-bg)}.t-num{background:var(--num-bg)}.t-code{background:var(--code-bg)}.t-draw{background:var(--draw-bg)}.t-sci{background:var(--sci-bg)}.t-trav{background:var(--trav-bg)}.t-move{background:var(--move-bg)}.t-exp{background:var(--exp-bg)}
-.grid .tile:last-child:nth-child(odd){grid-column:span 2}
-.note{margin-top:20px;font-size:15px;color:var(--soft);line-height:1.4;background:var(--card);border-radius:18px;padding:12px 16px}
-
-/* Hello card */
-.hello{display:flex;align-items:center;gap:16px;background:var(--card);border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;box-shadow:var(--shadow)}
-.hello .ph{width:96px;height:96px;border-radius:50%;object-fit:cover;flex:none;border:5px solid var(--draw);background:var(--bg);padding:0}
-.hello .ph img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
-.hello b{display:block;font-size:clamp(26px,6.5vw,34px);line-height:1.1}
-.hello span{color:var(--soft);font-size:18px}
+.tile .em{font-size:clamp(52px,13vw,76px);line-height:1}
+.tile b{font-size:clamp(21px,5vw,28px);line-height:1.15}
+.tile small{font-size:14px;color:var(--soft);text-align:center;line-height:1.2}
+.note{margin-top:20px;font-size:15px;color:var(--soft);line-height:1.45;background:var(--card);border-radius:18px;padding:12px 16px}
+.hello{display:flex;align-items:center;gap:14px;background:var(--card);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;box-shadow:var(--shadow)}
+.hello .ph{width:92px;height:92px;border-radius:50%;flex:none;border:5px solid var(--draw);background:var(--bg);padding:0;overflow:hidden}
+.hello .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.hello .txt{flex:1;min-width:0}
+.hello b{display:block;font-size:clamp(24px,6vw,32px);line-height:1.1}
+.hello span{color:var(--soft);font-size:17px}
+.lang{flex:none;align-self:flex-start;background:var(--num);color:#fff;border-radius:999px;padding:6px 14px;font-weight:800;font-size:17px;box-shadow:var(--shadow)}
+.hold{display:block;width:100%;margin-top:16px;position:relative;overflow:hidden;background:var(--card);border-radius:18px;padding:12px;font-weight:800;font-size:17px;color:var(--soft);box-shadow:var(--shadow)}
+.hold i{position:absolute;inset:0 auto 0 0;width:0;background:var(--line);z-index:0}
+.hold.going i{width:100%;transition:width 3s linear}
+.hold span{position:relative;z-index:1}
 
 /* Section */
-.sec-title{font-size:clamp(28px,7vw,40px);font-weight:800;margin:4px 0 8px;display:flex;align-items:center;gap:10px}
+.sec-title{font-size:clamp(28px,7vw,40px);font-weight:800;margin:4px 0 8px}
 .tabs{display:flex;gap:10px;margin:8px 0 16px}
 .tab{flex:1;border-radius:20px;padding:10px;font-weight:800;font-size:20px;background:var(--card);box-shadow:var(--shadow)}
 .tab.on{outline:4px solid var(--accent)}
 .play{background:var(--card);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)}
-.prompt{display:flex;align-items:center;justify-content:center;gap:10px;font-size:clamp(24px,6vw,34px);font-weight:800;
-  text-align:center;min-height:56px;margin-bottom:12px}
+.prompt{display:flex;align-items:center;justify-content:center;gap:10px;font-size:clamp(23px,6vw,32px);font-weight:800;text-align:center;min-height:56px;margin-bottom:12px;text-wrap:balance}
 .say{background:var(--accent);color:#fff;border-radius:999px;width:52px;height:52px;font-size:26px;flex:none;box-shadow:var(--shadow)}
 .modes{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:12px}
-.mode{border-radius:999px;padding:6px 16px;font-weight:700;font-size:17px;background:var(--bg);border:3px solid var(--line)}
+.mode{border-radius:999px;padding:6px 15px;font-weight:700;font-size:17px;background:var(--bg);border:3px solid var(--line)}
 .mode.on{border-color:var(--accent);background:var(--accent);color:#fff}
 .choices{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
-.choice{background:var(--bg);border-radius:24px;width:clamp(92px,26vw,150px);height:clamp(92px,26vw,150px);
-  display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:transform .12s}
+.choice{background:var(--bg);border-radius:24px;width:clamp(92px,26vw,150px);height:clamp(92px,26vw,150px);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow);transition:transform .12s}
 .choice:active{transform:scale(.93)}
 .choice svg{width:72%;height:72%}
 .choice.num{font-size:clamp(44px,12vw,72px);font-weight:800}
+.choice.word{flex-direction:column;font-size:clamp(40px,11vw,60px);font-weight:800;gap:2px;text-align:center;padding:4px}
+.choice.word small{font-size:17px;line-height:1.1}
+.choice.wide{width:auto;min-width:clamp(120px,40vw,220px);height:auto;padding:14px 18px;font-size:20px;font-weight:800}
 .wiggle{animation:wig .4s}
 @keyframes wig{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
 .pop{animation:pop .5s}
@@ -92,42 +105,83 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:12p
 .items button{background:none;font-size:inherit;padding:0 2px;transition:transform .15s}
 .items button.counted{transform:scale(1.2);filter:drop-shadow(0 0 6px var(--accent))}
 .bigcount{font-size:56px;font-weight:800;color:var(--accent);text-align:center;min-height:70px}
+.bigemoji{font-size:clamp(80px,22vw,130px);text-align:center;line-height:1.1;margin-bottom:10px}
+.row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btn{border-radius:999px;padding:10px 22px;font-weight:800;font-size:21px;box-shadow:var(--shadow);background:var(--bg)}
+.btn.go{background:var(--accent);color:#fff;font-size:24px;padding:10px 30px}
+.muted{color:var(--soft);font-size:15px;line-height:1.4;text-align:center;margin:12px 0 0}
+
+/* Letters */
+.lcard{display:flex;align-items:center;justify-content:center;gap:18px;background:var(--bg);border-radius:24px;padding:12px;margin-bottom:14px;min-height:150px}
+.lcard .big{font-size:clamp(84px,24vw,130px);font-weight:800;line-height:1;color:var(--accent)}
+.lcard .pic{font-size:clamp(56px,16vw,90px);line-height:1}
+.lcard .w{font-size:clamp(24px,6vw,32px);font-weight:800}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(58px,1fr));gap:8px}
+.lt{background:var(--bg);border-radius:16px;aspect-ratio:1;font-size:clamp(28px,7vw,36px);font-weight:800;box-shadow:var(--shadow)}
+.lt.on{background:var(--accent);color:#fff}
+
+/* Numbers */
+.numcard{background:var(--bg);border-radius:24px;padding:12px;text-align:center;margin-bottom:12px}
+.numcard .big{font-size:clamp(72px,20vw,110px);font-weight:800;line-height:1;color:var(--accent)}
+.forms{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.forms div{background:var(--card);border-radius:14px;padding:6px 4px;min-width:0}
+.forms small{display:block;font-size:13px;color:var(--soft);text-transform:uppercase;letter-spacing:.06em}
+.forms b{font-size:clamp(22px,6vw,30px);overflow-wrap:anywhere}
+.words{display:flex;flex-direction:column;gap:2px;font-size:19px;font-weight:700}
+.hund{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;margin-top:12px}
+.hn{background:var(--bg);border-radius:8px;aspect-ratio:1;font-size:clamp(12px,3.4vw,18px);font-weight:800;padding:0;font-variant-numeric:tabular-nums}
+.hn.on{background:var(--accent);color:#fff}
+.tpick{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:6px;margin-bottom:12px}
+.tpick button{background:var(--bg);border-radius:12px;aspect-ratio:1;font-size:22px;font-weight:800}
+.tpick button.on{background:var(--accent);color:#fff}
+.trows{display:flex;flex-direction:column;gap:6px}
+.trow{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--bg);border-radius:14px;padding:8px 12px;font-size:clamp(19px,5vw,24px);font-weight:800;text-align:left;font-variant-numeric:tabular-nums}
+.trow .en{color:var(--soft);text-align:right}
+.trow.on{outline:4px solid var(--accent)}
+.tchant{display:block;grid-column:1/-1;font-size:15px;font-weight:600;color:var(--soft)}
+
+/* Memory */
+.mem{display:grid;gap:10px;max-width:520px;margin:0 auto}
+.mcard{aspect-ratio:1;border-radius:18px;background:var(--accent);font-size:clamp(34px,10vw,56px);box-shadow:var(--shadow);position:relative}
+.mcard span{visibility:hidden}
+.mcard::before{content:"?";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800}
+.mcard.up{background:var(--bg)}
+.mcard.up::before{content:""}
+.mcard.up span{visibility:visible}
+.mcard.got{opacity:.55}
+.pat{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;font-size:clamp(36px,10vw,56px);margin-bottom:16px}
+.pat .q{background:var(--bg);border-radius:14px;padding:0 10px;border:3px dashed var(--accent)}
 
 /* Coding */
 .board{display:grid;gap:6px;margin:0 auto 14px;max-width:420px;aspect-ratio:1}
-.cell{background:var(--code-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,8vw,46px);position:relative}
+.cell{background:var(--code-bg);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:clamp(28px,8vw,46px)}
 .cell.path{outline:3px dashed var(--code)}
-.seq{display:flex;flex-wrap:wrap;gap:6px;min-height:64px;justify-content:center;align-items:center;
-  background:var(--bg);border-radius:18px;padding:8px;margin-bottom:12px;border:3px dashed var(--line)}
+.seq{display:flex;flex-wrap:wrap;gap:6px;min-height:64px;justify-content:center;align-items:center;background:var(--bg);border-radius:18px;padding:8px;margin-bottom:12px;border:3px dashed var(--line)}
 .seq .step{width:48px;height:48px;border-radius:12px;background:var(--code);color:#fff;font-size:28px;display:flex;align-items:center;justify-content:center}
 .seq .step.now{outline:4px solid var(--ink)}
 .seq .hint{color:var(--soft);font-size:17px}
 .arrows{display:grid;grid-template-columns:repeat(3,72px);grid-template-rows:repeat(2,72px);gap:8px;justify-content:center}
 .arrow{background:var(--code);color:#fff;border-radius:20px;font-size:38px;box-shadow:var(--shadow)}
-.row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
-.btn{border-radius:999px;padding:10px 22px;font-weight:800;font-size:22px;box-shadow:var(--shadow);background:var(--bg)}
-.btn.go{background:var(--accent);color:#fff;font-size:26px;padding:10px 34px}
 
-/* Drawing */
+/* Drawing pad */
 .canvas-wrap{position:relative;border-radius:22px;overflow:hidden;background:#fff;border:4px solid var(--line);touch-action:none}
-canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none}
-.guide{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center}
+canvas{display:block;width:100%;height:clamp(300px,52vh,500px);touch-action:none;position:relative;z-index:1}
+.guide{position:absolute;inset:0;pointer-events:none;display:flex;align-items:center;justify-content:center;z-index:0}
 .guide svg{width:70%;height:80%}
+.guide .glyph{font-size:min(62vw,300px);font-weight:700;color:#e4dcf0;line-height:1}
 .palette{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:12px}
-.swatch{width:50px;height:50px;border-radius:50%;box-shadow:var(--shadow);border:4px solid transparent}
+.swatch{width:48px;height:48px;border-radius:50%;box-shadow:var(--shadow);border:4px solid transparent}
 .swatch.on{border-color:var(--ink);transform:scale(1.1)}
 .tool{border-radius:16px;padding:6px 14px;font-weight:800;font-size:18px;background:var(--bg);border:3px solid var(--line)}
 .tool.on{border-color:var(--accent);background:var(--accent);color:#fff}
 
-/* Science tank */
-.tank{position:relative;height:200px;border-radius:22px;overflow:hidden;margin:0 auto 14px;max-width:420px;
-  background:linear-gradient(#e7f5ff 0 22%,#74c0fc 22% 100%)}
+/* Science */
+.tank{position:relative;height:200px;border-radius:22px;overflow:hidden;margin:0 auto 14px;max-width:420px;background:linear-gradient(#e7f5ff 0 22%,#74c0fc 22% 100%)}
 .tank .obj{position:absolute;left:50%;top:4%;transform:translateX(-50%);font-size:64px;transition:top 1.4s ease-in}
-.bigemoji{font-size:clamp(80px,22vw,130px);text-align:center;line-height:1.1;margin-bottom:10px}
-.choice.word{flex-direction:column;font-size:clamp(40px,11vw,60px);font-weight:800;gap:2px}
-.choice.word small{font-size:18px}
+
+/* Move */
 .movecard{text-align:center}
-.movecard .act{font-size:clamp(26px,7vw,36px);font-weight:800;margin:4px 0 6px}
+.movecard .act{font-size:clamp(25px,7vw,34px);font-weight:800;margin:4px 0 6px;text-wrap:balance}
 .movecard .counter{font-size:72px;font-weight:800;color:var(--accent);min-height:90px}
 
 /* Explore */
@@ -137,7 +191,77 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 .idea ol{margin:0;padding-left:24px;font-size:19px}
 .idea p{margin:0;font-size:18px}
 .idea .safe{background:var(--bg);border-radius:14px;padding:8px 12px;font-size:16px;margin-top:12px}
-.fact{text-align:center;font-size:clamp(24px,6vw,32px);font-weight:700;line-height:1.3;min-height:120px}
+.fact{text-align:center;font-size:clamp(23px,6vw,30px);font-weight:700;line-height:1.3;min-height:120px;text-wrap:balance}
+
+/* My Day */
+.todo{display:flex;flex-direction:column;gap:10px}
+.todo button{display:flex;align-items:center;gap:14px;background:var(--bg);border-radius:20px;padding:10px 14px;text-align:left;font-size:clamp(20px,5.4vw,26px);font-weight:800;box-shadow:var(--shadow)}
+.todo .e{font-size:44px;line-height:1}
+.todo .t{flex:1;min-width:0}
+.todo .ck{width:42px;height:42px;border-radius:50%;border:4px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff}
+.todo button.done{opacity:.8}
+.todo button.done .ck{background:var(--good);border-color:var(--good)}
+.ring{width:min(70vw,260px);aspect-ratio:1;border-radius:50%;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(var(--accent) calc(var(--p,0)*1%), var(--bg) 0)}
+.ring div{width:78%;aspect-ratio:1;border-radius:50%;background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .e{font-size:56px;line-height:1}
+.ring b{font-size:48px;font-variant-numeric:tabular-nums}
+.cue{text-align:center;font-size:clamp(20px,5.5vw,26px);font-weight:800;min-height:64px;text-wrap:balance}
+.verdict{background:var(--bg);border-radius:18px;padding:10px 14px;margin-top:12px;font-size:19px;text-align:center;font-weight:700}
+
+/* Stories */
+.slist{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.slist button{background:var(--bg);border-radius:22px;padding:14px 10px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:4px;font-weight:800;font-size:18px;line-height:1.2}
+.slist .e{font-size:54px;line-height:1}
+.slist small{font-size:13px;color:var(--soft);font-weight:700}
+.page{text-align:center}
+.page .scene{font-size:clamp(70px,20vw,110px);line-height:1.15;min-height:130px}
+.page .text{font-size:clamp(22px,6vw,30px);font-weight:700;line-height:1.35;min-height:110px;text-wrap:balance}
+.page .no{color:var(--soft);font-size:16px;font-variant-numeric:tabular-nums}
+.rhyme{white-space:pre-line;font-size:clamp(21px,5.6vw,27px);font-weight:700;line-height:1.5;text-align:center;background:var(--bg);border-radius:20px;padding:14px}
+
+/* Seasons, festivals, world */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.cards button{position:relative;background:var(--bg);border-radius:22px;padding:14px 8px;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;gap:2px;font-weight:800;font-size:19px;line-height:1.2;text-align:center}
+.cards .e{font-size:52px;line-height:1}
+.cards small{font-size:13px;color:var(--soft)}
+.cards .now{position:absolute;top:8px;right:8px;background:var(--accent);color:#fff;font-size:12px;border-radius:999px;padding:1px 8px}
+.detail{background:var(--bg);border-radius:22px;padding:14px;margin-bottom:14px;text-align:center}
+.detail .e{font-size:clamp(72px,20vw,110px);line-height:1.1}
+.detail h3{margin:2px 0;font-size:clamp(26px,7vw,34px);line-height:1.15}
+.detail p{margin:6px 0 0;font-size:19px;line-height:1.4}
+.facts{display:grid;gap:8px;margin-top:10px;text-align:left}
+.facts div{background:var(--card);border-radius:14px;padding:8px 12px;min-width:0}
+.facts small{display:block;font-size:13px;color:var(--soft);text-transform:uppercase;letter-spacing:.06em}
+.facts b{font-size:19px;overflow-wrap:anywhere}
+.facts i{font-style:normal;color:var(--soft);font-size:15px;font-weight:600}
+.search{width:100%;font-size:20px;padding:10px 16px;border-radius:999px;border:3px solid var(--line);background:var(--bg);margin-bottom:12px}
+.flags{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.flags button{background:var(--bg);border-radius:18px;padding:8px 4px;box-shadow:var(--shadow);font-size:15px;font-weight:800;line-height:1.15;display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.flags .f{font-size:42px;line-height:1.1}
+.flags span{overflow-wrap:anywhere}
+.flagbig{font-size:clamp(100px,30vw,160px);line-height:1.05;text-align:center}
+
+/* Parent panel & break */
+.overlay{position:fixed;inset:0;z-index:30;background:var(--bg);overflow-y:auto;padding-block:16px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.overlay .inner{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--card);border-radius:22px;padding:14px 16px;box-shadow:var(--shadow)}
+.panel h3{margin:0 0 8px;font-size:22px}
+.panel p{margin:4px 0;font-size:17px;line-height:1.4}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border-radius:999px;padding:6px 14px;font-weight:800;font-size:17px;background:var(--bg);border:3px solid var(--line)}
+.seg button.on{background:var(--num);border-color:var(--num);color:#fff}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin-top:8px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:2px;font-size:12px;color:var(--soft);font-variant-numeric:tabular-nums}
+.bars i{display:block;width:100%;background:var(--num);border-radius:6px 6px 0 0;min-height:2px}
+.stat{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.stat div{background:var(--bg);border-radius:14px;padding:8px 10px;font-size:16px}
+.stat b{display:block;font-size:22px;font-variant-numeric:tabular-nums}
+.warn{background:var(--season-bg);border-radius:14px;padding:10px 12px;font-size:16px;line-height:1.4}
+.breakov{display:flex;align-items:center;justify-content:center;text-align:center}
+.breakov .inner{align-items:center}
+.breakov .e{font-size:120px;line-height:1}
+.breakov h2{font-size:clamp(30px,8vw,44px);margin:0}
 
 /* Videos */
 .vids{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
@@ -148,54 +272,32 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
 .vid .meta{padding:10px 14px 12px;line-height:1.2}
 .vid .meta b{display:block;font-size:18px}
 .vid .meta small{color:var(--soft);font-size:14px}
-.modal{position:fixed;inset:0;background:rgba(20,16,32,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;z-index:10}
+.modal{position:fixed;inset:0;background:rgba(20,16,32,.88);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;z-index:25}
 .modal .frame{width:100%;max-width:900px;aspect-ratio:16/9;background:#000;border-radius:18px;overflow:hidden}
 .modal iframe{width:100%;height:100%;border:0}
-.modal .close{position:absolute;top:14px;right:14px;background:#fff;color:#2b2340;border-radius:999px;width:56px;height:56px;font-size:30px;font-weight:800}
+.modal .close{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));right:calc(14px + env(safe-area-inset-right,0px));background:#fff;color:#2b2340;border-radius:999px;width:56px;height:56px;font-size:30px;font-weight:800}
 .modal .src{color:#ddd;font-size:15px;margin-top:10px;text-align:center}
 .modal .src a{color:#fff}
 
 /* Celebrate */
-.party{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.party{position:fixed;inset:0;pointer-events:none;z-index:40;overflow:hidden}
 .confetti{position:absolute;top:-40px;font-size:34px;animation:fall 1.6s linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
 @media (max-width:420px){.arrows{grid-template-columns:repeat(3,64px);grid-template-rows:repeat(2,64px)}}
+@media (prefers-reduced-motion:reduce){.confetti,.pop,.wiggle{animation:none}.tank .obj{transition:none}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="top">
-    <button class="back hidden" id="backBtn" aria-label="Back to home">⬅ Home</button>
+    <button class="back hidden" id="backBtn"></button>
     <div class="brand" id="brand"><span>Nuzaim</span> <span>Learns</span></div>
-    <div class="stars" id="stars" aria-label="Stars earned">⭐ 0</div>
+    <div class="stars" id="stars">⭐ 0</div>
   </header>
-
-  <!-- HOME -->
-  <main id="home">
-    <div class="hello" id="hello">
-      <button class="ph" id="helloPh" aria-label="Say hello"><img src="nuzaim.jpg" alt="Nuzaim" onerror="this.closest('.ph').style.display='none'"></button>
-      <div><b>Hi, Nuzaim! 👋</b><span>What shall we learn today?</span></div>
-    </div>
-    <div class="grid">
-      <button class="tile t-think" data-go="think"><div class="em">🔺</div><b>Think</b><small>shapes · colors · big &amp; small</small></button>
-      <button class="tile t-num" data-go="num"><div class="em">🔢</div><b>Count</b><small>numbers 1 to 10</small></button>
-      <button class="tile t-code" data-go="code"><div class="em">🐝</div><b>Code</b><small>help the bee find the flower</small></button>
-      <button class="tile t-draw" data-go="draw"><div class="em">🖍️</div><b>Draw</b><small>scribble, trace, create</small></button>
-      <button class="tile t-sci" data-go="sci"><div class="em">🔬</div><b>Science</b><small>sink or float · animal homes</small></button>
-      <button class="tile t-trav" data-go="trav"><div class="em">✈️</div><b>Travel</b><small>land, water, sky · what to wear</small></button>
-      <button class="tile t-exp" data-go="exp"><div class="em">🧭</div><b>Explore</b><small>ideas to try · did you know?</small></button>
-      <button class="tile t-move" data-go="move"><div class="em">🤸</div><b>Move</b><small>jump, clap, stomp &amp; count</small></button>
-    </div>
-    <div class="note"><b>For grown-ups:</b> Each area has a game and a <b>Watch</b> tab with live-action videos (real people, animals and places) from public YouTube channels such as Blippi, Ms Rachel, Danny Go!, Dream English Kids and Art for Kids Hub. Tap 🔊 to hear instructions read aloud. For a 3-year-old, short sessions of 10–15 minutes with you nearby work best.</div>
-  </main>
-
-  <!-- SECTION -->
+  <main id="home"></main>
   <section id="section" class="hidden">
     <div class="sec-title" id="secTitle"></div>
-    <div class="tabs">
-      <button class="tab on" data-tab="play">🎮 Play</button>
-      <button class="tab" data-tab="watch">📺 Watch</button>
-    </div>
+    <div class="tabs" id="tabs"></div>
     <div id="playArea"></div>
     <div id="watchArea" class="vids hidden"></div>
   </section>
@@ -206,12 +308,135 @@ canvas{display:block;width:100%;height:clamp(300px,55vh,520px);touch-action:none
   <div class="frame" id="frame"></div>
   <div class="src" id="vsrc"></div>
 </div>
+<div class="overlay hidden" id="parent"></div>
+<div class="overlay breakov hidden" id="breakov"></div>
 <div class="party" id="party"></div>
 
 <script>
-const EMBED = true; // false = open videos on YouTube instead of playing inside the app
-/* ---------- Videos: live-action only (real people, animals, places). Checked against YouTube. ---------- */
+/* =====================================================================
+   Nuzaim Learns: bilingual (Bangla / English) learning app.
+   ===================================================================== */
+const EMBED = true;
+
+/* ---------- Storage (all wrapped: storage can be unavailable) ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem(k); return v===null ? d : JSON.parse(v); }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+};
+
+/* ---------- Language ---------- */
+let L = store.get("nl-lang", "en");
+const T = (en, bn) => L === "bn" ? bn : en;
+const BN_DIG = "০১২৩৪৫৬৭৮৯";
+const bnDigits = n => String(n).replace(/\d/g, d => BN_DIG[d]);
+const N = n => L === "bn" ? bnDigits(n) : String(n);
+const BN_W = ["শূন্য","এক","দুই","তিন","চার","পাঁচ","ছয়","সাত","আট","নয়","দশ",
+  "এগারো","বারো","তেরো","চৌদ্দ","পনেরো","ষোলো","সতেরো","আঠারো","উনিশ","বিশ",
+  "একুশ","বাইশ","তেইশ","চব্বিশ","পঁচিশ","ছাব্বিশ","সাতাশ","আটাশ","ঊনত্রিশ","ত্রিশ",
+  "একত্রিশ","বত্রিশ","তেত্রিশ","চৌত্রিশ","পঁয়ত্রিশ","ছত্রিশ","সাঁইত্রিশ","আটত্রিশ","ঊনচল্লিশ","চল্লিশ",
+  "একচল্লিশ","বিয়াল্লিশ","তেতাল্লিশ","চুয়াল্লিশ","পঁয়তাল্লিশ","ছেচল্লিশ","সাতচল্লিশ","আটচল্লিশ","ঊনপঞ্চাশ","পঞ্চাশ",
+  "একান্ন","বায়ান্ন","তিপ্পান্ন","চুয়ান্ন","পঞ্চান্ন","ছাপ্পান্ন","সাতান্ন","আটান্ন","ঊনষাট","ষাট",
+  "একষট্টি","বাষট্টি","তেষট্টি","চৌষট্টি","পঁয়ষট্টি","ছেষট্টি","সাতষট্টি","আটষট্টি","ঊনসত্তর","সত্তর",
+  "একাত্তর","বাহাত্তর","তিয়াত্তর","চুয়াত্তর","পঁচাত্তর","ছিয়াত্তর","সাতাত্তর","আটাত্তর","ঊনআশি","আশি",
+  "একাশি","বিরাশি","তিরাশি","চুরাশি","পঁচাশি","ছিয়াশি","সাতাশি","আটাশি","ঊননব্বই","নব্বই",
+  "একানব্বই","বিরানব্বই","তিরানব্বই","চুরানব্বই","পঁচানব্বই","ছিয়ানব্বই","সাতানব্বই","আটানব্বই","নিরানব্বই","একশো"];
+function bnWord(n){
+  if(n <= 100) return BN_W[n];
+  const h = Math.floor(n/100), r = n % 100, hs = (h === 1 ? "এক" : BN_W[h]) + "শো";
+  return r ? hs + " " + BN_W[r] : hs;
+}
+const ONES = ["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
+const TENS = ["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
+function enWord(n){
+  if(n < 20) return ONES[n];
+  if(n < 100) return TENS[Math.floor(n/10)] + (n % 10 ? "-" + ONES[n % 10] : "");
+  const h = Math.floor(n/100), r = n % 100;
+  return ONES[h] + " hundred" + (r ? " and " + enWord(r) : "");
+}
+function roman(n){
+  let s = "";
+  for(const [v, r] of [[1000,"M"],[900,"CM"],[500,"D"],[400,"CD"],[100,"C"],[90,"XC"],[50,"L"],[40,"XL"],[10,"X"],[9,"IX"],[5,"V"],[4,"IV"],[1,"I"]])
+    while(n >= v){ s += r; n -= v; }
+  return s;
+}
+const numWord = n => T(enWord(n), bnWord(n));
+
+/* ---------- Speech ---------- */
+let lastSpoken = "", lastLang = "en-US";
+function speak(text, lang){
+  lastSpoken = text; lastLang = lang || (L === "bn" ? "bn-BD" : "en-US");
+  if(window.AndroidTTS){
+    try{ if(AndroidTTS.speakLang) AndroidTTS.speakLang(text, lastLang, .85, 1.15); else AndroidTTS.speak(text); }catch(e){}
+    return;
+  }
+  try{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = lastLang; u.rate = .85; u.pitch = 1.2;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+const sayAgain = () => speak(lastSpoken, lastLang);
+function hush(){ try{ if(window.AndroidTTS) AndroidTTS.stop(); else speechSynthesis.cancel(); }catch(e){} }
+
+/* ---------- Helpers ---------- */
+const $ = s => document.querySelector(s);
+const rand = n => Math.floor(Math.random()*n);
+const shuffle = a => { for(let i=a.length-1;i>0;i--){ const j=rand(i+1); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const pick = a => a[rand(a.length)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let epoch = 0;                                   // bumps whenever the screen changes
+const later = (fn, ms) => { const e = epoch; setTimeout(() => { if(e === epoch) fn(); }, ms); };
+const wait = ms => new Promise(r => setTimeout(r, ms));
+function todayKey(d = new Date()){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+
+/* ---------- Progress, stars, time ---------- */
+let stars = parseInt(store.get("ll-stars", 0), 10) || 0;
+let prog = store.get("nl-prog", {});
+function day(){ const k = todayKey(); prog[k] = prog[k] || {t:0, s:{}, v:{}, bonus:0}; return prog[k]; }
+function saveProg(){
+  const keys = Object.keys(prog).sort(); while(keys.length > 31) delete prog[keys.shift()];
+  store.set("nl-prog", prog);
+}
+function renderStars(){ $("#stars").textContent = "⭐ " + N(stars); }
+function addStar(){
+  stars++; renderStars(); store.set("ll-stars", stars);
+  if(current){ const d = day(); d.s[current] = (d.s[current]||0) + 1; saveProg(); }
+  const s = $("#stars"); s.classList.remove("pop"); void s.offsetWidth; s.classList.add("pop");
+}
+function celebrate(){
+  const p = $("#party");
+  for(let i=0;i<18;i++){
+    const d = document.createElement("div"); d.className = "confetti"; d.textContent = pick(["⭐","🎉","🌟","🎈","💖"]);
+    d.style.left = rand(100)+"vw"; d.style.animationDelay = (Math.random()*.5)+"s";
+    p.appendChild(d); setTimeout(() => d.remove(), 2300);
+  }
+}
+const PRAISE = [["Great job!","খুব ভালো!"],["You did it!","তুমি পেরেছ!"],["Wonderful!","দারুণ!"],["Yay! Well done!","বাহ্‌! চমৎকার!"],["Super!","শাবাশ!"]];
+const TRY = [["Try again!","আবার চেষ্টা করো!"],["Almost! Try again.","প্রায় হয়েছে! আবার চেষ্টা করো।"],["Oops, try another one!","উফ্‌, অন্যটা ছোঁও!"]];
+function right(el, msg){ addStar(); celebrate(); speak(msg || T(...pick(PRAISE))); if(el) el.classList.add("pop"); }
+function wrong(el){ speak(T(...pick(TRY))); if(el){ el.classList.remove("wiggle"); void el.offsetWidth; el.classList.add("wiggle"); } }
+
+/* ---------- Small UI builders ---------- */
+function modesHTML(list, on){ return `<div class="modes">${list.map(([k,en,bn]) => `<button class="mode${k===on?" on":""}" data-m="${k}">${esc(T(en,bn))}</button>`).join("")}</div>`; }
+function bindModes(root, fn){
+  root.querySelectorAll(".mode[data-m]").forEach(b => b.addEventListener("click", () => {
+    root.querySelectorAll(".mode[data-m]").forEach(x => x.classList.toggle("on", x === b)); epoch++; hush(); fn(b.dataset.m);
+  }));
+}
+const PROMPT = `<div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>`;
+function bindSay(root){ root.querySelectorAll(".say").forEach(b => b.addEventListener("click", sayAgain)); }
+function ask(text, shown){ const q = $("#q"); if(q) q.textContent = shown || text; speak(text); }
+function choiceBtn(html, cls = "choice"){ const b = document.createElement("button"); b.className = cls; b.innerHTML = html; return b; }
+
+/* ---------- Videos: live-action only. Every build checks them with YouTube. ---------- */
 const VIDEOS = {
+  abc: [
+    {id:"O47KIA1j83k", t:"Learn Letters, ABC and Phonics", c:"Ms Rachel"},
+    {id:"esWG7psZcMw", t:"Learn the Alphabet, Letters, Phonics", c:"Ms Rachel"},
+    {id:"_R0xRT2y7Uo", t:"Learn the Alphabet, Letters, Phonics Song", c:"Ms Rachel"}
+  ],
   think: [
     {id:"T9wMikE-0o0", t:"Blippi Learns Colors at the Indoor Play Place", c:"Blippi"},
     {id:"4dMoYG9TUGM", t:"Blippi Learns Colors and Shapes at the Indoor Playground", c:"Blippi"},
@@ -244,227 +469,397 @@ const VIDEOS = {
     {id:"FtQavremZQQ", t:"Blippi Explores a Steam Train", c:"Blippi Playtime"},
     {id:"NTybXlOYlgU", t:"Blippi Explores a Boat and Learns About Sea Animals", c:"Blippi"}
   ],
+  exp: [
+    {id:"UksLudzbUdU", t:"Blippi Visits a Zoo", c:"Blippi Playtime"},
+    {id:"EKI3Xs2dqPA", t:"Blippi Visits a Baby Animal Farm", c:"Blippi"},
+    {id:"r5VhH5fhPLE", t:"Relax with Cute Ocean Animals", c:"Nat Geo Kids"},
+    {id:"hkBhJxZupeE", t:"The Cutest Baby Animals You've Ever Seen", c:"Nat Geo Animals"}
+  ],
   move: [
     {id:"-y5yuLuw7KQ", t:"Move Your Body! (Exercise Dance Song)", c:"Danny Go!"},
     {id:"DGGT9CThauE", t:"Dance Like This! Clap, Shake, Jump", c:"Danny Go!"},
     {id:"vXIz152zx6E", t:"Wiggle, Bounce, and Shake!", c:"Danny Go!"},
     {id:"ho0jqU6L88U", t:"Big Small Action Song", c:"Dream English Kids"}
   ],
-  exp: [
-    {id:"UksLudzbUdU", t:"Blippi Visits a Zoo", c:"Blippi Playtime"},
-    {id:"EKI3Xs2dqPA", t:"Blippi Visits a Baby Animal Farm", c:"Blippi"},
-    {id:"r5VhH5fhPLE", t:"Relax with Cute Ocean Animals", c:"Nat Geo Kids"},
-    {id:"hkBhJxZupeE", t:"The Cutest Baby Animals You've Ever Seen", c:"Nat Geo Animals"}
-  ]
+  day: [
+    {id:"RczNq2Ltzqs", t:"Brush Your Teeth with Blippi", c:"Blippi"},
+    {id:"azOqBZNOpXY", t:"Blippi at the Dentist", c:"Blippi"},
+    {id:"LnQvZ52HUP4", t:"Bedtime Routine Songs", c:"Ms Rachel"}
+  ],
+  season: [
+    {id:"V0v1ogEYXmo", t:"Blippi Learns About the Weather", c:"Blippi"},
+    {id:"7-iPszQCBD4", t:"Blippi Learns About the Seasons", c:"Blippi"},
+    {id:"uTBXQQt2uzM", t:"Blippi Explores Fall Colors", c:"Blippi"}
+  ],
+  story: [], world: []
 };
 
-const SECTIONS = {
-  think:{title:"🔺 Think", accent:"var(--think)"},
-  num:{title:"🔢 Count", accent:"var(--num)"},
-  code:{title:"🐝 Code", accent:"var(--code)"},
-  draw:{title:"🖍️ Draw", accent:"var(--draw)"},
-  sci:{title:"🔬 Science", accent:"var(--sci)"},
-  trav:{title:"✈️ Travel", accent:"var(--trav)"},
-  move:{title:"🤸 Move", accent:"var(--move)"},
-  exp:{title:"🧭 Explore", accent:"var(--exp)"}
-};
-
-/* ---------- Helpers ---------- */
-const $ = s => document.querySelector(s);
-const rand = n => Math.floor(Math.random()*n);
-const shuffle = a => { for(let i=a.length-1;i>0;i--){const j=rand(i+1);[a[i],a[j]]=[a[j],a[i]];} return a; };
-const pick = a => a[rand(a.length)];
-let lastSpoken = "";
-function speak(text){
-  lastSpoken = text;
-  if(window.AndroidTTS){ try{ AndroidTTS.speak(text); }catch(e){} return; }
-  try{
-    if(!("speechSynthesis" in window)) return;
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = .85; u.pitch = 1.2;
-    speechSynthesis.speak(u);
-  }catch(e){}
-}
-let stars = 0;
-try{ stars = parseInt(localStorage.getItem("ll-stars")||"0",10)||0; }catch(e){}
-function renderStars(){ $("#stars").textContent = "⭐ " + stars; }
-function addStar(){
-  stars++; renderStars();
-  try{ localStorage.setItem("ll-stars", String(stars)); }catch(e){}
-  $("#stars").classList.remove("pop"); void $("#stars").offsetWidth; $("#stars").classList.add("pop");
-}
-function celebrate(){
-  const p = $("#party"); const em = ["⭐","🎉","🌟","🎈","💖"];
-  for(let i=0;i<18;i++){
-    const d = document.createElement("div"); d.className="confetti"; d.textContent = pick(em);
-    d.style.left = rand(100)+"vw"; d.style.animationDelay = (Math.random()*.5)+"s";
-    p.appendChild(d); setTimeout(()=>d.remove(),2300);
-  }
-}
-const PRAISE = ["Great job!","You did it!","Wonderful!","Yay! Well done!","Super!"];
-const TRY = ["Try again!","Almost! Try again.","Oops, try another one!"];
-function right(el){ addStar(); celebrate(); speak(pick(PRAISE)); el && el.classList.add("pop"); }
-function wrong(el){ speak(pick(TRY)); if(el){ el.classList.remove("wiggle"); void el.offsetWidth; el.classList.add("wiggle"); } }
-
-/* ---------- Shapes (SVG) ---------- */
-const SHAPES = {
-  circle:c=>`<circle cx="50" cy="50" r="42" fill="${c}"/>`,
-  square:c=>`<rect x="10" y="10" width="80" height="80" rx="8" fill="${c}"/>`,
-  triangle:c=>`<polygon points="50,8 94,90 6,90" fill="${c}" stroke-linejoin="round"/>`,
-  star:c=>`<polygon points="50,5 61,38 96,38 68,59 78,93 50,72 22,93 32,59 4,38 39,38" fill="${c}"/>`,
-  heart:c=>`<path d="M50 88 C10 60 4 38 18 22 C30 9 46 14 50 28 C54 14 70 9 82 22 C96 38 90 60 50 88Z" fill="${c}"/>`
-};
-const COLORS = {red:"#ff4d4d", blue:"#3b8cff", yellow:"#ffd43b", green:"#40c057", purple:"#9b59ff", orange:"#ff922b"};
-const svg = (shape,color,scale=1)=>`<svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(${50-50*scale} ${50-50*scale}) scale(${scale})">${SHAPES[shape](color)}</g></svg>`;
+/* ---------- Sections ---------- */
+const SECTIONS = [
+  ["abc","🔤","Letters","অক্ষর","অ আ ক খ · A B C","অ আ ক খ · A B C"],
+  ["num","🔢","Numbers","সংখ্যা","1–100 · times tables","১–১০০ · নামতা"],
+  ["think","🧩","Think","ভাবো","shapes · memory · patterns","আকৃতি · মেমোরি · প্যাটার্ন"],
+  ["code","🐝","Code","কোডিং","help the bee find the flower","মৌমাছিকে ফুলে নাও"],
+  ["draw","🖍️","Draw","আঁকো","scribble, trace, create","আঁকো, ট্রেস করো"],
+  ["sci","🔬","Science","বিজ্ঞান","sink or float · animal homes","ভাসে না ডোবে · প্রাণীর বাড়ি"],
+  ["trav","✈️","Travel","ভ্রমণ","land, water, sky","স্থল, পানি, আকাশ"],
+  ["world","🌍","World","পৃথিবী","countries · flags · capitals","দেশ · পতাকা · রাজধানী"],
+  ["exp","🧭","Explore","খুঁজে দেখো","ideas to try · did you know?","করে দেখো · তুমি কি জানো?"],
+  ["move","🤸","Move","নড়াচড়া","jump, clap, stomp","লাফাও, হাততালি দাও"],
+  ["day","🗓️","My Day","আমার দিন","routine · timers · safety","রুটিন · টাইমার · নিরাপত্তা"],
+  ["story","📚","Stories","গল্প ও ছড়া","stories · rhymes","গল্প · ছড়া"],
+  ["season","🌦️","Seasons","ঋতু ও উৎসব","six seasons · festivals","ছয় ঋতু · উৎসব"]
+];
+const SEC = Object.fromEntries(SECTIONS.map(s => [s[0], s]));
 
 /* ---------- Navigation ---------- */
 let current = null;
+function renderHome(){
+  document.documentElement.lang = L === "bn" ? "bn" : "en";
+  $("#home").innerHTML = `
+    <div class="hello">
+      <button class="ph" id="helloPh" aria-label="Say hello"><img src="nuzaim.jpg" alt="Nuzaim" onerror="this.closest('.ph').style.display='none'"></button>
+      <div class="txt"><b>${T("Hi, Nuzaim! 👋","হাই, নুজাইম! 👋")}</b><span>${T("What shall we learn today?","আজ আমরা কী শিখব?")}</span></div>
+      <button class="lang" id="langBtn">${T("বাংলা","English")}</button>
+    </div>
+    <div class="grid">${SECTIONS.filter(s => s[0] !== "world" || true).map(([k,em,en,bn,se,sb]) =>
+      `<button class="tile" style="background:var(--${k}-bg)" data-go="${k}"><div class="em">${em}</div><b>${T(en,bn)}</b><small>${T(se,sb)}</small></button>`).join("")}</div>
+    <button class="hold" id="parentHold"><i></i><span>👪 ${T("Grown-ups: press and hold for 3 seconds","অভিভাবক: ৩ সেকেন্ড চেপে ধরুন")}</span></button>
+    <div class="note">${T(
+      "<b>For grown-ups:</b> Tap 🔊 to hear instructions again. Videos are live-action (real people, animals and places) from public YouTube channels such as Blippi, Ms Rachel, Danny Go! and Nat Geo Kids. For a 3-year-old, short sessions with you nearby work best.",
+      "<b>অভিভাবকদের জন্য:</b> আবার শুনতে 🔊 চাপুন। ভিডিওগুলো বাস্তব মানুষ, প্রাণী আর জায়গার, Blippi, Ms Rachel, Danny Go! ও Nat Geo Kids-এর মতো পাবলিক ইউটিউব চ্যানেল থেকে। ৩ বছরের শিশুর জন্য আপনার পাশে বসে অল্প সময় খেলাই সবচেয়ে ভালো।")}</div>`;
+  $("#home").querySelectorAll("[data-go]").forEach(b => b.addEventListener("click", () => go(b.dataset.go)));
+  $("#langBtn").addEventListener("click", () => setLang(L === "en" ? "bn" : "en"));
+  $("#helloPh").addEventListener("click", () => { speak(T("Hi Nuzaim! What shall we learn today?","হাই নুজাইম! আজ আমরা কী শিখব?")); const p=$("#helloPh"); p.classList.remove("pop"); void p.offsetWidth; p.classList.add("pop"); });
+  holdToOpen($("#parentHold"), openParent);
+  $("#backBtn").textContent = T("⬅ Home","⬅ হোম");
+  renderStars();
+}
+function setLang(l){ L = l; store.set("nl-lang", l); if(current) go(current); else renderHome(); }
+const PLAY = {};
 function go(sec){
-  current = sec;
-  document.documentElement.style.setProperty("--accent", SECTIONS[sec].accent);
+  epoch++; hush(); current = sec;
+  const [k, em, en, bn] = SEC[sec];
+  document.documentElement.style.setProperty("--accent", `var(--${k})`);
   $("#home").classList.add("hidden"); $("#section").classList.remove("hidden");
   $("#backBtn").classList.remove("hidden"); $("#brand").classList.add("hidden");
-  $("#secTitle").textContent = SECTIONS[sec].title;
-  setTab("play");
-  renderVideos(sec);
-  ({think:playThink, num:playNum, code:playCode, draw:playDraw, sci:playSci, trav:playTravel, move:playMove, exp:playExplore})[sec]();
-  window.scrollTo(0,0);
+  $("#backBtn").textContent = T("⬅ Home","⬅ হোম");
+  $("#secTitle").textContent = em + " " + T(en, bn);
+  const vids = VIDEOS[sec] || [];
+  $("#tabs").innerHTML = vids.length ? `<button class="tab on" data-tab="play">🎮 ${T("Play","খেলা")}</button><button class="tab" data-tab="watch">📺 ${T("Watch","ভিডিও")}</button>` : "";
+  $("#tabs").querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => setTab(b.dataset.tab)));
+  setTab("play"); renderVideos(sec);
+  const d = day(); d.v[sec] = (d.v[sec]||0) + 1; saveProg();
+  PLAY[sec]($("#playArea"));
+  window.scrollTo(0, 0);
 }
 function home(){
-  try{ if(window.AndroidTTS) AndroidTTS.stop(); else speechSynthesis.cancel(); }catch(e){}
-  current = null; $("#section").classList.add("hidden"); $("#home").classList.remove("hidden");
+  epoch++; hush(); current = null;
+  $("#section").classList.add("hidden"); $("#home").classList.remove("hidden");
   $("#backBtn").classList.add("hidden"); $("#brand").classList.remove("hidden");
-  $("#playArea").innerHTML = "";
+  $("#playArea").innerHTML = ""; renderHome();
 }
 function setTab(t){
-  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("on", b.dataset.tab===t));
-  $("#playArea").classList.toggle("hidden", t!=="play");
-  $("#watchArea").classList.toggle("hidden", t!=="watch");
-  try{ if(t==="watch") speechSynthesis.cancel(); }catch(e){}
+  document.querySelectorAll(".tab").forEach(b => b.classList.toggle("on", b.dataset.tab === t));
+  $("#playArea").classList.toggle("hidden", t !== "play");
+  $("#watchArea").classList.toggle("hidden", t !== "watch");
+  if(t === "watch"){ epoch++; hush(); }
+  else if($("#playArea").dataset.paused){ delete $("#playArea").dataset.paused; }
 }
-document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
-document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>setTab(b.dataset.tab)));
 $("#backBtn").addEventListener("click", home);
 
 /* ---------- Videos ---------- */
 function renderVideos(sec){
   const w = $("#watchArea"); w.innerHTML = "";
-  VIDEOS[sec].forEach(v=>{
-    const b = document.createElement(EMBED ? "button" : "a"); b.className="vid";
-    if(!EMBED){ b.href="https://www.youtube.com/watch?v="+v.id; b.target="_blank"; b.rel="noopener"; b.style.textDecoration="none"; b.style.color="inherit"; }
-    b.innerHTML = `<div class="th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg"><div class="pl">▶️</div></div>
-      <div class="meta"><b></b><small></small></div>`;
+  (VIDEOS[sec] || []).forEach(v => {
+    const b = document.createElement(EMBED ? "button" : "a"); b.className = "vid";
+    if(!EMBED){ b.href = "https://www.youtube.com/watch?v=" + v.id; b.target = "_blank"; b.rel = "noopener"; b.style.textDecoration = "none"; b.style.color = "inherit"; }
+    b.innerHTML = `<div class="th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/hqdefault.jpg"><div class="pl">▶️</div></div><div class="meta"><b></b><small></small></div>`;
     b.querySelector("b").textContent = v.t; b.querySelector("small").textContent = v.c;
-    if(EMBED) b.addEventListener("click",()=>openVideo(v));
+    if(EMBED) b.addEventListener("click", () => openVideo(v));
     w.appendChild(b);
   });
 }
 function openVideo(v){
-  $("#frame").innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1&autoplay=1"
-    title="${v.t.replace(/"/g,"&quot;")}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
-  $("#vsrc").innerHTML = "";
-  const s = document.createElement("span"); s.textContent = v.t + " — " + v.c + " · ";
-  const a = document.createElement("a"); a.href = "https://www.youtube.com/watch?v="+v.id; a.target="_blank"; a.rel="noopener";
-  a.textContent = "Grown-ups: open on YouTube if it won't play here";
-  $("#vsrc").append(s,a);
+  hush();
+  $("#frame").innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${v.id}?rel=0&modestbranding=1&playsinline=1&autoplay=1" title="${esc(v.t)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+  const src = $("#vsrc"); src.innerHTML = "";
+  const s = document.createElement("span"); s.textContent = v.t + " — " + v.c; src.append(s);
+  if(!settings.lock){
+    const a = document.createElement("a"); a.href = "https://www.youtube.com/watch?v=" + v.id; a.target = "_blank"; a.rel = "noopener";
+    a.textContent = " · " + T("Open on YouTube","ইউটিউবে খুলুন"); src.append(a);
+  }
   $("#modal").classList.remove("hidden");
 }
-/* Android back button: close video, then go home; returns false on the home screen. */
+function closeVideo(){ $("#frame").innerHTML = ""; $("#modal").classList.add("hidden"); }
+$("#closeModal").addEventListener("click", closeVideo);
 window.androidBack = function(){
   if(!$("#modal").classList.contains("hidden")){ closeVideo(); return true; }
+  if(!$("#breakov").classList.contains("hidden")) return true;
+  if(!$("#parent").classList.contains("hidden")){ closeParent(); return true; }
   if(current){ home(); return true; }
   return false;
 };
-function closeVideo(){ $("#frame").innerHTML=""; $("#modal").classList.add("hidden"); }
-$("#closeModal").addEventListener("click", closeVideo);
 
-/* ---------- THINK: shapes, colors, big & small ---------- */
-function playThink(){
-  const A = $("#playArea");
-  A.innerHTML = `<div class="play">
-    <div class="modes"><button class="mode on" data-m="shape">Shapes</button><button class="mode" data-m="color">Colors</button><button class="mode" data-m="size">Big &amp; Small</button></div>
-    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
-    <div class="choices" id="ch"></div></div>`;
-  let mode = "shape";
-  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
-    mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); round();
+/* =====================================================================
+   LETTERS
+   ===================================================================== */
+// [letter, word, picture, letter-is-inside-word]
+const VOWELS = [["অ","অজগর","🐍"],["আ","আম","🥭"],["ই","ইঁদুর","🐭"],["ঈ","ঈগল","🦅"],["উ","উট","🐫"],["ঊ","ঊষা","🌅"],
+  ["ঋ","ঋষি","🧘"],["এ","একতারা","🪕"],["ঐ","ঐরাবত","🐘"],["ও","ওড়না","🧣"],["ঔ","ঔষধ","💊"]];
+const CONS = [["ক","কলা","🍌"],["খ","খরগোশ","🐇"],["গ","গরু","🐄"],["ঘ","ঘড়ি","⏰"],["ঙ","ব্যাঙ","🐸",1],
+  ["চ","চশমা","👓"],["ছ","ছাতা","☂️"],["জ","জাহাজ","🚢"],["ঝ","ঝুড়ি","🧺"],["ঞ","ইঞ্জিন","🚂",1],
+  ["ট","টমেটো","🍅"],["ঠ","ঠেলাগাড়ি","🛒"],["ড","ডিম","🥚"],["ঢ","ঢোল","🥁"],["ণ","হরিণ","🦌",1],
+  ["ত","তরমুজ","🍉"],["থ","থালা","🍽️"],["দ","দরজা","🚪"],["ধ","ধান","🌾"],["ন","নৌকা","⛵"],
+  ["প","পাখি","🐦"],["ফ","ফুল","🌸"],["ব","বই","📖"],["ভ","ভালুক","🐻"],["ম","মাছ","🐟"],
+  ["য","যমজ","👯"],["র","রকেট","🚀"],["ল","লেবু","🍋"],["শ","শসা","🥒"],["ষ","ষাঁড়","🐂"],["স","সূর্য","☀️"],["হ","হাঁস","🦆"],
+  ["ড়","পাহাড়","⛰️",1],["ঢ়","আষাঢ়","🌧️",1],["য়","ময়ূর","🦚",1],["ৎ","উৎসব","🎉",1],["ং","রং","🎨",1],["ঃ","দুঃখ","😢",1],["ঁ","চাঁদ","🌙",1]];
+const ABC = [["A","Apple","🍎"],["B","Ball","⚽"],["C","Cat","🐱"],["D","Dog","🐶"],["E","Egg","🥚"],["F","Fish","🐟"],["G","Goat","🐐"],
+  ["H","Hat","🎩"],["I","Ice cream","🍦"],["J","Juice","🧃"],["K","Kite","🪁"],["L","Lion","🦁"],["M","Moon","🌙"],["N","Nose","👃"],
+  ["O","Orange","🍊"],["P","Parrot","🦜"],["Q","Queen","👸"],["R","Rabbit","🐇"],["S","Sun","☀️"],["T","Tiger","🐯"],["U","Umbrella","☂️"],
+  ["V","Van","🚐"],["W","Watch","⌚"],["X","Fox","🦊",1],["Y","Yo-yo","🪀"],["Z","Zebra","🦓"]];
+const LSETS = {vowel:VOWELS, cons:CONS, abc:ABC};
+function letterSpeech(set, it){
+  if(set === "abc") return [it[3] ? `${it[0]}, as in ${it[1]}` : `${it[0]} for ${it[1]}`, "en-US"];
+  return [it[3] ? `${it[0]}, ${it[1]}` : `${it[0]} তে ${it[1]}`, "bn-BD"];
+}
+PLAY.abc = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["vowel","Bangla vowels","স্বরবর্ণ"],["cons","Bangla consonants","ব্যঞ্জনবর্ণ"],["abc","A to Z","A থেকে Z"],["trace","Write letters","লিখে শিখি"]],"vowel")}<div id="lz"></div></div>`;
+  bindModes(A, m => m === "trace" ? traceLetters($("#lz")) : letterBoard($("#lz"), m));
+  letterBoard($("#lz"), "vowel");
+};
+function letterBoard(Z, set){
+  const list = LSETS[set];
+  Z.innerHTML = `<div class="lcard" id="lc"></div><div class="lgrid" id="lg"></div>`;
+  const show = (i, b) => {
+    const it = list[i];
+    $("#lc").innerHTML = `<div class="big">${it[0]}</div><div><div class="pic">${it[2]}</div><div class="w">${esc(it[1])}</div></div>`;
+    Z.querySelectorAll(".lt").forEach(x => x.classList.toggle("on", x === b));
+    speak(...letterSpeech(set, it));
+  };
+  list.forEach((it, i) => { const b = choiceBtn(it[0], "lt"); b.addEventListener("click", () => show(i, b)); $("#lg").appendChild(b); });
+  show(0, Z.querySelector(".lt"));
+}
+function traceLetters(Z){
+  let set = "vowel", i = 0;
+  Z.innerHTML = `<div class="modes" id="tset">
+      <button class="tool on" data-s="vowel">অ</button><button class="tool" data-s="cons">ক</button><button class="tool" data-s="abc">A</button></div>
+    <div class="row" style="margin:0 0 10px"><button class="btn" id="tp">◀</button><button class="btn go" id="ts">🔊</button><button class="btn" id="tn">▶</button></div>
+    <div class="canvas-wrap"><canvas></canvas><div class="guide"><div class="glyph" id="gl"></div></div></div>
+    <div class="palette" id="pal"></div>
+    <div class="row"><button class="btn" id="wipe">🧽 ${T("Clear","মুছে ফেলো")}</button></div>`;
+  const pad = makePad(Z.querySelector(".canvas-wrap"), {size: 22});
+  buildPalette($("#pal"), pad);
+  const show = () => {
+    const it = LSETS[set][i]; $("#gl").textContent = it[0]; pad.clear();
+    const lang = set === "abc" ? "en-US" : "bn-BD";
+    speak(set === "abc" ? `Trace the letter ${it[0]}` : `${it[0]} লেখো`, lang);
+  };
+  Z.querySelectorAll("#tset .tool").forEach(b => b.addEventListener("click", () => {
+    Z.querySelectorAll("#tset .tool").forEach(x => x.classList.toggle("on", x === b)); set = b.dataset.s; i = 0; show();
   }));
-  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
-  function round(){
-    const ch = $("#ch"); ch.innerHTML = "";
-    let opts, answer, text;
-    if(mode==="shape"){
-      const shapes = shuffle(Object.keys(SHAPES)).slice(0,3);
-      answer = pick(shapes); text = `Find the ${answer}!`;
-      opts = shapes.map(s=>({key:s, html:svg(s, COLORS[pick(Object.keys(COLORS))])}));
-    } else if(mode==="color"){
-      const cols = shuffle(Object.keys(COLORS)).slice(0,3);
-      answer = pick(cols); text = `Find ${answer}!`;
-      const shp = pick(Object.keys(SHAPES));
-      opts = cols.map(c=>({key:c, html:svg(shp, COLORS[c])}));
-    } else {
-      const big = Math.random()<.5; answer = big ? "big" : "small";
-      text = `Tap the ${answer.toUpperCase()} one!`;
-      const shp = pick(Object.keys(SHAPES)), col = COLORS[pick(Object.keys(COLORS))];
-      opts = shuffle([{key:"big", html:svg(shp,col,1)},{key:"small", html:svg(shp,col,.4)}]);
-    }
-    $("#q").textContent = text; speak(text);
-    opts.forEach(o=>{
-      const b = document.createElement("button"); b.className="choice"; b.innerHTML=o.html; b.setAttribute("aria-label",o.key);
-      b.addEventListener("click",()=>{ if(o.key===answer){ right(b); setTimeout(round,1400);} else wrong(b); });
-      ch.appendChild(b);
-    });
-  }
-  round();
+  $("#tp").addEventListener("click", () => { i = (i - 1 + LSETS[set].length) % LSETS[set].length; show(); });
+  $("#tn").addEventListener("click", () => { i = (i + 1) % LSETS[set].length; show(); });
+  $("#ts").addEventListener("click", () => speak(...letterSpeech(set, LSETS[set][i])));
+  $("#wipe").addEventListener("click", () => pad.clear());
+  show();
 }
 
-/* ---------- COUNT: tap to count, how many? ---------- */
+/* =====================================================================
+   NUMBERS: tap & count, how many, 1–100, times tables
+   ===================================================================== */
 const THINGS = ["🍎","🐥","🚗","⚽","🐟","🌼","🍌","🦋","🧸","🍓"];
-const WORDS = ["zero","one","two","three","four","five","six","seven","eight","nine","ten"];
-function playNum(){
-  const A = $("#playArea");
-  A.innerHTML = `<div class="play">
-    <div class="modes"><button class="mode on" data-m="count">Tap &amp; Count</button><button class="mode" data-m="quiz">How Many?</button></div>
-    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
-    <div class="items" id="items"></div><div id="below"></div></div>`;
-  let mode="count", max=5, streak=0;
-  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{
-    mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); round();
-  }));
-  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
-  function round(){
-    const n = 1+rand(max), thing = pick(THINGS), items=$("#items"), below=$("#below");
-    items.innerHTML=""; below.innerHTML="";
-    for(let i=0;i<n;i++){ const b=document.createElement("button"); b.textContent=thing; items.appendChild(b); }
-    if(mode==="count"){
-      const text="Tap each one and count!"; $("#q").textContent=text; speak(text);
-      below.innerHTML=`<div class="bigcount" id="cnt"></div>`;
-      let c=0;
-      items.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+PLAY.num = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["count","Tap & Count","ছুঁয়ে গোনো"],["quiz","How Many?","কয়টা?"],["board","1 to 100","১ থেকে ১০০"],["table","Times tables","নামতা"]],"count")}<div id="nz"></div></div>`;
+  bindModes(A, m => ({count:countGame, quiz:countGame, board:hundredBoard, table:timesTables})[m]($("#nz"), m));
+  countGame($("#nz"), "count");
+};
+let countMax = 5, countStreak = 0;
+function countGame(Z, mode){
+  Z.innerHTML = PROMPT + `<div class="items" id="items"></div><div id="below"></div>`; bindSay(Z);
+  const round = () => {
+    const n = 1 + rand(countMax), thing = pick(THINGS), items = $("#items"), below = $("#below");
+    items.innerHTML = ""; below.innerHTML = "";
+    for(let i=0;i<n;i++){ const b = document.createElement("button"); b.textContent = thing; items.appendChild(b); }
+    if(mode === "count"){
+      ask(T("Tap each one and count!","প্রতিটা ছুঁয়ে গোনো!"));
+      below.innerHTML = `<div class="bigcount" id="cnt"></div>`;
+      let c = 0;
+      items.querySelectorAll("button").forEach(b => b.addEventListener("click", () => {
         if(b.classList.contains("counted")) return;
-        b.classList.add("counted"); c++; $("#cnt").textContent=c; speak(WORDS[c]);
-        if(c===n){ setTimeout(()=>{ right(); speak(`${WORDS[n]}! Great counting!`); },700); setTimeout(round,2600); }
+        b.classList.add("counted"); c++; $("#cnt").textContent = N(c); speak(numWord(c));
+        if(c === n){ later(() => right(null, T(`${enWord(n)}! Great counting!`, `${bnWord(n)}! দারুণ গোনা!`)), 700); later(round, 2600); }
       }));
     } else {
-      const text="How many are there?"; $("#q").textContent=text; speak(text);
-      const set = new Set([n]); while(set.size<3){ set.add(1+rand(Math.max(max,4))); }
-      const ch=document.createElement("div"); ch.className="choices";
-      shuffle([...set]).forEach(v=>{
-        const b=document.createElement("button"); b.className="choice num"; b.textContent=v;
-        b.addEventListener("click",()=>{
-          if(v===n){ right(b); streak++; if(streak>=3 && max<10){ max++; streak=0; } setTimeout(round,1400); }
-          else { wrong(b); streak=0; }
+      ask(T("How many are there?","কয়টা আছে?"));
+      const set = new Set([n]); while(set.size < 3) set.add(1 + rand(Math.max(countMax, 4)));
+      const ch = document.createElement("div"); ch.className = "choices";
+      shuffle([...set]).forEach(v => {
+        const b = choiceBtn(N(v), "choice num");
+        b.addEventListener("click", () => {
+          if(v === n){ right(b); countStreak++; if(countStreak >= 3 && countMax < 10){ countMax++; countStreak = 0; } later(round, 1400); }
+          else { wrong(b); countStreak = 0; }
         });
         ch.appendChild(b);
       });
       below.appendChild(ch);
     }
-  }
+  };
   round();
 }
+function hundredBoard(Z){
+  Z.innerHTML = `<div class="numcard" id="nc"></div>
+    <div class="row" style="margin:0"><button class="btn go" id="along">▶ ${T("Count along","একসাথে গুনি")}</button></div>
+    <div class="hund" id="hund"></div>`;
+  let sel = 1, running = false;
+  const show = (i, talk = true) => {
+    sel = i;
+    $("#nc").innerHTML = `<div class="big">${N(i)}</div>
+      <div class="forms"><div><small>বাংলা</small><b>${bnDigits(i)}</b></div><div><small>English</small><b>${i}</b></div><div><small>Roman</small><b>${roman(i)}</b></div></div>
+      <div class="words"><span>${bnWord(i)}</span><span>${enWord(i)}</span></div>
+      <div class="row" style="margin-top:8px"><button class="mode" id="sb">🔊 বাংলা</button><button class="mode" id="se">🔊 English</button></div>`;
+    $("#sb").addEventListener("click", () => speak(bnWord(sel), "bn-BD"));
+    $("#se").addEventListener("click", () => speak(enWord(sel), "en-US"));
+    Z.querySelectorAll(".hn").forEach(x => x.classList.toggle("on", +x.dataset.n === i));
+    if(talk) speak(numWord(i));
+  };
+  for(let i=1;i<=100;i++){ const b = choiceBtn(N(i), "hn"); b.dataset.n = i; b.addEventListener("click", () => { stop(); show(i); }); $("#hund").appendChild(b); }
+  const btn = $("#along");
+  const stop = () => { if(running){ running = false; epoch++; btn.textContent = "▶ " + T("Count along","একসাথে গুনি"); } };
+  btn.addEventListener("click", async () => {
+    if(running){ stop(); return; }
+    running = true; btn.textContent = "⏸ " + T("Stop","থামো");
+    const e = ++epoch;
+    for(let i = sel === 100 ? 1 : sel; i <= 100; i++){
+      if(e !== epoch) return;
+      show(i); await wait(1250);
+    }
+    if(e === epoch){ running = false; btn.textContent = "▶ " + T("Count along","একসাথে গুনি"); right(null, T("You counted to one hundred!","তুমি একশো পর্যন্ত গুনেছ!")); }
+  });
+  show(1, false);
+}
+const BN_LOC = ["","একে","দুগুণে","তিনে","চারে","পাঁচে","ছয়ে","সাতে","আটে","নয়ে","দশে"];
+const bnChant = (a, b) => `${bnWord(a)} ${BN_LOC[b]} ${bnWord(a*b)}`;
+const enChant = (a, b) => `${enWord(a)} times ${enWord(b)} is ${enWord(a*b)}`;
+function timesTables(Z){
+  Z.innerHTML = `<div class="tpick" id="tp"></div><div id="tt"></div>
+    <p class="muted">${T("Times tables are for older children. Sit together and chant along.","নামতা বড় বাচ্চাদের জন্য। পাশে বসে একসাথে সুর করে বলুন।")}</p>`;
+  for(let a=1;a<=25;a++){ const b = choiceBtn(N(a)); b.dataset.a = a; b.addEventListener("click", () => table(a)); $("#tp").appendChild(b); }
+  const table = a => {
+    epoch++; hush();
+    Z.querySelectorAll("#tp button").forEach(x => x.classList.toggle("on", +x.dataset.a === a));
+    let rows = "";
+    for(let b=1;b<=10;b++) rows += `<button class="trow" data-b="${b}"><span>${bnDigits(a)} × ${bnDigits(b)} = ${bnDigits(a*b)}</span><span class="en">${a} × ${b} = ${a*b}</span><span class="tchant">${esc(bnChant(a,b))} · ${esc(enChant(a,b))}</span></button>`;
+    $("#tt").innerHTML = `<div class="prompt">${T(`Table of ${a}`, `${bnDigits(a)}-এর নামতা`)}</div>
+      <div class="row" style="margin:0 0 12px"><button class="btn go" id="pb">▶ বাংলায় শোনো</button><button class="btn go" id="pe">▶ Listen in English</button></div>
+      <div class="trows">${rows}</div>`;
+    $("#tt").querySelectorAll(".trow").forEach(r => r.addEventListener("click", () => {
+      epoch++; const b = +r.dataset.b; mark(b); speak(L === "bn" ? bnChant(a,b) : enChant(a,b), L === "bn" ? "bn-BD" : "en-US");
+    }));
+    const mark = b => $("#tt").querySelectorAll(".trow").forEach(x => x.classList.toggle("on", +x.dataset.b === b));
+    const playAll = async lang => {
+      const e = ++epoch;
+      for(let b=1;b<=10;b++){
+        if(e !== epoch) return;
+        mark(b); speak(lang === "bn" ? bnChant(a,b) : enChant(a,b), lang === "bn" ? "bn-BD" : "en-US");
+        await wait(lang === "bn" ? 2600 : 3000);
+      }
+      if(e === epoch){ mark(0); addStar(); celebrate(); }
+    };
+    $("#pb").addEventListener("click", () => playAll("bn"));
+    $("#pe").addEventListener("click", () => playAll("en"));
+  };
+  table(2);
+}
 
-/* ---------- CODE: program the bee ---------- */
+/* =====================================================================
+   THINK: shapes, colors, big & small, memory, patterns
+   ===================================================================== */
+const SHAPES = {
+  circle:c => `<circle cx="50" cy="50" r="42" fill="${c}"/>`,
+  square:c => `<rect x="10" y="10" width="80" height="80" rx="8" fill="${c}"/>`,
+  triangle:c => `<polygon points="50,8 94,90 6,90" fill="${c}"/>`,
+  star:c => `<polygon points="50,5 61,38 96,38 68,59 78,93 50,72 22,93 32,59 4,38 39,38" fill="${c}"/>`,
+  heart:c => `<path d="M50 88 C10 60 4 38 18 22 C30 9 46 14 50 28 C54 14 70 9 82 22 C96 38 90 60 50 88Z" fill="${c}"/>`
+};
+const SHAPE_N = {circle:["circle","বৃত্ত"], square:["square","বর্গ"], triangle:["triangle","ত্রিভুজ"], star:["star","তারা"], heart:["heart","হৃদয়"]};
+const COLORS = {red:"#ff4d4d", blue:"#3b8cff", yellow:"#ffd43b", green:"#40c057", purple:"#9b59ff", orange:"#ff922b"};
+const COLOR_N = {red:["red","লাল"], blue:["blue","নীল"], yellow:["yellow","হলুদ"], green:["green","সবুজ"], purple:["purple","বেগুনি"], orange:["orange","কমলা"]};
+const svg = (shape, color, scale = 1) => `<svg viewBox="0 0 100 100" aria-hidden="true"><g transform="translate(${50-50*scale} ${50-50*scale}) scale(${scale})">${SHAPES[shape](color)}</g></svg>`;
+PLAY.think = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["shape","Shapes","আকৃতি"],["color","Colors","রং"],["size","Big & Small","বড় ও ছোট"],["memory","Memory","মেমোরি"],["pattern","Patterns","প্যাটার্ন"]],"shape")}<div id="tz"></div></div>`;
+  bindModes(A, m => thinkRound($("#tz"), m));
+  thinkRound($("#tz"), "shape");
+};
+function thinkRound(Z, mode){
+  if(mode === "memory") return memoryGame(Z);
+  if(mode === "pattern") return patternGame(Z);
+  Z.innerHTML = PROMPT + `<div class="choices" id="ch"></div>`; bindSay(Z);
+  let opts, answer, text;
+  if(mode === "shape"){
+    const shapes = shuffle(Object.keys(SHAPES)).slice(0, 3); answer = pick(shapes);
+    text = T(`Find the ${SHAPE_N[answer][0]}!`, `${SHAPE_N[answer][1]} খুঁজে বের করো!`);
+    opts = shapes.map(s => ({key:s, html:svg(s, COLORS[pick(Object.keys(COLORS))])}));
+  } else if(mode === "color"){
+    const cols = shuffle(Object.keys(COLORS)).slice(0, 3); answer = pick(cols);
+    text = T(`Find ${COLOR_N[answer][0]}!`, `${COLOR_N[answer][1]} রং খুঁজে বের করো!`);
+    const shp = pick(Object.keys(SHAPES));
+    opts = cols.map(c => ({key:c, html:svg(shp, COLORS[c])}));
+  } else {
+    answer = Math.random() < .5 ? "big" : "small";
+    text = answer === "big" ? T("Tap the BIG one!","বড়টা ছোঁও!") : T("Tap the SMALL one!","ছোটটা ছোঁও!");
+    const shp = pick(Object.keys(SHAPES)), col = COLORS[pick(Object.keys(COLORS))];
+    opts = shuffle([{key:"big", html:svg(shp, col, 1)}, {key:"small", html:svg(shp, col, .4)}]);
+  }
+  ask(text);
+  opts.forEach(o => {
+    const b = choiceBtn(o.html); b.setAttribute("aria-label", o.key);
+    b.addEventListener("click", () => { if(o.key === answer){ right(b); later(() => thinkRound(Z, mode), 1400); } else wrong(b); });
+    $("#ch").appendChild(b);
+  });
+}
+let memPairs = 3;
+function memoryGame(Z){
+  const pairs = memPairs, faces = shuffle(["🐶","🐱","🐰","🦁","🐸","🐵","🍎","🍌","🚗","⭐","🌙","⚽"]).slice(0, pairs);
+  const deck = shuffle([...faces, ...faces]), cols = {3:3, 4:4, 5:5, 6:4}[pairs];
+  Z.innerHTML = `<div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div><div class="mem" id="mem" style="grid-template-columns:repeat(${cols},1fr)"></div>`;
+  bindSay(Z); ask(T("Find the matching pairs!","একই রকম জোড়া খুঁজে বের করো!"));
+  let open = [], found = 0, lock = false;
+  deck.forEach(f => {
+    const c = choiceBtn(`<span>${f}</span>`, "mcard"); c.dataset.f = f;
+    c.addEventListener("click", () => {
+      if(lock || c.classList.contains("up")) return;
+      c.classList.add("up"); open.push(c);
+      if(open.length < 2) return;
+      lock = true; const [a, b] = open;
+      if(a.dataset.f === b.dataset.f){
+        a.classList.add("got"); b.classList.add("got"); open = []; lock = false; found++;
+        if(found === pairs){ right(null, T("You found them all!","তুমি সবগুলো খুঁজে পেয়েছ!")); memPairs = Math.min(6, pairs + 1); later(() => memoryGame(Z), 2400); }
+        else speak(T("A match!","মিলে গেছে!"));
+      } else later(() => { a.classList.remove("up"); b.classList.remove("up"); open = []; lock = false; }, 900);
+    });
+    $("#mem").appendChild(c);
+  });
+}
+function patternGame(Z){
+  const sets = [["🍎","🍌","🍇"],["🐶","🐱","🐰"],["🔴","🔵","🟡"],["⭐","🌙","☀️"],["🚗","✈️","⛵"]];
+  const s = pick(sets), unit = pick([[0,1],[0,0,1],[0,1,1],[0,1,2]]);
+  const shown = unit.length * 2 + rand(unit.length), ans = s[unit[shown % unit.length]];
+  let seq = ""; for(let i=0;i<shown;i++) seq += `<span>${s[unit[i % unit.length]]}</span>`;
+  Z.innerHTML = PROMPT + `<div class="pat" id="pat">${seq}<span class="q" id="pq">❓</span></div><div class="choices" id="ch"></div>`; bindSay(Z);
+  ask(T("What comes next?","এরপর কোনটা আসবে?"));
+  shuffle([...s]).forEach(e => {
+    const b = choiceBtn(e, "choice num");
+    b.addEventListener("click", () => {
+      if(e === ans){ $("#pq").textContent = e; right(b); later(() => patternGame(Z), 1600); } else wrong(b);
+    });
+    $("#ch").appendChild(b);
+  });
+}
+
+/* =====================================================================
+   CODE: program the bee
+   ===================================================================== */
 const LEVELS = [
   {size:3, bee:[0,1], flower:[2,1], rocks:[]},
   {size:3, bee:[0,2], flower:[0,0], rocks:[]},
@@ -474,325 +869,743 @@ const LEVELS = [
   {size:5, bee:[0,4], flower:[4,0], rocks:[[2,2],[1,3],[3,1]]},
   {size:5, bee:[2,4], flower:[2,0], rocks:[[2,2],[1,2],[3,2]]}
 ];
-const DIRS = {up:[0,-1,"⬆️"], down:[0,1,"⬇️"], left:[-1,0,"⬅️"], right:[1,0,"➡️"]};
-function playCode(){
-  const A = $("#playArea");
-  A.innerHTML = `<div class="play">
-    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
-    <div class="board" id="board"></div>
-    <div class="seq" id="seq"></div>
-    <div class="arrows">
-      <span></span><button class="arrow" data-d="up" aria-label="up">⬆️</button><span></span>
-      <button class="arrow" data-d="left" aria-label="left">⬅️</button><button class="arrow" data-d="down" aria-label="down">⬇️</button><button class="arrow" data-d="right" aria-label="right">➡️</button>
-    </div>
-    <div class="row"><button class="btn" id="undo">↩️ Undo</button><button class="btn" id="clr">🗑️ Clear</button><button class="btn go" id="run">▶ Go!</button></div>
-  </div>`;
-  let lvl = 0, prog = [], pos, running=false;
-  try{ lvl = Math.min(parseInt(localStorage.getItem("ll-code")||"0",10)||0, LEVELS.length-1); }catch(e){}
-  const L = ()=>LEVELS[lvl];
-  const isRock = (x,y)=>L().rocks.some(r=>r[0]===x&&r[1]===y);
-  function draw(trail=[]){
-    const b=$("#board"), n=L().size; b.style.gridTemplateColumns=`repeat(${n},1fr)`; b.innerHTML="";
+const DIRS = {up:[0,-1,"⬆️","up","উপরে"], down:[0,1,"⬇️","down","নিচে"], left:[-1,0,"⬅️","left","বামে"], right:[1,0,"➡️","right","ডানে"]};
+PLAY.code = A => {
+  A.innerHTML = `<div class="play">${PROMPT}<div class="board" id="board"></div><div class="seq" id="seq"></div>
+    <div class="arrows"><span></span><button class="arrow" data-d="up" aria-label="up">⬆️</button><span></span>
+      <button class="arrow" data-d="left" aria-label="left">⬅️</button><button class="arrow" data-d="down" aria-label="down">⬇️</button><button class="arrow" data-d="right" aria-label="right">➡️</button></div>
+    <div class="row"><button class="btn" id="undo">↩️ ${T("Undo","ফেরাও")}</button><button class="btn" id="clr">🗑️ ${T("Clear","মুছে ফেলো")}</button><button class="btn go" id="run">▶ ${T("Go!","চলো!")}</button></div></div>`;
+  bindSay(A);
+  let lvl = Math.min(parseInt(store.get("ll-code", 0), 10) || 0, LEVELS.length - 1), prog = [], pos, running = false;
+  const Lv = () => LEVELS[lvl], isRock = (x, y) => Lv().rocks.some(r => r[0] === x && r[1] === y);
+  const draw = (trail = []) => {
+    const b = $("#board"), n = Lv().size; b.style.gridTemplateColumns = `repeat(${n},1fr)`; b.innerHTML = "";
     for(let y=0;y<n;y++) for(let x=0;x<n;x++){
-      const c=document.createElement("div"); c.className="cell";
-      if(trail.some(t=>t[0]===x&&t[1]===y)) c.classList.add("path");
-      if(isRock(x,y)) c.textContent="🪨";
-      if(L().flower[0]===x&&L().flower[1]===y) c.textContent="🌸";
-      if(pos[0]===x&&pos[1]===y) c.textContent="🐝";
+      const c = document.createElement("div"); c.className = "cell";
+      if(trail.some(t => t[0] === x && t[1] === y)) c.classList.add("path");
+      if(isRock(x, y)) c.textContent = "🪨";
+      if(Lv().flower[0] === x && Lv().flower[1] === y) c.textContent = "🌸";
+      if(pos[0] === x && pos[1] === y) c.textContent = "🐝";
       b.appendChild(c);
     }
-  }
-  function drawSeq(active=-1){
-    const s=$("#seq"); s.innerHTML="";
-    if(!prog.length){ s.innerHTML=`<span class="hint">Tap arrows to make a plan</span>`; return; }
-    prog.forEach((d,i)=>{ const e=document.createElement("div"); e.className="step"+(i===active?" now":""); e.textContent=DIRS[d][2]; s.appendChild(e); });
-  }
-  function start(){
-    pos=[...L().bee]; prog=[]; draw(); drawSeq();
-    const text = lvl===0 ? "Help the bee fly to the flower! Tap the arrows, then press Go." : `Level ${lvl+1}. Help the bee find the flower!`;
-    $("#q").textContent = "Help 🐝 reach 🌸"; speak(text);
-  }
-  A.querySelectorAll(".arrow").forEach(b=>b.addEventListener("click",()=>{
-    if(running || prog.length>=12) return; prog.push(b.dataset.d); drawSeq(); speak(b.dataset.d);
+  };
+  const drawSeq = (active = -1) => {
+    const s = $("#seq"); s.innerHTML = "";
+    if(!prog.length){ s.innerHTML = `<span class="hint">${T("Tap arrows to make a plan","পরিকল্পনা বানাতে তীর চিহ্ন ছোঁও")}</span>`; return; }
+    prog.forEach((d, i) => { const e = document.createElement("div"); e.className = "step" + (i === active ? " now" : ""); e.textContent = DIRS[d][2]; s.appendChild(e); });
+  };
+  const start = () => {
+    pos = [...Lv().bee]; prog = []; draw(); drawSeq();
+    ask(lvl === 0 ? T("Help the bee fly to the flower! Tap the arrows, then press Go.","মৌমাছিকে ফুলের কাছে উড়িয়ে নাও! তীর চিহ্ন ছোঁও, তারপর চলো চাপো।")
+                  : T(`Level ${lvl+1}. Help the bee find the flower!`, `লেভেল ${bnDigits(lvl+1)}। মৌমাছিকে ফুলের কাছে নাও!`),
+        T("Help 🐝 reach 🌸","🐝-কে 🌸-এর কাছে নাও"));
+  };
+  A.querySelectorAll(".arrow").forEach(b => b.addEventListener("click", () => {
+    if(running || prog.length >= 12) return; prog.push(b.dataset.d); drawSeq(); speak(T(DIRS[b.dataset.d][3], DIRS[b.dataset.d][4]));
   }));
-  $("#undo").addEventListener("click",()=>{ if(!running){ prog.pop(); drawSeq(); }});
-  $("#clr").addEventListener("click",()=>{ if(!running){ prog=[]; pos=[...L().bee]; draw(); drawSeq(); }});
-  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
-  $("#run").addEventListener("click",async()=>{
-    if(running||!prog.length) return; running=true; pos=[...L().bee]; const trail=[[...pos]]; draw(trail);
-    let ok=true;
+  $("#undo").addEventListener("click", () => { if(!running){ prog.pop(); drawSeq(); } });
+  $("#clr").addEventListener("click", () => { if(!running){ prog = []; pos = [...Lv().bee]; draw(); drawSeq(); } });
+  $("#run").addEventListener("click", async () => {
+    if(running || !prog.length) return;
+    running = true; const e = epoch; pos = [...Lv().bee]; const trail = [[...pos]]; draw(trail);
+    let ok = true;
     for(let i=0;i<prog.length;i++){
-      drawSeq(i); await new Promise(r=>setTimeout(r,550));
-      const [dx,dy]=DIRS[prog[i]], nx=pos[0]+dx, ny=pos[1]+dy;
-      if(nx<0||ny<0||nx>=L().size||ny>=L().size||isRock(nx,ny)){ ok=false; speak(isRock(nx,ny)?"Bump! A rock is in the way.":"Bump! That is the edge."); break; }
-      pos=[nx,ny]; trail.push([...pos]); draw(trail);
+      drawSeq(i); await wait(550); if(e !== epoch) return;
+      const [dx, dy] = DIRS[prog[i]], nx = pos[0] + dx, ny = pos[1] + dy;
+      if(nx < 0 || ny < 0 || nx >= Lv().size || ny >= Lv().size || isRock(nx, ny)){
+        ok = false; speak(isRock(nx, ny) ? T("Bump! A rock is in the way.","ধাক্কা! পথে একটা পাথর।") : T("Bump! That is the edge.","ধাক্কা! এটা কিনারা।")); break;
+      }
+      pos = [nx, ny]; trail.push([...pos]); draw(trail);
     }
-    await new Promise(r=>setTimeout(r,300));
-    if(ok && pos[0]===L().flower[0] && pos[1]===L().flower[1]){
-      right(); setTimeout(()=>{ lvl=(lvl+1)%LEVELS.length; try{localStorage.setItem("ll-code",String(lvl));}catch(e){} running=false; start(); },1800);
+    await wait(300); if(e !== epoch) return;
+    if(ok && pos[0] === Lv().flower[0] && pos[1] === Lv().flower[1]){
+      right(); later(() => { lvl = (lvl + 1) % LEVELS.length; store.set("ll-code", lvl); running = false; start(); }, 1800);
     } else {
-      if(ok) speak("Not there yet! Change your plan and try again.");
-      setTimeout(()=>{ pos=[...L().bee]; draw(); drawSeq(); running=false; },1200);
+      if(ok) speak(T("Not there yet! Change your plan and try again.","এখনো পৌঁছায়নি! পরিকল্পনা বদলে আবার চেষ্টা করো।"));
+      later(() => { pos = [...Lv().bee]; draw(); drawSeq(); running = false; }, 1200);
     }
   });
   start();
-}
-
-/* ---------- DRAW: free draw + trace ---------- */
-const TRACE = {
-  none:"",
-  circle:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
-  square:`<svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
-  triangle:`<svg viewBox="0 0 100 100"><polygon points="50,12 90,88 10,88" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
-  house:`<svg viewBox="0 0 100 100"><polygon points="50,10 88,45 12,45" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><rect x="20" y="45" width="60" height="45" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><rect x="42" y="62" width="16" height="28" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/></svg>`,
-  sun:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"/><g stroke="#cfc6e0" stroke-width="3" stroke-dasharray="4 5"><line x1="50" y1="5" x2="50" y2="22"/><line x1="50" y1="78" x2="50" y2="95"/><line x1="5" y1="50" x2="22" y2="50"/><line x1="78" y1="50" x2="95" y2="50"/><line x1="18" y1="18" x2="30" y2="30"/><line x1="70" y1="70" x2="82" y2="82"/><line x1="82" y1="18" x2="70" y2="30"/><line x1="18" y1="82" x2="30" y2="70"/></g></svg>`
 };
-function playDraw(){
-  const A = $("#playArea");
-  A.innerHTML = `<div class="play">
-    <div class="modes" id="trace">${Object.keys(TRACE).map((k,i)=>`<button class="mode${i?"":" on"}" data-t="${k}">${k==="none"?"Free draw":"Trace "+k}</button>`).join("")}</div>
-    <div class="canvas-wrap"><canvas id="cv"></canvas><div class="guide" id="guide"></div></div>
-    <div class="palette" id="pal"></div>
-    <div class="row">
-      <button class="tool" data-s="8">Thin</button><button class="tool on" data-s="18">Thick</button><button class="tool" data-s="34">Fat</button>
-      <button class="tool" id="eraser">🧽 Eraser</button><button class="btn" id="wipe">🗑️ New page</button>
-    </div></div>`;
-  const cv=$("#cv"), ctx=cv.getContext("2d");
-  let color="#ff4d4d", size=18, erasing=false, drawing=false, last=null;
-  function fit(){
-    const r=cv.getBoundingClientRect(), d=window.devicePixelRatio||1;
-    const img = cv.width ? ctx.getImageData(0,0,cv.width,cv.height) : null;
-    cv.width=r.width*d; cv.height=r.height*d; ctx.setTransform(d,0,0,d,0,0);
-    ctx.fillStyle="#fff"; ctx.fillRect(0,0,r.width,r.height);
-    if(img) ctx.putImageData(img,0,0);
-  }
-  fit(); window.onresize = ()=>{ if(current==="draw" && cv.isConnected && cv.offsetParent) fit(); };
-  const pal=$("#pal");
-  ["#ff4d4d","#ff922b","#ffd43b","#40c057","#3b8cff","#9b59ff","#ff6ec7","#8b5a2b","#2b2340"].forEach((c,i)=>{
-    const b=document.createElement("button"); b.className="swatch"+(i?"":" on"); b.style.background=c; b.setAttribute("aria-label","color");
-    b.addEventListener("click",()=>{ color=c; erasing=false; $("#eraser").classList.remove("on"); pal.querySelectorAll(".swatch").forEach(x=>x.classList.toggle("on",x===b)); });
-    pal.appendChild(b);
+
+/* =====================================================================
+   DRAW (shared drawing pad)
+   ===================================================================== */
+function makePad(wrap, opts = {}){
+  const cv = wrap.querySelector("canvas"), ctx = cv.getContext("2d");
+  let color = opts.color || "#ff4d4d", size = opts.size || 18, erasing = false, drawing = false, last = null;
+  const fit = () => {
+    const r = cv.getBoundingClientRect(), d = window.devicePixelRatio || 1;
+    let img = null; if(cv.width){ try{ img = ctx.getImageData(0, 0, cv.width, cv.height); }catch(e){} }
+    cv.width = Math.max(1, Math.round(r.width * d)); cv.height = Math.max(1, Math.round(r.height * d));
+    ctx.setTransform(d, 0, 0, d, 0, 0); if(img) ctx.putImageData(img, 0, 0);
+  };
+  fit(); window.onresize = () => { if(cv.isConnected && cv.offsetParent) fit(); };
+  const pt = e => { const r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+  const line = (a, b) => {
+    ctx.globalCompositeOperation = erasing ? "destination-out" : "source-over";
+    ctx.strokeStyle = color; ctx.lineWidth = erasing ? size * 1.8 : size; ctx.lineCap = "round"; ctx.lineJoin = "round";
+    ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+  };
+  cv.addEventListener("pointerdown", e => { drawing = true; last = pt(e); line(last, last); try{ cv.setPointerCapture(e.pointerId); }catch(_){} });
+  cv.addEventListener("pointermove", e => { if(!drawing) return; const p = pt(e); line(last, p); last = p; });
+  ["pointerup","pointercancel","pointerleave"].forEach(ev => cv.addEventListener(ev, () => { drawing = false; }));
+  return {
+    setColor(c){ color = c; erasing = false; }, setSize(s){ size = s; }, setErase(v){ erasing = v; },
+    clear(){ ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalCompositeOperation = "source-over"; ctx.clearRect(0, 0, cv.width, cv.height); ctx.restore(); }
+  };
+}
+function buildPalette(el, pad, onPick){
+  ["#ff4d4d","#ff922b","#ffd43b","#40c057","#3b8cff","#9b59ff","#ff6ec7","#8b5a2b","#2b2340"].forEach((c, i) => {
+    const b = choiceBtn("", "swatch" + (i ? "" : " on")); b.style.background = c; b.setAttribute("aria-label", "color");
+    b.addEventListener("click", () => { pad.setColor(c); onPick && onPick(); el.querySelectorAll(".swatch").forEach(x => x.classList.toggle("on", x === b)); });
+    el.appendChild(b);
   });
-  A.querySelectorAll("[data-s]").forEach(b=>b.addEventListener("click",()=>{ size=+b.dataset.s; A.querySelectorAll("[data-s]").forEach(x=>x.classList.toggle("on",x===b)); }));
-  $("#eraser").addEventListener("click",e=>{ erasing=!erasing; e.currentTarget.classList.toggle("on",erasing); });
-  $("#wipe").addEventListener("click",()=>{ const r=cv.getBoundingClientRect(); ctx.fillStyle="#fff"; ctx.fillRect(0,0,r.width,r.height); speak("A fresh new page!"); });
-  A.querySelectorAll("[data-t]").forEach(b=>b.addEventListener("click",()=>{
-    $("#guide").innerHTML=TRACE[b.dataset.t]; A.querySelectorAll("[data-t]").forEach(x=>x.classList.toggle("on",x===b));
-    if(b.dataset.t!=="none") speak(`Trace the ${b.dataset.t} with your finger!`); else speak("Draw anything you like!");
+}
+const G = 'fill="none" stroke="#cfc6e0" stroke-width="3" stroke-dasharray="6 6"';
+const TRACE = {
+  none:["","Free draw","নিজের মতো আঁকো"],
+  circle:[`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" ${G}/></svg>`,"circle","বৃত্ত"],
+  square:[`<svg viewBox="0 0 100 100"><rect x="15" y="15" width="70" height="70" ${G}/></svg>`,"square","বর্গ"],
+  triangle:[`<svg viewBox="0 0 100 100"><polygon points="50,12 90,88 10,88" ${G}/></svg>`,"triangle","ত্রিভুজ"],
+  house:[`<svg viewBox="0 0 100 100"><polygon points="50,10 88,45 12,45" ${G}/><rect x="20" y="45" width="60" height="45" ${G}/><rect x="42" y="62" width="16" height="28" ${G}/></svg>`,"house","বাড়ি"],
+  sun:[`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="20" ${G}/><g stroke="#cfc6e0" stroke-width="3" stroke-dasharray="4 5"><line x1="50" y1="5" x2="50" y2="22"/><line x1="50" y1="78" x2="50" y2="95"/><line x1="5" y1="50" x2="22" y2="50"/><line x1="78" y1="50" x2="95" y2="50"/><line x1="18" y1="18" x2="30" y2="30"/><line x1="70" y1="70" x2="82" y2="82"/><line x1="82" y1="18" x2="70" y2="30"/><line x1="18" y1="82" x2="30" y2="70"/></g></svg>`,"sun","সূর্য"]
+};
+PLAY.draw = A => {
+  A.innerHTML = `<div class="play">
+    <div class="modes">${Object.entries(TRACE).map(([k,v],i) => `<button class="mode${i?"":" on"}" data-t="${k}">${esc(k === "none" ? T(v[1],v[2]) : T("Trace " + v[1], v[2] + " ট্রেস"))}</button>`).join("")}</div>
+    <div class="canvas-wrap"><canvas></canvas><div class="guide" id="guide"></div></div>
+    <div class="palette" id="pal"></div>
+    <div class="row"><button class="tool" data-s="8">${T("Thin","চিকন")}</button><button class="tool on" data-s="18">${T("Thick","মোটা")}</button><button class="tool" data-s="34">${T("Fat","খুব মোটা")}</button>
+      <button class="tool" id="eraser">🧽 ${T("Eraser","রাবার")}</button><button class="btn" id="wipe">🗑️ ${T("New page","নতুন পাতা")}</button></div></div>`;
+  const pad = makePad(A.querySelector(".canvas-wrap"));
+  buildPalette($("#pal"), pad, () => $("#eraser").classList.remove("on"));
+  A.querySelectorAll("[data-s]").forEach(b => b.addEventListener("click", () => { pad.setSize(+b.dataset.s); A.querySelectorAll("[data-s]").forEach(x => x.classList.toggle("on", x === b)); }));
+  let er = false; $("#eraser").addEventListener("click", e => { er = !er; pad.setErase(er); e.currentTarget.classList.toggle("on", er); });
+  $("#wipe").addEventListener("click", () => { pad.clear(); speak(T("A fresh new page!","নতুন পাতা!")); });
+  A.querySelectorAll("[data-t]").forEach(b => b.addEventListener("click", () => {
+    const v = TRACE[b.dataset.t]; $("#guide").innerHTML = v[0]; A.querySelectorAll("[data-t]").forEach(x => x.classList.toggle("on", x === b));
+    speak(b.dataset.t === "none" ? T("Draw anything you like!","যা খুশি আঁকো!") : T(`Trace the ${v[1]} with your finger!`, `আঙুল দিয়ে ${v[2]} ট্রেস করো!`));
   }));
-  const pt=e=>{ const r=cv.getBoundingClientRect(); return [e.clientX-r.left, e.clientY-r.top]; };
-  function line(a,b){
-    ctx.strokeStyle = erasing ? "#fff" : color; ctx.lineWidth = erasing ? size*1.8 : size;
-    ctx.lineCap="round"; ctx.lineJoin="round"; ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]); ctx.stroke();
+  speak(T("Let's draw! Pick a color and use your finger.","চলো আঁকি! একটা রং বেছে নিয়ে আঙুল দিয়ে আঁকো।"));
+};
+
+/* =====================================================================
+   SCIENCE: sink or float, animal homes
+   ===================================================================== */
+const FLOATS = [["🦆","rubber duck","রাবারের হাঁস"],["🍃","leaf","পাতা"],["🪶","feather","পালক"],["🍎","apple","আপেল"],["⚽","ball","বল"],["🛶","canoe","ডিঙি নৌকা"]];
+const SINKS = [["🪨","rock","পাথর"],["🔑","key","চাবি"],["🪙","coin","পয়সা"],["⚓","anchor","নোঙর"],["🔩","bolt","বল্টু"]];
+const HOMES = {
+  water:{e:"🌊", n:["water","পানি"], at:["in the water","পানিতে"], a:[["🐟","fish","মাছ"],["🐙","octopus","অক্টোপাস"],["🐳","whale","তিমি"],["🐬","dolphin","ডলফিন"],["🦀","crab","কাঁকড়া"]]},
+  farm:{e:"🚜", n:["farm","খামার"], at:["on the farm","খামারে"], a:[["🐄","cow","গরু"],["🐐","goat","ছাগল"],["🐑","sheep","ভেড়া"],["🐔","chicken","মুরগি"],["🐴","horse","ঘোড়া"]]},
+  jungle:{e:"🌴", n:["jungle","জঙ্গল"], at:["in the jungle","জঙ্গলে"], a:[["🐒","monkey","বানর"],["🦜","parrot","টিয়া পাখি"],["🐅","tiger","বাঘ"],["🐘","elephant","হাতি"]]}
+};
+PLAY.sci = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["sink","Sink or Float","ভাসে না ডোবে"],["home","Where Do They Live?","কে কোথায় থাকে?"]],"sink")}<div id="sz"></div></div>`;
+  bindModes(A, m => sciRound($("#sz"), m)); sciRound($("#sz"), "sink");
+};
+function sciRound(Z, mode){
+  Z.innerHTML = PROMPT + `<div id="stage"></div><div class="choices" id="ch"></div>`; bindSay(Z);
+  let busy = false;
+  if(mode === "sink"){
+    const floats = Math.random() < .5, [em, en, bn] = pick(floats ? FLOATS : SINKS), name = T(en, bn);
+    $("#stage").innerHTML = `<div class="tank"><div class="obj" id="obj">${em}</div></div>`;
+    ask(T(`Will the ${en} sink or float?`, `${bn} কি ভাসবে, নাকি ডুবে যাবে?`));
+    [["float","⬆️","Float","ভাসবে"],["sink","⬇️","Sink","ডুববে"]].forEach(([k, ar, le, lb]) => {
+      const b = choiceBtn(`${ar}<small>${T(le, lb)}</small>`, "choice word");
+      b.addEventListener("click", () => {
+        if(busy) return;
+        if((k === "float") === floats){
+          busy = true; $("#obj").style.top = floats ? "12%" : "68%";
+          right(b, floats ? T(`Yes! The ${en} floats!`, `হ্যাঁ! ${bn} ভাসে!`) : T(`Yes! The ${en} sinks!`, `হ্যাঁ! ${bn} ডুবে যায়!`));
+          later(() => sciRound(Z, mode), 2600);
+        } else wrong(b);
+      });
+      $("#ch").appendChild(b);
+    });
+  } else {
+    const keys = Object.keys(HOMES), h = pick(keys), [em, en, bn] = pick(HOMES[h].a);
+    $("#stage").innerHTML = `<div class="bigemoji">${em}</div>`;
+    ask(T(`Where does the ${en} live?`, `${bn} কোথায় থাকে?`));
+    keys.forEach(k => {
+      const b = choiceBtn(`${HOMES[k].e}<small>${T(...HOMES[k].n)}</small>`, "choice word");
+      b.addEventListener("click", () => {
+        if(busy) return;
+        if(k === h){ busy = true; right(b, T(`Yes! The ${en} lives ${HOMES[k].at[0]}!`, `হ্যাঁ! ${bn} ${HOMES[k].at[1]} থাকে!`)); later(() => sciRound(Z, mode), 2200); }
+        else wrong(b);
+      });
+      $("#ch").appendChild(b);
+    });
   }
-  cv.addEventListener("pointerdown",e=>{ drawing=true; last=pt(e); line(last,last); try{cv.setPointerCapture(e.pointerId);}catch(_){} });
-  cv.addEventListener("pointermove",e=>{ if(!drawing) return; const p=pt(e); line(last,p); last=p; });
-  ["pointerup","pointercancel","pointerleave"].forEach(ev=>cv.addEventListener(ev,()=>{ drawing=false; }));
-  speak("Let's draw! Pick a color and use your finger.");
 }
 
-/* ---------- SCIENCE: sink or float, animal homes ---------- */
-const FLOATS = [["🦆","rubber duck"],["🍃","leaf"],["🪶","feather"],["🍎","apple"],["⚽","ball"],["🛶","canoe"]];
-const SINKS  = [["🪨","rock"],["🔑","key"],["🪙","coin"],["⚓","anchor"],["🔩","bolt"]];
-const HOMES = {water:{e:"🌊",n:"water",a:[["🐟","fish"],["🐙","octopus"],["🐳","whale"],["🐬","dolphin"],["🦀","crab"]]},
-               farm:{e:"🚜",n:"farm",a:[["🐄","cow"],["🐖","pig"],["🐑","sheep"],["🐔","chicken"],["🐴","horse"]]},
-               jungle:{e:"🌴",n:"jungle",a:[["🐒","monkey"],["🦜","parrot"],["🐅","tiger"],["🦥","sloth"]]}};
-function playSci(){
-  const A=$("#playArea");
-  A.innerHTML=`<div class="play">
-    <div class="modes"><button class="mode on" data-m="sink">Sink or Float</button><button class="mode" data-m="home">Where Do They Live?</button></div>
-    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
-    <div id="stage"></div><div class="choices" id="ch"></div></div>`;
-  let mode="sink", busy=false;
-  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); busy=false; round(); }));
-  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
-  function round(){
-    const st=$("#stage"), ch=$("#ch"); ch.innerHTML="";
-    if(mode==="sink"){
-      const floats=Math.random()<.5, [em,name]=pick(floats?FLOATS:SINKS);
-      st.innerHTML=`<div class="tank"><div class="obj" id="obj">${em}</div></div>`;
-      const text=`Will the ${name} sink or float?`; $("#q").textContent=text; speak(text);
-      [["float","⬆️","Float"],["sink","⬇️","Sink"]].forEach(([k,ar,lab])=>{
-        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${ar}<small>${lab}</small>`;
-        b.addEventListener("click",()=>{
-          if(busy) return;
-          if((k==="float")===floats){
-            busy=true; addStar(); celebrate(); b.classList.add("pop");
-            $("#obj").style.top = floats ? "12%" : "68%";
-            speak(`Yes! The ${name} ${floats?"floats":"sinks"}!`);
-            setTimeout(()=>{ busy=false; round(); },2600);
-          } else wrong(b);
-        });
-        ch.appendChild(b);
-      });
-    } else {
-      const keys=Object.keys(HOMES), home=pick(keys), [em,name]=pick(HOMES[home].a);
-      st.innerHTML=`<div class="bigemoji">${em}</div>`;
-      const text=`Where does the ${name} live?`; $("#q").textContent=text; speak(text);
-      keys.forEach(k=>{
-        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${HOMES[k].e}<small>${HOMES[k].n}</small>`;
-        b.addEventListener("click",()=>{
-          if(busy) return;
-          if(k===home){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! The ${name} lives on the ${HOMES[k].n}!`.replace("on the water","in the water").replace("on the jungle","in the jungle")); setTimeout(()=>{busy=false; round();},2200); }
-          else wrong(b);
-        });
-        ch.appendChild(b);
-      });
-    }
-  }
-  round();
-}
-
-/* ---------- TRAVEL: land / water / sky, what to wear ---------- */
-const WAYS = {land:{e:"🛣️",n:"land",v:[["🚗","car"],["🚌","bus"],["🚂","train"],["🚲","bicycle"],["🚜","tractor"]]},
-              water:{e:"🌊",n:"water",v:[["⛵","sailboat"],["🚢","ship"],["🛶","canoe"],["🚤","speedboat"]]},
-              sky:{e:"☁️",n:"sky",v:[["✈️","airplane"],["🚁","helicopter"],["🪂","parachute"]]}};
+/* =====================================================================
+   TRAVEL
+   ===================================================================== */
+const WAYS = {
+  land:{e:"🛣️", n:["land","স্থল"], go:["goes on the land","স্থলে চলে"], v:[["🚗","car","গাড়ি"],["🚌","bus","বাস"],["🚂","train","ট্রেন"],["🚲","bicycle","সাইকেল"],["🛺","auto rickshaw","অটোরিকশা"],["🚜","tractor","ট্রাক্টর"]]},
+  water:{e:"🌊", n:["water","পানি"], go:["goes on the water","পানিতে চলে"], v:[["⛵","sailboat","পালতোলা নৌকা"],["🚢","ship","জাহাজ"],["🛶","canoe","ডিঙি নৌকা"],["🚤","speedboat","স্পিডবোট"]]},
+  sky:{e:"☁️", n:["sky","আকাশ"], go:["flies in the sky","আকাশে ওড়ে"], v:[["✈️","airplane","উড়োজাহাজ"],["🚁","helicopter","হেলিকপ্টার"],["🪂","parachute","প্যারাসুট"]]}
+};
 const TRIPS = [
-  {place:"the beach", e:"🏖️", wear:[["🕶️","sunglasses"],["👒","sun hat"],["🩳","shorts"]]},
-  {place:"the snow", e:"⛄", wear:[["🧤","mittens"],["🧣","scarf"],["🧥","warm coat"]]},
-  {place:"a rainy day walk", e:"🌧️", wear:[["☂️","umbrella"],["🥾","boots"]]}
+  {e:"🏖️", p:["the beach","সমুদ্র সৈকতে"], wear:[["🕶️","sunglasses","রোদচশমা"],["👒","sun hat","রোদের টুপি"],["🩳","shorts","হাফপ্যান্ট"]]},
+  {e:"⛄", p:["the snow","বরফের দেশে"], wear:[["🧤","mittens","হাতমোজা"],["🧣","scarf","মাফলার"],["🧥","warm coat","গরম জামা"]]},
+  {e:"🌧️", p:["a rainy day walk","বৃষ্টিতে হাঁটতে"], wear:[["☂️","umbrella","ছাতা"],["🥾","rain boots","গামবুট"]]}
 ];
-function playTravel(){
-  const A=$("#playArea");
-  A.innerHTML=`<div class="play">
-    <div class="modes"><button class="mode on" data-m="way">Land, Water or Sky</button><button class="mode" data-m="wear">What to Wear?</button></div>
-    <div class="prompt"><button class="say" aria-label="Say it again">🔊</button><span id="q"></span></div>
-    <div id="stage"></div><div class="choices" id="ch"></div></div>`;
-  let mode="way", busy=false;
-  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); busy=false; round(); }));
-  A.querySelector(".say").addEventListener("click",()=>speak(lastSpoken));
-  function round(){
-    const st=$("#stage"), ch=$("#ch"); ch.innerHTML="";
-    if(mode==="way"){
-      const keys=Object.keys(WAYS), way=pick(keys), [em,name]=pick(WAYS[way].v);
-      st.innerHTML=`<div class="bigemoji">${em}</div>`;
-      const text=`Where does the ${name} go? Land, water, or sky?`; $("#q").textContent=`Where does the ${name} go?`; speak(text);
-      keys.forEach(k=>{
-        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${WAYS[k].e}<small>${WAYS[k].n}</small>`;
-        b.addEventListener("click",()=>{
-          if(busy) return;
-          if(k===way){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! The ${name} goes ${k==="land"?"on the land":k==="water"?"on the water":"in the sky"}!`); setTimeout(()=>{busy=false; round();},2200); }
-          else wrong(b);
-        });
-        ch.appendChild(b);
+PLAY.trav = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["way","Land, Water or Sky","স্থল, পানি না আকাশ"],["wear","What to Take?","কী নেব?"]],"way")}<div id="vz"></div></div>`;
+  bindModes(A, m => travRound($("#vz"), m)); travRound($("#vz"), "way");
+};
+function travRound(Z, mode){
+  Z.innerHTML = PROMPT + `<div id="stage"></div><div class="choices" id="ch"></div>`; bindSay(Z);
+  let busy = false;
+  if(mode === "way"){
+    const keys = Object.keys(WAYS), w = pick(keys), [em, en, bn] = pick(WAYS[w].v);
+    $("#stage").innerHTML = `<div class="bigemoji">${em}</div>`;
+    ask(T(`Where does the ${en} go? Land, water, or sky?`, `${bn} কোথায় চলে? স্থলে, পানিতে, নাকি আকাশে?`), T(`Where does the ${en} go?`, `${bn} কোথায় চলে?`));
+    keys.forEach(k => {
+      const b = choiceBtn(`${WAYS[k].e}<small>${T(...WAYS[k].n)}</small>`, "choice word");
+      b.addEventListener("click", () => {
+        if(busy) return;
+        if(k === w){ busy = true; right(b, T(`Yes! The ${en} ${WAYS[k].go[0]}!`, `হ্যাঁ! ${bn} ${WAYS[k].go[1]}!`)); later(() => travRound(Z, mode), 2200); }
+        else wrong(b);
       });
-    } else {
-      const trip=pick(TRIPS), good=pick(trip.wear);
-      const others=shuffle(TRIPS.filter(t=>t!==trip).map(t=>pick(t.wear)));
-      st.innerHTML=`<div class="bigemoji">${trip.e}</div>`;
-      const text=`We are going to ${trip.place}! What should we take?`; $("#q").textContent=`Going to ${trip.place}!`; speak(text);
-      shuffle([good,...others]).forEach(item=>{
-        const b=document.createElement("button"); b.className="choice word"; b.innerHTML=`${item[0]}<small>${item[1]}</small>`;
-        b.addEventListener("click",()=>{
-          if(busy) return;
-          if(item===good){ busy=true; addStar(); celebrate(); b.classList.add("pop"); speak(`Yes! Take the ${good[1]} to ${trip.place}!`); setTimeout(()=>{busy=false; round();},2200); }
-          else wrong(b);
-        });
-        ch.appendChild(b);
+      $("#ch").appendChild(b);
+    });
+  } else {
+    const trip = pick(TRIPS), good = pick(trip.wear), others = TRIPS.filter(t => t !== trip).map(t => pick(t.wear));
+    $("#stage").innerHTML = `<div class="bigemoji">${trip.e}</div>`;
+    ask(T(`We are going to ${trip.p[0]}! What should we take?`, `আমরা ${trip.p[1]} যাচ্ছি! কী নেব?`), T(`Going to ${trip.p[0]}!`, `চলো ${trip.p[1]}!`));
+    shuffle([good, ...others]).forEach(item => {
+      const b = choiceBtn(`${item[0]}<small>${T(item[1], item[2])}</small>`, "choice word");
+      b.addEventListener("click", () => {
+        if(busy) return;
+        if(item === good){ busy = true; right(b, T(`Yes! Take the ${good[1]} to ${trip.p[0]}!`, `হ্যাঁ! ${good[2]} নিয়ে যাব!`)); later(() => travRound(Z, mode), 2200); }
+        else wrong(b);
       });
-    }
+      $("#ch").appendChild(b);
+    });
   }
+}
+
+/* =====================================================================
+   WORLD: countries, flags, capitals, leaders (data from Wikidata)
+   ===================================================================== */
+let WORLD = null, worldErr = false;
+const flagOf = iso => String.fromCodePoint(...[...iso.toUpperCase()].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+const lab = o => o ? (L === "bn" && o.bn ? o.bn : o.en) : "";
+const labs = arr => (arr || []).map(lab).filter(Boolean).join(", ");
+const EASY = ["BD","IN","NP","BT","LK","PK","MV","MM","CN","JP","KR","SA","AE","TR","GB","US","CA","BR","AU","FR","DE","IT","MY","ID","EG","ZA"];
+async function loadWorld(){
+  if(WORLD || worldErr) return WORLD;
+  try{ const r = await fetch("countries.json"); if(!r.ok) throw 0; WORLD = await r.json(); }
+  catch(e){ worldErr = true; }
+  return WORLD;
+}
+PLAY.world = async A => {
+  A.innerHTML = `<div class="play">${modesHTML([["list","Countries","দেশ"],["quiz","Flag quiz","পতাকা চেনো"]],"list")}<div id="wz"><p class="muted">${T("Loading…","লোড হচ্ছে…")}</p></div></div>`;
+  const e = epoch, data = await loadWorld(); if(e !== epoch) return;
+  if(!data){ $("#wz").innerHTML = `<p class="muted">${T("Country facts are added when the app is built. Open the installed app to see them.","দেশের তথ্য অ্যাপ তৈরির সময় যোগ হয়। ইনস্টল করা অ্যাপে দেখুন।")}</p>`; return; }
+  bindModes(A, m => m === "quiz" ? flagQuiz($("#wz"), data) : countryList($("#wz"), data));
+  countryList($("#wz"), data);
+};
+function countryList(Z, data){
+  const all = data.countries.slice().sort((a, b) => (a.iso === "BD" ? -1 : b.iso === "BD" ? 1 : lab(a.name).localeCompare(lab(b.name), L === "bn" ? "bn" : "en")));
+  Z.innerHTML = `<div id="cd"></div>
+    <input class="search" id="cs" type="search" placeholder="${T("Search a country (grown-ups)","দেশ খুঁজুন (অভিভাবক)")}" autocomplete="off">
+    <div class="flags" id="fl"></div>
+    <p class="muted">${T(`Source: Wikidata, fetched ${data.fetched}. Leaders and other facts change; check official sources for anything important.`,
+      `তথ্যসূত্র: উইকিডাটা, সংগ্রহ ${bnDigits(data.fetched)}। নেতা ও অন্যান্য তথ্য বদলায়; গুরুত্বপূর্ণ বিষয়ে সরকারি সূত্র দেখুন।`)}</p>`;
+  const draw = q => {
+    const fl = $("#fl"); fl.innerHTML = "";
+    const qq = (q || "").trim().toLowerCase();
+    all.filter(c => !qq || (c.name.en || "").toLowerCase().includes(qq) || (c.name.bn || "").includes(qq) || c.iso.toLowerCase() === qq).forEach(c => {
+      const b = choiceBtn(`<div class="f">${flagOf(c.iso)}</div><span></span>`); b.querySelector("span").textContent = lab(c.name);
+      b.addEventListener("click", () => { showCountry(c); window.scrollTo({top: Z.offsetTop - 10, behavior: "smooth"}); });
+      fl.appendChild(b);
+    });
+  };
+  const showCountry = c => {
+    const row = (lbl, val, extra = "") => val ? `<div><small>${lbl}</small><b></b>${extra}</div>`.replace("<b></b>", `<b>${esc(val)}</b>`) : "";
+    const yr = s => s ? (L === "bn" ? bnDigits(s.slice(0,4)) : s.slice(0,4)) : "";
+    const people = (arr, titles, status, role, fallbackEn, fallbackBn, both) => {
+      const title = labs(titles) || T(fallbackEn, fallbackBn);
+      if(!arr || !arr.length){
+        if(status === "check") return `<div><small>${esc(title)}</small><b>—</b><i> · ${T("Records disagree, so this is left out. Please check an official source.","তথ্যে মিল নেই, তাই দেখানো হয়নি। সরকারি সূত্র দেখুন।")}</i></div>`;
+        return "";
+      }
+      let note = arr[0].start ? ` · ${T("since","থেকে")} ${yr(arr[0].start)}` : "";
+      if(both) note += ` · ${T("head of state and government","রাষ্ট্র ও সরকারপ্রধান")}`;
+      const chk = c.checked && c.checked[role];
+      if(chk) note += ` · ${T("checked","যাচাই")} ${L === "bn" ? bnDigits(chk.date) : chk.date}`;
+      return row(title, labs(arr), note ? `<i>${esc(note)}</i>` : "");
+    };
+    const same = (c.headOfState || []).length && JSON.stringify((c.headOfState||[]).map(x => x.en)) === JSON.stringify((c.headOfGov||[]).map(x => x.en));
+    const cur = (c.currency || []).map(x => lab(x) + (x.code ? ` (${x.code})` : "")).join(", ");
+    $("#cd").innerHTML = `<div class="detail"><div class="flagbig">${flagOf(c.iso)}</div><h3></h3><p class="other"></p>
+      <div class="facts">
+        ${row(T("Capital","রাজধানী"), labs(c.capital))}
+        ${row(T("Currency","মুদ্রা"), cur)}
+        ${people(c.headOfState, c.headOfStateTitle, c.hosStatus, "headOfState", "Head of state", "রাষ্ট্রপ্রধান", same)}
+        ${same ? "" : people(c.headOfGov, c.headOfGovTitle, c.hogStatus, "headOfGov", "Head of government", "সরকারপ্রধান")}
+        ${row(T("Parliament","সংসদ"), labs(c.parliament))}
+      </div>
+      <div class="row"><button class="btn go" id="csay">🔊</button></div></div>`;
+    $("#cd h3").textContent = lab(c.name);
+    $("#cd .other").textContent = L === "bn" ? c.name.en : (c.name.bn || "");
+    const talk = () => speak(T(`${c.name.en}. The capital is ${labs(c.capital) || "not listed"}.`,
+      `${lab(c.name)}। রাজধানী ${labs(c.capital) || "জানা নেই"}।`));
+    $("#csay").addEventListener("click", talk); talk();
+  };
+  $("#cs").addEventListener("input", e => draw(e.target.value));
+  draw("");
+  showCountry(all[0]);
+}
+function flagQuiz(Z, data){
+  let easy = true;
+  Z.innerHTML = `<div class="modes"><button class="tool on" id="qe">${T("Well-known","পরিচিত দেশ")}</button><button class="tool" id="qa">${T("All countries","সব দেশ")}</button></div><div id="qz"></div>`;
+  $("#qe").addEventListener("click", () => { easy = true; $("#qe").classList.add("on"); $("#qa").classList.remove("on"); round(); });
+  $("#qa").addEventListener("click", () => { easy = false; $("#qa").classList.add("on"); $("#qe").classList.remove("on"); round(); });
+  const round = () => {
+    const pool = easy ? data.countries.filter(c => EASY.includes(c.iso)) : data.countries;
+    const opts = shuffle(pool.slice()).slice(0, 3), ans = pick(opts);
+    $("#qz").innerHTML = PROMPT + `<div class="flagbig">${flagOf(ans.iso)}</div><div class="choices" id="ch"></div>`; bindSay($("#qz"));
+    ask(T("Which country has this flag?","এটা কোন দেশের পতাকা?"));
+    opts.forEach(c => {
+      const b = choiceBtn("", "choice wide"); b.textContent = lab(c.name);
+      b.addEventListener("click", () => {
+        if(c === ans){ right(b, T(`Yes! This is the flag of ${c.name.en}!`, `হ্যাঁ! এটা ${lab(c.name)}-এর পতাকা!`)); later(round, 2200); }
+        else wrong(b);
+      });
+      $("#ch").appendChild(b);
+    });
+  };
   round();
 }
 
-/* ---------- MOVE: follow-along exercise with counting ---------- */
-const MOVES = [
-  ["🦘","Jump like a kangaroo",5],["👏","Clap your hands",5],["🐘","Stomp like an elephant",6],
-  ["🐰","Hop like a bunny",5],["🙌","Reach up high to the sky",3],["🦶","Touch your toes",3],
-  ["🚶","March in place",8],["🦩","Stand on one foot like a flamingo",5],["🐸","Jump like a frog",3],
-  ["🌀","Spin around slowly",2],["🐛","Wiggle like a worm",5],["🧊","Freeze like a statue",5]
-];
-let moveToken = 0;
-function playMove(){
-  const A=$("#playArea");
-  A.innerHTML=`<div class="play movecard">
-    <div class="bigemoji" id="mEm"></div>
-    <div class="act" id="mAct"></div>
-    <div class="counter" id="mCnt"></div>
-    <div class="row"><button class="btn go" id="mGo">▶ Let's move!</button><button class="btn" id="mNext">🔀 Next move</button></div>
-    <p style="color:var(--soft);font-size:15px;margin:14px 0 0">Grown-ups: clear some space and move along with your child.</p></div>`;
-  let cur=null;
-  function show(){ moveToken++; const m=pick(MOVES.filter(x=>x!==cur)); cur=m; $("#mEm").textContent=m[0]; $("#mAct").textContent=m[1]+"!"; $("#mCnt").textContent=""; speak(m[1]+"!"); }
-  async function go(){
-    const tok=++moveToken, [,act,n]=cur, wait=ms=>new Promise(r=>setTimeout(r,ms));
-    speak(`${act}! Ready? Go!`); await wait(2300);
-    for(let i=1;i<=n;i++){ if(tok!==moveToken || current!=="move") return; $("#mCnt").textContent=i; speak(WORDS[i]); await wait(1300); }
-    if(tok!==moveToken) return;
-    $("#mCnt").textContent="🎉"; addStar(); celebrate(); speak("Great moving! You did it!");
-    await wait(2500); if(tok===moveToken && current==="move") show();
-  }
-  $("#mGo").addEventListener("click",go);
-  $("#mNext").addEventListener("click",show);
-  show();
-}
-
-/* ---------- EXPLORE: ideas to try together, did-you-know facts ---------- */
+/* =====================================================================
+   EXPLORE: ideas to try together, did-you-know facts
+   ===================================================================== */
 const IDEAS = [
-  {e:"🐞",t:"Bug hunt",need:"A garden, park or plant pots",steps:["Look under leaves and stones together","Count the bugs you find","Say each bug's color out loud"],learn:"Noticing, counting, nature words",safe:"Look, don't touch. Wash hands after."},
-  {e:"🌱",t:"Grow a seed",need:"A cup, soil or wet cotton, a bean or lentil seed",steps:["Put the seed in soil or on wet cotton","Place it near a window","Add a little water each day and watch it sprout"],learn:"Patience, how plants grow",safe:"Seeds are for planting, not eating."},
-  {e:"🔦",t:"Shadow puppets",need:"A torch or phone light, a wall",steps:["Turn the room lights off","Shine the light on the wall","Make a bird, dog or bunny with your hands"],learn:"Light and shadow, imagination",safe:""},
-  {e:"🏰",t:"Pillow fort",need:"Pillows, cushions, a bedsheet",steps:["Stack cushions into walls","Drape the sheet over the top","Read a book inside your fort"],learn:"Building, balance, planning",safe:""},
-  {e:"🧦",t:"Sock sorting",need:"A pile of clean socks",steps:["Find two socks that match","Make pairs","Sort them by color or by size"],learn:"Matching, colors, big and small",safe:""},
-  {e:"🖌️",t:"Water painting",need:"A paintbrush, a cup of water, a wall or floor outside",steps:["Dip the brush in water","Paint shapes on the wall","Watch your picture disappear as it dries"],learn:"Drawing, how water dries",safe:""},
-  {e:"🫧",t:"Bubble chase",need:"Soap water and a bubble wand (or a bent pipe cleaner)",steps:["Blow bubbles","Clap or pop them","Count how many you can catch"],learn:"Movement, counting",safe:"Keep soap away from eyes."},
-  {e:"☁️",t:"Cloud watching",need:"A sky with clouds",steps:["Lie down outside","Look at the clouds","Ask: what animal does that cloud look like?"],learn:"Imagination, talking",safe:"Never look straight at the sun."},
-  {e:"🥁",t:"Kitchen band",need:"Pots, wooden spoons, plastic boxes",steps:["Turn pots upside down","Tap them with spoons","Play loud, then soft, then fast, then slow"],learn:"Rhythm, loud and quiet",safe:""},
-  {e:"📦",t:"Cardboard box car",need:"A big cardboard box, crayons",steps:["Climb inside the box","Draw wheels and lights on it","Drive to pretend places: the zoo, the beach, the moon"],learn:"Pretend play, drawing",safe:""},
-  {e:"🧊",t:"Ice treasure",need:"An ice cube tray, small toys too big to swallow, warm water",steps:["Freeze toys in ice the night before","Pour warm water to melt the ice","Rescue the toys!"],learn:"Melting, hot and cold",safe:"Use only toys too big to fit in the mouth. Stay close."},
-  {e:"🥕",t:"Little kitchen helper",need:"Vegetables, a bowl of water",steps:["Wash the vegetables together","Name each one and its color","Count them into a basket"],learn:"Food words, colors, counting",safe:"Grown-ups handle knives and the stove."},
-  {e:"👂",t:"Sound walk",need:"A short walk",steps:["Walk quietly","Stop and listen","Name each sound: bird, car, wind, people talking"],learn:"Listening, describing",safe:"Hold hands near roads."},
-  {e:"🍂",t:"Leaf collection",need:"A bag, a park or garden",steps:["Collect leaves of different shapes","Line them up from small to big","Find the biggest and the smallest"],learn:"Size order, shapes, nature",safe:""}
+  {e:"🐞", en:["Bug hunt","A garden, park or plant pots",["Look under leaves and stones together","Count the bugs you find","Say each bug's color out loud"],"Noticing, counting, nature words","Look, don't touch. Wash hands after."],
+           bn:["পোকা খোঁজা","বাগান, পার্ক বা গাছের টব",["একসাথে পাতা আর পাথরের নিচে দেখো","কয়টা পোকা পেলে গোনো","প্রতিটা পোকার রং জোরে বলো"],"লক্ষ করা, গোনা, প্রকৃতির শব্দ","শুধু দেখো, ছুঁয়ো না। পরে হাত ধুয়ে নাও।"]},
+  {e:"🌱", en:["Grow a seed","A cup, soil or wet cotton, a bean or lentil seed",["Put the seed in soil or on wet cotton","Place it near a window","Add a little water each day and watch it sprout"],"Patience, how plants grow","Seeds are for planting, not eating."],
+           bn:["বীজ লাগাও","একটা কাপ, মাটি বা ভেজা তুলা, শিম বা ডালের বীজ",["বীজটা মাটিতে বা ভেজা তুলার উপর রাখো","জানালার পাশে রাখো","রোজ একটু পানি দাও আর চারা গজানো দেখো"],"ধৈর্য, গাছ কীভাবে বড় হয়","বীজ লাগানোর জন্য, খাওয়ার জন্য না।"]},
+  {e:"🔦", en:["Shadow puppets","A torch or phone light, a wall",["Turn the room lights off","Shine the light on the wall","Make a bird, dog or bunny with your hands"],"Light and shadow, imagination",""],
+           bn:["ছায়ার খেলা","টর্চ বা ফোনের আলো, একটা দেয়াল",["ঘরের বাতি নিভিয়ে দাও","দেয়ালে আলো ফেলো","হাত দিয়ে পাখি, কুকুর বা খরগোশ বানাও"],"আলো আর ছায়া, কল্পনা",""]},
+  {e:"🏰", en:["Pillow fort","Pillows, cushions, a bedsheet",["Stack cushions into walls","Drape the sheet over the top","Read a book inside your fort"],"Building, balance, planning",""],
+           bn:["বালিশের দুর্গ","বালিশ, কুশন, একটা চাদর",["কুশন দিয়ে দেয়াল বানাও","উপরে চাদর বিছিয়ে দাও","দুর্গের ভেতরে বসে বই পড়ো"],"বানানো, ভারসাম্য, পরিকল্পনা",""]},
+  {e:"🧦", en:["Sock sorting","A pile of clean socks",["Find two socks that match","Make pairs","Sort them by color or by size"],"Matching, colors, big and small",""],
+           bn:["মোজা মেলানো","একগাদা পরিষ্কার মোজা",["একই রকম দুটো মোজা খুঁজে বের করো","জোড়া বানাও","রং বা মাপ অনুযায়ী ভাগ করো"],"মেলানো, রং, বড় আর ছোট",""]},
+  {e:"🖌️", en:["Water painting","A paintbrush, a cup of water, a wall or floor outside",["Dip the brush in water","Paint shapes on the wall","Watch your picture disappear as it dries"],"Drawing, how water dries",""],
+           bn:["পানি দিয়ে আঁকা","একটা তুলি, এক কাপ পানি, বাইরের দেয়াল বা মেঝে",["তুলি পানিতে ডোবাও","দেয়ালে আকৃতি আঁকো","শুকিয়ে ছবি মিলিয়ে যাওয়া দেখো"],"আঁকা, পানি কীভাবে শুকায়",""]},
+  {e:"🫧", en:["Bubble chase","Soap water and a bubble wand (or a bent pipe cleaner)",["Blow bubbles","Clap or pop them","Count how many you can catch"],"Movement, counting","Keep soap away from eyes."],
+           bn:["বুদবুদ ধরা","সাবান পানি আর বুদবুদের কাঠি (বা বাঁকানো পাইপ ক্লিনার)",["বুদবুদ ওড়াও","হাততালি দিয়ে ফাটাও","কয়টা ধরলে গোনো"],"নড়াচড়া, গোনা","সাবান যেন চোখে না যায়।"]},
+  {e:"☁️", en:["Cloud watching","A sky with clouds",["Lie down outside","Look at the clouds","Ask: what animal does that cloud look like?"],"Imagination, talking","Never look straight at the sun."],
+           bn:["মেঘ দেখা","মেঘলা আকাশ",["বাইরে শুয়ে পড়ো","মেঘের দিকে তাকাও","জিজ্ঞেস করো: ওই মেঘটা কোন প্রাণীর মতো?"],"কল্পনা, কথা বলা","কখনো সরাসরি সূর্যের দিকে তাকিও না।"]},
+  {e:"🥁", en:["Kitchen band","Pots, wooden spoons, plastic boxes",["Turn pots upside down","Tap them with spoons","Play loud, then soft, then fast, then slow"],"Rhythm, loud and quiet",""],
+           bn:["রান্নাঘরের বাজনা","হাঁড়ি-পাতিল, কাঠের চামচ, প্লাস্টিকের বাক্স",["হাঁড়ি উল্টো করে রাখো","চামচ দিয়ে বাজাও","জোরে, আস্তে, দ্রুত, তারপর ধীরে বাজাও"],"তাল, জোরে আর আস্তে",""]},
+  {e:"📦", en:["Cardboard box car","A big cardboard box, crayons",["Climb inside the box","Draw wheels and lights on it","Drive to pretend places: the zoo, the beach, the moon"],"Pretend play, drawing",""],
+           bn:["বাক্সের গাড়ি","একটা বড় কার্ডবোর্ডের বাক্স, রং পেন্সিল",["বাক্সের ভেতরে ঢোকো","চাকা আর বাতি এঁকে দাও","কল্পনার জায়গায় চালাও: চিড়িয়াখানা, সমুদ্র, চাঁদ"],"কল্পনার খেলা, আঁকা",""]},
+  {e:"🧊", en:["Ice treasure","An ice cube tray, toys too big to swallow, warm water",["Freeze toys in ice the night before","Pour warm water to melt the ice","Rescue the toys!"],"Melting, hot and cold","Use only toys too big to fit in the mouth. Stay close."],
+           bn:["বরফের গুপ্তধন","বরফের ট্রে, গিলতে পারবে না এমন বড় খেলনা, কুসুম গরম পানি",["আগের রাতে খেলনা বরফে জমিয়ে রাখো","কুসুম গরম পানি ঢেলে বরফ গলাও","খেলনা উদ্ধার করো!"],"গলে যাওয়া, গরম আর ঠান্ডা","শুধু মুখে ঢোকে না এমন বড় খেলনা দিন। কাছে থাকুন।"]},
+  {e:"🥕", en:["Little kitchen helper","Vegetables, a bowl of water",["Wash the vegetables together","Name each one and its color","Count them into a basket"],"Food words, colors, counting","Grown-ups handle knives and the stove."],
+           bn:["রান্নাঘরের ছোট্ট সাহায্যকারী","সবজি, এক বাটি পানি",["একসাথে সবজি ধোও","প্রতিটার নাম আর রং বলো","গুনে গুনে ঝুড়িতে রাখো"],"খাবারের নাম, রং, গোনা","ছুরি আর চুলা শুধু বড়রা ধরবে।"]},
+  {e:"👂", en:["Sound walk","A short walk",["Walk quietly","Stop and listen","Name each sound: bird, car, wind, people talking"],"Listening, describing","Hold hands near roads."],
+           bn:["শব্দ শোনার হাঁটা","অল্প একটু হাঁটা",["চুপচাপ হাঁটো","থেমে কান পাতো","প্রতিটা শব্দের নাম বলো: পাখি, গাড়ি, বাতাস, মানুষের কথা"],"শোনা, বর্ণনা করা","রাস্তার কাছে হাত ধরে থাকো।"]},
+  {e:"🍂", en:["Leaf collection","A bag, a park or garden",["Collect leaves of different shapes","Line them up from small to big","Find the biggest and the smallest"],"Size order, shapes, nature",""],
+           bn:["পাতা জমানো","একটা ব্যাগ, পার্ক বা বাগান",["নানা আকারের পাতা জমাও","ছোট থেকে বড় সাজাও","সবচেয়ে বড় আর সবচেয়ে ছোটটা খুঁজে বের করো"],"মাপ অনুযায়ী সাজানো, আকৃতি, প্রকৃতি",""]}
 ];
 const FACTS = [
-  ["🐙","An octopus has three hearts."],
-  ["🦋","Butterflies taste with their feet."],
-  ["🐝","Bees make honey from the nectar inside flowers."],
-  ["☀️","The Sun is a star. It looks small because it is very far away."],
-  ["🐘","Elephants suck water into their trunks, then squirt it into their mouths."],
-  ["🐧","Penguins are birds, but they cannot fly. They swim instead."],
-  ["🐳","The blue whale is the biggest animal that has ever lived."],
-  ["🐸","Frogs start life as tadpoles that swim in water."],
-  ["🌙","The Moon does not make its own light. It shines because sunlight lands on it."],
-  ["🌈","When sunlight shines through raindrops, we can see a rainbow."],
-  ["🐌","A snail carries its shell, its home, on its back."],
-  ["🌱","Plants drink water through their roots."],
-  ["🐄","A cow's stomach has four parts."],
-  ["🦒","A giraffe has a very long, dark-colored tongue."]
+  ["🐙","An octopus has three hearts.","অক্টোপাসের তিনটা হৃৎপিণ্ড আছে।"],
+  ["🦋","Butterflies taste with their feet.","প্রজাপতি পা দিয়ে স্বাদ নেয়।"],
+  ["🐝","Bees make honey from the nectar inside flowers.","মৌমাছি ফুলের রস থেকে মধু বানায়।"],
+  ["☀️","The Sun is a star. It looks small because it is very far away.","সূর্য একটা তারা। অনেক দূরে বলে ছোট দেখায়।"],
+  ["🐘","Elephants suck water into their trunks, then squirt it into their mouths.","হাতি শুঁড় দিয়ে পানি টেনে নিয়ে মুখে ঢালে।"],
+  ["🐧","Penguins are birds, but they cannot fly. They swim instead.","পেঙ্গুইন পাখি, কিন্তু উড়তে পারে না। তারা সাঁতার কাটে।"],
+  ["🐳","The blue whale is the biggest animal that has ever lived.","নীল তিমি এখন পর্যন্ত পৃথিবীর সবচেয়ে বড় প্রাণী।"],
+  ["🐸","Frogs start life as tadpoles that swim in water.","ব্যাঙ জীবন শুরু করে ব্যাঙাচি হয়ে, যারা পানিতে সাঁতার কাটে।"],
+  ["🌙","The Moon does not make its own light. It shines because sunlight lands on it.","চাঁদের নিজের আলো নেই। সূর্যের আলো পড়ে বলে চাঁদ জ্বলজ্বল করে।"],
+  ["🌈","When sunlight shines through raindrops, we can see a rainbow.","বৃষ্টির ফোঁটার ভেতর দিয়ে সূর্যের আলো গেলে রংধনু দেখা যায়।"],
+  ["🐌","A snail carries its shell, its home, on its back.","শামুক তার খোলস, মানে তার বাড়ি, পিঠে নিয়ে ঘোরে।"],
+  ["🌱","Plants drink water through their roots.","গাছ শিকড় দিয়ে পানি খায়।"],
+  ["🐄","A cow's stomach has four parts.","গরুর পাকস্থলীর চারটা ভাগ আছে।"],
+  ["🦒","A giraffe has a very long, dark-colored tongue.","জিরাফের জিভ অনেক লম্বা আর গাঢ় রঙের।"],
+  ["🐅","The Royal Bengal tiger is the national animal of Bangladesh.","রয়েল বেঙ্গল টাইগার বাংলাদেশের জাতীয় পশু।"],
+  ["🐦","The magpie robin (doel) is the national bird of Bangladesh.","দোয়েল বাংলাদেশের জাতীয় পাখি।"],
+  ["🌸","The water lily (shapla) is the national flower of Bangladesh.","শাপলা বাংলাদেশের জাতীয় ফুল।"],
+  ["🍈","The jackfruit is the national fruit of Bangladesh.","কাঁঠাল বাংলাদেশের জাতীয় ফল।"]
 ];
-function playExplore(){
-  const A=$("#playArea");
-  A.innerHTML=`<div class="play">
-    <div class="modes"><button class="mode on" data-m="idea">Ideas to Try</button><button class="mode" data-m="fact">Did You Know?</button></div>
-    <div id="box"></div>
-    <div class="row"><button class="btn go" id="nx">🎲 Another one</button></div></div>`;
-  let mode="idea", i=-1, j=-1;
-  const order={idea:shuffle([...IDEAS.keys()]), fact:shuffle([...FACTS.keys()])};
-  A.querySelectorAll(".mode").forEach(b=>b.addEventListener("click",()=>{ mode=b.dataset.m; A.querySelectorAll(".mode").forEach(x=>x.classList.toggle("on",x===b)); next(); }));
-  $("#nx").addEventListener("click",next);
+PLAY.exp = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["idea","Ideas to Try","করে দেখো"],["fact","Did You Know?","তুমি কি জানো?"]],"idea")}<div id="box"></div>
+    <div class="row"><button class="btn go" id="nx">🎲 ${T("Another one","আরেকটা")}</button></div></div>`;
+  let mode = "idea", i = -1, j = -1;
+  const order = {idea: shuffle([...IDEAS.keys()]), fact: shuffle([...FACTS.keys()])};
+  bindModes(A, m => { mode = m; next(); });
+  $("#nx").addEventListener("click", () => next());
   function next(){
-    const box=$("#box");
-    if(mode==="idea"){
-      i=(i+1)%IDEAS.length; const d=IDEAS[order.idea[i]];
-      box.innerHTML=`<div class="idea"><div class="bigemoji">${d.e}</div><h3></h3>
-        <div class="tag">You need</div><p class="need"></p>
-        <div class="tag">Let's do it</div><ol>${d.steps.map(()=>"<li></li>").join("")}</ol>
-        <div class="tag">Learning</div><p class="learn"></p>${d.safe?'<div class="safe"></div>':""}</div>`;
-      box.querySelector("h3").textContent=d.t; box.querySelector(".need").textContent=d.need;
-      box.querySelectorAll("li").forEach((li,k)=>li.textContent=d.steps[k]); box.querySelector(".learn").textContent=d.learn;
-      if(d.safe) box.querySelector(".safe").textContent="⚠️ "+d.safe;
-      speak(`Let's try: ${d.t}!`);
+    const box = $("#box");
+    if(mode === "idea"){
+      i = (i + 1) % IDEAS.length; const d = IDEAS[order.idea[i]], [t, need, steps, learn, safe] = d[L] || d.en;
+      box.innerHTML = `<div class="idea"><div class="bigemoji">${d.e}</div><h3></h3>
+        <div class="tag">${T("You need","যা লাগবে")}</div><p class="need"></p>
+        <div class="tag">${T("Let's do it","চলো করি")}</div><ol>${steps.map(() => "<li></li>").join("")}</ol>
+        <div class="tag">${T("Learning","যা শিখবে")}</div><p class="learn"></p>${safe ? '<div class="safe"></div>' : ""}</div>`;
+      box.querySelector("h3").textContent = t; box.querySelector(".need").textContent = need;
+      box.querySelectorAll("li").forEach((li, k) => li.textContent = steps[k]); box.querySelector(".learn").textContent = learn;
+      if(safe) box.querySelector(".safe").textContent = "⚠️ " + safe;
+      speak(T(`Let's try: ${t}!`, `চলো করি: ${t}!`));
     } else {
-      j=(j+1)%FACTS.length; const [em,f]=FACTS[order.fact[j]];
-      box.innerHTML=`<div class="bigemoji">${em}</div><div class="prompt" style="justify-content:center"><button class="say" aria-label="Say it again">🔊</button></div><div class="fact"></div>`;
-      box.querySelector(".fact").textContent=f; box.querySelector(".say").addEventListener("click",()=>speak(f));
-      speak("Did you know? "+f);
+      j = (j + 1) % FACTS.length; const [em, en, bn] = FACTS[order.fact[j]], f = T(en, bn);
+      box.innerHTML = `<div class="bigemoji">${em}</div><div class="prompt"><button class="say" aria-label="Say it again">🔊</button></div><div class="fact"></div>`;
+      box.querySelector(".fact").textContent = f; box.querySelector(".say").addEventListener("click", () => speak(f));
+      speak(T("Did you know? ", "তুমি কি জানো? ") + f);
     }
   }
   next();
+};
+
+/* =====================================================================
+   MOVE
+   ===================================================================== */
+const MOVES = [
+  ["🦘","Jump like a kangaroo","ক্যাঙ্গারুর মতো লাফাও",5],["👏","Clap your hands","হাততালি দাও",5],["🐘","Stomp like an elephant","হাতির মতো ধপধপ করে হাঁটো",6],
+  ["🐰","Hop like a bunny","খরগোশের মতো লাফাও",5],["🙌","Reach up high to the sky","আকাশের দিকে হাত তোলো",3],["🦶","Touch your toes","পায়ের আঙুল ছোঁও",3],
+  ["🚶","March in place","এক জায়গায় দাঁড়িয়ে মার্চ করো",8],["🦩","Stand on one foot like a flamingo","ফ্লেমিংগোর মতো এক পায়ে দাঁড়াও",5],["🐸","Jump like a frog","ব্যাঙের মতো লাফাও",3],
+  ["🌀","Spin around slowly","আস্তে আস্তে ঘোরো",2],["🐛","Wiggle like a worm","কেঁচোর মতো দোলো",5],["🧊","Freeze like a statue","মূর্তির মতো স্থির থাকো",5]
+];
+PLAY.move = A => {
+  A.innerHTML = `<div class="play movecard"><div class="bigemoji" id="mEm"></div><div class="act" id="mAct"></div><div class="counter" id="mCnt"></div>
+    <div class="row"><button class="btn go" id="mGo">▶ ${T("Let's move!","চলো শুরু করি!")}</button><button class="btn" id="mNext">🔀 ${T("Next move","পরেরটা")}</button></div>
+    <p class="muted">${T("Grown-ups: clear some space and move along with your child.","অভিভাবক: একটু জায়গা খালি করে বাচ্চার সাথে করুন।")}</p></div>`;
+  let cur = null;
+  const show = () => { epoch++; const m = pick(MOVES.filter(x => x !== cur)); cur = m; $("#mEm").textContent = m[0]; $("#mAct").textContent = T(m[1], m[2]) + "!"; $("#mCnt").textContent = ""; speak(T(m[1], m[2]) + "!"); };
+  $("#mGo").addEventListener("click", async () => {
+    const e = ++epoch, n = cur[3];
+    speak(T(`${cur[1]}! Ready? Go!`, `${cur[2]}! তৈরি? শুরু!`)); await wait(2400);
+    for(let i=1;i<=n;i++){ if(e !== epoch) return; $("#mCnt").textContent = N(i); speak(numWord(i)); await wait(1300); }
+    if(e !== epoch) return;
+    $("#mCnt").textContent = "🎉"; right(null, T("Great moving! You did it!","দারুণ! তুমি পেরেছ!"));
+    await wait(2600); if(e === epoch) show();
+  });
+  $("#mNext").addEventListener("click", show);
+  show();
+};
+
+/* =====================================================================
+   MY DAY: routine charts, timers, safety
+   ===================================================================== */
+const ROUTINES = {
+  morning:[["🌞","Wake up","ঘুম থেকে ওঠো"],["🚽","Use the toilet","টয়লেটে যাও"],["🪥","Brush your teeth","দাঁত ব্রাশ করো"],["💦","Wash your face","মুখ ধোও"],["👕","Get dressed","জামা পরো"],["🍳","Eat breakfast","নাস্তা খাও"]],
+  night:[["🧸","Put toys away","খেলনা গুছিয়ে রাখো"],["🍽️","Eat dinner","রাতের খাবার খাও"],["🪥","Brush your teeth","দাঁত ব্রাশ করো"],["🚽","Use the toilet","টয়লেটে যাও"],["👕","Put on night clothes","রাতের জামা পরো"],["📖","Listen to a story","গল্প শোনো"],["😴","Go to sleep","ঘুমাও"]]
+};
+const SAFETY = [
+  ["🔥","Touching a hot stove","গরম চুলা ছোঁয়া",0,"Hot things burn. Stay away from the stove.","গরম জিনিসে হাত পুড়ে যায়। চুলা থেকে দূরে থাকো।"],
+  ["🤝","Holding a grown-up's hand to cross the road","বড়দের হাত ধরে রাস্তা পার হওয়া",1,"Always hold a grown-up's hand near roads.","রাস্তার কাছে সবসময় বড়দের হাত ধরে থাকো।"],
+  ["🔌","Poking a wall socket","বৈদ্যুতিক সকেটে আঙুল দেওয়া",0,"Sockets can give a dangerous shock. Never touch them.","সকেটে মারাত্মক শক লাগতে পারে। কখনো ছোঁবে না।"],
+  ["🚲","Wearing a helmet on a bike","সাইকেলে হেলমেট পরা",1,"A helmet keeps your head safe.","হেলমেট মাথা নিরাপদ রাখে।"],
+  ["🚪","Opening the door to a stranger","অচেনা কারো জন্য দরজা খোলা",0,"Call a grown-up. Only grown-ups open the door.","বড়দের ডাকো। দরজা শুধু বড়রা খুলবে।"],
+  ["💊","Taking medicine by yourself","নিজে নিজে ওষুধ খাওয়া",0,"Only take medicine a grown-up gives you.","শুধু বড়রা দিলে ওষুধ খাবে।"],
+  ["🏊","Going into water alone","একা একা পানিতে নামা",0,"Only go in water when a grown-up is watching.","বড়রা পাশে থাকলেই শুধু পানিতে নামবে।"],
+  ["🧼","Washing hands before eating","খাওয়ার আগে হাত ধোয়া",1,"Washing hands gets rid of germs.","হাত ধুলে জীবাণু দূর হয়।"],
+  ["🔪","Playing with a knife","ছুরি নিয়ে খেলা",0,"Knives are sharp. Only grown-ups use them.","ছুরি ধারালো। শুধু বড়রা ব্যবহার করবে।"],
+  ["🧸","Putting toys away","খেলনা গুছিয়ে রাখা",1,"Then nobody trips and falls.","তাহলে কেউ হোঁচট খেয়ে পড়বে না।"],
+  ["🪟","Climbing on a window","জানালায় চড়া",0,"You could fall. Play on the floor.","পড়ে যেতে পারো। মেঝেতে খেলো।"],
+  ["💺","Wearing a seat belt in the car","গাড়িতে সিট বেল্ট বেঁধে বসা",1,"Seat belts keep you safe in the car.","সিট বেল্ট গাড়িতে নিরাপদ রাখে।"]
+];
+PLAY.day = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["morning","Morning","সকাল"],["night","Bedtime","রাত"],["timer","Timers","টাইমার"],["safe","Safe or not?","নিরাপদ কি?"]],"morning")}<div id="dz"></div></div>`;
+  bindModes(A, m => m === "timer" ? timers($("#dz")) : m === "safe" ? safety($("#dz")) : routine($("#dz"), m));
+  routine($("#dz"), new Date().getHours() >= 15 ? "night" : "morning");
+  if(new Date().getHours() >= 15) A.querySelectorAll(".mode[data-m]").forEach(x => x.classList.toggle("on", x.dataset.m === "night"));
+};
+function routine(Z, which){
+  const key = `nl-rt-${todayKey()}-${which}`, list = ROUTINES[which];
+  let done = store.get(key, []);
+  Z.innerHTML = `<div class="prompt">${which === "morning" ? T("☀️ My morning","☀️ আমার সকাল") : T("🌙 My bedtime","🌙 আমার রাত")}</div><div class="todo" id="td"></div>
+    <div class="row"><button class="btn" id="rs">↺ ${T("Start again","আবার শুরু")}</button></div>`;
+  const draw = () => {
+    $("#td").innerHTML = "";
+    list.forEach((it, i) => {
+      const b = choiceBtn(`<span class="e">${it[0]}</span><span class="t"></span><span class="ck">${done.includes(i) ? "✓" : ""}</span>`);
+      b.querySelector(".t").textContent = T(it[1], it[2]); if(done.includes(i)) b.classList.add("done");
+      b.addEventListener("click", () => {
+        if(done.includes(i)) done = done.filter(x => x !== i); else { done.push(i); speak(T(it[1], it[2]) + " ✓"); }
+        store.set(key, done); draw();
+        if(done.length === list.length) right(null, T("All done! Great job!","সব শেষ! খুব ভালো!"));
+      });
+      $("#td").appendChild(b);
+    });
+  };
+  $("#rs").addEventListener("click", () => { done = []; store.set(key, done); draw(); });
+  draw();
+  speak(which === "morning" ? T("Good morning! Let's do our morning jobs.","শুভ সকাল! চলো সকালের কাজগুলো করি।") : T("It's nearly bedtime. Let's get ready.","ঘুমের সময় হয়ে এলো। চলো তৈরি হই।"));
+}
+function timers(Z){
+  Z.innerHTML = `<div class="choices">
+      <button class="choice word" id="tb">🪥<small>${T("Brush teeth · 2 min","দাঁত ব্রাশ · ২ মিনিট")}</small></button>
+      <button class="choice word" id="th">🧼<small>${T("Wash hands · 20 sec","হাত ধোয়া · ২০ সেকেন্ড")}</small></button></div><div id="tv"></div>`;
+  $("#tb").addEventListener("click", () => runTimer(120, "🪥", [
+    T("Brush the top teeth on one side.","উপরের এক পাশের দাঁত ব্রাশ করো।"),
+    T("Now the top teeth on the other side.","এবার উপরের অন্য পাশের দাঁত।"),
+    T("Now the bottom teeth on one side.","এবার নিচের এক পাশের দাঁত।"),
+    T("Last, the bottom teeth on the other side.","শেষে নিচের অন্য পাশের দাঁত।")], T("All clean! Great job!","সব পরিষ্কার! খুব ভালো!")));
+  $("#th").addEventListener("click", () => runTimer(20, "🧼", [T("Soap your hands and scrub! Let's count.","হাতে সাবান দিয়ে ঘষো! চলো গুনি।")], T("Now rinse and dry your hands!","এবার পানি দিয়ে ধুয়ে মুছে ফেলো!"), true));
+  async function runTimer(total, em, cues, endMsg, countAloud){
+    const e = ++epoch;
+    $("#tv").innerHTML = `<div class="ring" id="rg" style="margin-top:16px"><div><span class="e">${em}</span><b id="rt">${N(total)}</b></div></div><div class="cue" id="cue"></div>
+      <div class="row"><button class="btn" id="tstop">⏹ ${T("Stop","থামো")}</button></div>`;
+    $("#tstop").addEventListener("click", () => { epoch++; hush(); $("#tv").innerHTML = ""; });
+    const seg = total / cues.length;
+    for(let s = 0; s <= total; s++){
+      if(e !== epoch) return;
+      const left = total - s; $("#rt").textContent = N(left); $("#rg").style.setProperty("--p", (s / total) * 100);
+      if(s < total && s % seg === 0){ const c = cues[s / seg]; $("#cue").textContent = c; speak(c); }
+      else if(countAloud && s > 0 && s < total && s > 3) speak(numWord(s));
+      if(s === total) break;
+      await wait(1000);
+    }
+    if(e !== epoch) return;
+    $("#cue").textContent = endMsg; right(null, endMsg);
+  }
+}
+function safety(Z){
+  const order = shuffle([...SAFETY.keys()]); let i = 0;
+  const round = () => {
+    const [em, en, bn, safe, whyEn, whyBn] = SAFETY[order[i++ % order.length]];
+    Z.innerHTML = PROMPT + `<div class="bigemoji">${em}</div><div class="prompt" style="font-size:22px"></div><div class="choices" id="ch"></div><div id="why"></div>`; bindSay(Z);
+    Z.querySelectorAll(".prompt")[1].textContent = T(en, bn);
+    ask(T(`${en}. Is this safe?`, `${bn}। এটা কি নিরাপদ?`), T("Is this safe?","এটা কি নিরাপদ?"));
+    let busy = false;
+    [[1,"✅",T("Safe","নিরাপদ")],[0,"❌",T("Not safe","নিরাপদ না")]].forEach(([v, ic, lbl]) => {
+      const b = choiceBtn(`${ic}<small>${lbl}</small>`, "choice word");
+      b.addEventListener("click", () => {
+        if(busy) return; busy = true;
+        const why = T(whyEn, whyBn), ok = v === safe;
+        $("#why").innerHTML = `<div class="verdict"></div><div class="row"><button class="btn go" id="sn">▶ ${T("Next","পরেরটা")}</button></div>`;
+        $("#why .verdict").textContent = (safe ? "✅ " + T("Safe! ","নিরাপদ! ") : "❌ " + T("Not safe! ","নিরাপদ না! ")) + why;
+        if(ok) right(b, (safe ? T("Yes, that's safe! ","হ্যাঁ, এটা নিরাপদ! ") : T("Right, that's not safe! ","ঠিক, এটা নিরাপদ না! ")) + why);
+        else { wrong(b); later(() => speak(why), 1500); }
+        $("#sn").addEventListener("click", () => { epoch++; round(); });
+      });
+      $("#ch").appendChild(b);
+    });
+  };
+  round();
 }
 
-$("#helloPh").addEventListener("click",()=>{ speak("Hi Nuzaim! What shall we learn today?"); $("#helloPh").classList.remove("pop"); void $("#helloPh").offsetWidth; $("#helloPh").classList.add("pop"); });
-renderStars();
+/* =====================================================================
+   STORIES & RHYMES
+   ===================================================================== */
+const STORIES = [
+  {e:"🦆", t:["The Little Yellow Duck","ছোট্ট হলুদ হাঁস"], p:[
+    ["🦆🏡","A little yellow duck lived near a pond.","পুকুরের পাশে থাকত একটা ছোট্ট হলুদ হাঁস।"],
+    ["🦆💭","One morning, the duck wanted to swim, but it felt scared.","এক সকালে হাঁসটা সাঁতার কাটতে চাইল, কিন্তু তার ভয় লাগছিল।"],
+    ["🦆🦆","Mother duck said, 'Come with me. I am right here.'","মা হাঁস বলল, 'আমার সাথে এসো। আমি তো পাশেই আছি।'"],
+    ["🦆🌊","Splash! The little duck jumped in. The water felt cool and nice.","ঝপাৎ! ছোট্ট হাঁসটা পানিতে নামল। পানিটা ঠান্ডা আর আরামের।"],
+    ["🦆😄","'I can swim!' said the little duck. Trying new things can be fun!","'আমি সাঁতার পারি!' বলল ছোট্ট হাঁস। নতুন কিছু চেষ্টা করতে মজা লাগে!"]]},
+  {e:"🌧️", t:["The Rainy Day","বৃষ্টির দিন"], p:[
+    ["🌧️🏠","Pitter patter! Rain was falling outside.","টাপুর টুপুর! বাইরে বৃষ্টি পড়ছে।"],
+    ["🧒☂️","Nuzaim put on his rain boots and took his umbrella.","নুজাইম গামবুট পরল আর ছাতা নিল।"],
+    ["🐸💧","He saw a frog jumping in a puddle. Ribbit!","সে দেখল একটা ব্যাঙ কাদা-পানিতে লাফাচ্ছে। ঘ্যাঙর ঘ্যাং!"],
+    ["🌈☀️","Then the sun came out, and a rainbow smiled in the sky.","তারপর রোদ উঠল, আর আকাশে হাসল রংধনু।"],
+    ["🧒🥛","Nuzaim went home and drank warm milk. What a happy day!","নুজাইম বাড়ি ফিরে গরম দুধ খেল। কী আনন্দের দিন!"]]},
+  {e:"🐘", t:["The Kind Elephant","দয়ালু হাতি"], p:[
+    ["🐘🌳","A big elephant lived in the forest.","বনে থাকত এক বিশাল হাতি।"],
+    ["🐦😢","A little bird's nest fell from a tree. The bird was sad.","একটা ছোট্ট পাখির বাসা গাছ থেকে পড়ে গেল। পাখিটার মন খারাপ।"],
+    ["🐘🪹","The elephant gently lifted the nest with its long trunk.","হাতিটা তার লম্বা শুঁড় দিয়ে আলতো করে বাসাটা তুলল।"],
+    ["🌳🪹","It put the nest back up in the tree.","সে বাসাটা আবার গাছের উপরে রেখে দিল।"],
+    ["🐦💖🐘","'Thank you, elephant!' sang the bird. Being kind makes everyone happy.","'ধন্যবাদ, হাতি!' গান গাইল পাখি। দয়ালু হলে সবাই খুশি হয়।"]]},
+  {e:"🌙", t:["Goodnight, Moon Friend","শুভরাত্রি, চাঁদ বন্ধু"], p:[
+    ["🌇","The sun went down. The sky turned orange, then dark blue.","সূর্য ডুবে গেল। আকাশ হলো কমলা, তারপর গাঢ় নীল।"],
+    ["🌙⭐","The moon and the stars came out.","চাঁদ আর তারারা বেরিয়ে এল।"],
+    ["🧒🪥","Nuzaim brushed his teeth and put on his night clothes.","নুজাইম দাঁত ব্রাশ করল আর রাতের জামা পরল।"],
+    ["🧒📖","Ammu read him a story in bed.","আম্মু বিছানায় তাকে একটা গল্প পড়ে শোনাল।"],
+    ["😴🌙","'Goodnight, moon friend,' Nuzaim whispered. And he fell asleep.","'শুভরাত্রি, চাঁদ বন্ধু,' ফিসফিস করে বলল নুজাইম। তারপর ঘুমিয়ে পড়ল।"]]}
+];
+const RHYMES = [
+  {e:"🌙", lang:"bn", t:"আয় আয় চাঁদ মামা", x:"আয় আয় চাঁদ মামা টিপ দিয়ে যা,\nচাঁদের কপালে চাঁদ টিপ দিয়ে যা।\nধান ভানলে কুঁড়ো দেব,\nমাছ কাটলে মুড়ো দেব,\nকালো গাইয়ের দুধ দেব,\nদুধ খাবার বাটি দেব,\nচাঁদের কপালে চাঁদ টিপ দিয়ে যা।"},
+  {e:"🌴", lang:"bn", t:"ঐ দেখা যায় তাল গাছ", x:"ঐ দেখা যায় তাল গাছ,\nঐ আমাদের গাঁ।\nঐ খানেতে বাস করে\nকানা বগির ছা।\nও বগি তুই খাস কি?\nপান্তা ভাত চাস কি?\nপান্তা আমি খাই না,\nপুঁটি মাছ পাই না।\nএকটা যদি পাই,\nঅমনি ধরে গাপুস গুপুস খাই।"},
+  {e:"🕊️", lang:"bn", t:"নোটন নোটন পায়রাগুলি", x:"নোটন নোটন পায়রাগুলি\nঝোটন বেঁধেছে,\nওপারেতে ছেলেমেয়েরা\nনাইতে নেমেছে।"},
+  {e:"⭐", lang:"en", t:"Twinkle, Twinkle, Little Star", x:"Twinkle, twinkle, little star,\nHow I wonder what you are!\nUp above the world so high,\nLike a diamond in the sky.\nTwinkle, twinkle, little star,\nHow I wonder what you are!"},
+  {e:"🐑", lang:"en", t:"Baa, Baa, Black Sheep", x:"Baa, baa, black sheep,\nHave you any wool?\nYes sir, yes sir,\nThree bags full.\nOne for the master,\nOne for the dame,\nAnd one for the little boy\nWho lives down the lane."},
+  {e:"🚣", lang:"en", t:"Row, Row, Row Your Boat", x:"Row, row, row your boat,\nGently down the stream.\nMerrily, merrily, merrily, merrily,\nLife is but a dream."}
+];
+PLAY.story = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["story","Stories","গল্প"],["rhyme","Rhymes","ছড়া"]],"story")}<div id="rz"></div></div>`;
+  bindModes(A, m => m === "rhyme" ? rhymeList($("#rz")) : storyList($("#rz")));
+  storyList($("#rz"));
+};
+function storyList(Z){
+  Z.innerHTML = `<div class="slist" id="sl"></div>`;
+  STORIES.forEach(s => { const b = choiceBtn(`<span class="e">${s.e}</span><span></span><small>${N(s.p.length)} ${T("pages","পাতা")}</small>`); b.querySelectorAll("span")[1].textContent = T(...s.t); b.addEventListener("click", () => reader(Z, s, 0)); $("#sl").appendChild(b); });
+  speak(T("Pick a story!","একটা গল্প বেছে নাও!"));
+}
+function reader(Z, s, i){
+  const [scene, en, bn] = s.p[i], txt = T(en, bn);
+  Z.innerHTML = `<div class="page"><div class="no">${esc(T(...s.t))} · ${N(i+1)} / ${N(s.p.length)}</div><div class="scene">${scene}</div><div class="text"></div>
+    <div class="row"><button class="btn" id="pv" ${i ? "" : "disabled style=\"opacity:.4\""}>◀</button><button class="btn go" id="ps">🔊</button><button class="btn" id="pn">${i < s.p.length - 1 ? "▶" : "✓"}</button></div>
+    <div class="row"><button class="btn" id="all">📚 ${T("All stories","সব গল্প")}</button></div></div>`;
+  Z.querySelector(".text").textContent = txt;
+  $("#ps").addEventListener("click", () => speak(txt));
+  $("#pv").addEventListener("click", () => { if(i) reader(Z, s, i - 1); });
+  $("#pn").addEventListener("click", () => { if(i < s.p.length - 1) reader(Z, s, i + 1); else { right(null, T("The end! Did you like the story?","শেষ! গল্পটা ভালো লেগেছে?")); later(() => storyList(Z), 2600); } });
+  $("#all").addEventListener("click", () => { epoch++; storyList(Z); });
+  speak(txt);
+}
+function rhymeList(Z){
+  Z.innerHTML = `<div class="slist" id="sl"></div><div id="rv" style="margin-top:14px"></div>
+    <p class="muted">${T("Bangla folk rhymes have many versions; this is one common one.","লোকছড়ার নানা রূপ আছে; এখানে একটা প্রচলিত রূপ দেওয়া হলো।")}</p>`;
+  RHYMES.forEach(r => {
+    const b = choiceBtn(`<span class="e">${r.e}</span><span></span><small>${r.lang === "bn" ? "বাংলা" : "English"}</small>`); b.querySelectorAll("span")[1].textContent = r.t;
+    b.addEventListener("click", () => {
+      $("#rv").innerHTML = `<div class="rhyme"></div><div class="row"><button class="btn go" id="rs">🔊 ${T("Read aloud","পড়ে শোনাও")}</button></div>`;
+      $("#rv .rhyme").textContent = r.x;
+      const say = () => speak(r.x.replace(/\n/g, " "), r.lang === "bn" ? "bn-BD" : "en-US");
+      $("#rs").addEventListener("click", say); say();
+      $("#rv").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+    $("#sl").appendChild(b);
+  });
+}
+
+/* =====================================================================
+   SEASONS & FESTIVALS (Bangladesh)
+   ===================================================================== */
+// start = [month, day] of the first day of the season in the Bangladesh calendar (approx.)
+const SEASONS = [
+  {e:"☀️", bn:"গ্রীষ্ম", en:"Summer", m:["Boishakh–Joishtho","বৈশাখ–জ্যৈষ্ঠ"], start:[4,14], d:["Hot sunny days. Mangoes, jackfruit and lychees are ripe.","গরম রোদের দিন। আম, কাঁঠাল আর লিচু পাকে।"]},
+  {e:"🌧️", bn:"বর্ষা", en:"Rainy season", m:["Asharh–Srabon","আষাঢ়–শ্রাবণ"], start:[6,15], d:["Lots of rain. Rivers fill up and kadam flowers bloom.","অনেক বৃষ্টি হয়। নদী ভরে যায়, কদম ফুল ফোটে।"]},
+  {e:"☁️", bn:"শরৎ", en:"Autumn", m:["Bhadro–Ashwin","ভাদ্র–আশ্বিন"], start:[8,16], d:["White fluffy clouds, and white kash flowers by the river.","আকাশে সাদা তুলার মতো মেঘ, নদীর ধারে সাদা কাশফুল।"]},
+  {e:"🌾", bn:"হেমন্ত", en:"Late autumn", m:["Kartik–Agrahayan","কার্তিক–অগ্রহায়ণ"], start:[10,17], d:["Golden rice is harvested. Families celebrate Nabanna, the new rice festival.","সোনালি ধান কাটা হয়। নবান্ন উৎসবে নতুন চালের পিঠা হয়।"]},
+  {e:"🧣", bn:"শীত", en:"Winter", m:["Poush–Magh","পৌষ–মাঘ"], start:[12,16], d:["Cold, foggy mornings. Time for pitha cakes and date palm molasses (gur).","কুয়াশা ঢাকা ঠান্ডা সকাল। পিঠা আর খেজুরের গুড়ের সময়।"]},
+  {e:"🌸", bn:"বসন্ত", en:"Spring", m:["Falgun–Choitro","ফাল্গুন–চৈত্র"], start:[2,14], d:["Flowers bloom everywhere and the koel bird sings.","চারদিকে ফুল ফোটে, কোকিল ডাকে।"]}
+];
+function seasonNow(d = new Date()){
+  const v = (d.getMonth() + 1) * 100 + d.getDate();
+  const s = SEASONS.map((x, i) => [x.start[0] * 100 + x.start[1], i]).sort((a, b) => a[0] - b[0]);
+  let cur = s[s.length - 1][1];
+  for(const [st, i] of s) if(v >= st) cur = i;
+  return cur;
+}
+const FESTIVALS = [
+  {e:"🎉", t:["Pohela Boishakh","পহেলা বৈশাখ"], d:["Bangla New Year, on 14 April. People wear red and white and go to the mela (fair).","বাংলা নববর্ষ, ১৪ এপ্রিল। সবাই লাল-সাদা জামা পরে, মেলায় যায়।"]},
+  {e:"🌙", t:["Eid ul-Fitr","ঈদুল ফিতর"], d:["Comes after the month of Ramadan. New clothes, hugs and sweet shemai. The date changes every year with the moon.","রমজান মাসের পরে আসে। নতুন জামা, কোলাকুলি আর মিষ্টি সেমাই। চাঁদ দেখে তারিখ ঠিক হয়, তাই প্রতি বছর বদলায়।"]},
+  {e:"🐄", t:["Eid ul-Adha","ঈদুল আযহা"], d:["Families share meat with relatives, neighbours and people in need. The date changes every year with the moon.","কোরবানির মাংস আত্মীয়, প্রতিবেশী আর গরিবদের সাথে ভাগ করা হয়। চাঁদ দেখে তারিখ ঠিক হয়।"]},
+  {e:"🌺", t:["21 February","২১ ফেব্রুয়ারি"], d:["International Mother Language Day. We remember the people who gave their lives for the Bangla language and bring flowers to the Shaheed Minar.","আন্তর্জাতিক মাতৃভাষা দিবস। বাংলা ভাষার জন্য যাঁরা জীবন দিয়েছেন, তাঁদের স্মরণে শহীদ মিনারে ফুল দিই।"]},
+  {e:"🇧🇩", t:["Independence Day · 26 March","স্বাধীনতা দিবস · ২৬ মার্চ"], d:["The day Bangladesh's independence was declared in 1971. We fly the red and green flag.","১৯৭১ সালের এই দিনে বাংলাদেশের স্বাধীনতা ঘোষণা করা হয়। আমরা লাল-সবুজ পতাকা ওড়াই।"]},
+  {e:"🏆", t:["Victory Day · 16 December","বিজয় দিবস · ১৬ ডিসেম্বর"], d:["Bangladesh won the Liberation War on this day in 1971.","১৯৭১ সালের এই দিনে বাংলাদেশ মুক্তিযুদ্ধে বিজয় লাভ করে।"]},
+  {e:"🪔", t:["Our friends' festivals","বন্ধুদের উৎসব"], d:["Durga Puja, Christmas and Buddha Purnima are festivals our friends and neighbours celebrate.","দুর্গাপূজা, বড়দিন আর বুদ্ধ পূর্ণিমা আমাদের বন্ধু আর প্রতিবেশীদের উৎসব।"]}
+];
+PLAY.season = A => {
+  A.innerHTML = `<div class="play">${modesHTML([["six","Six seasons","ছয় ঋতু"],["fest","Festivals","উৎসব"]],"six")}<div id="ez"></div></div>`;
+  bindModes(A, m => m === "fest" ? festivals($("#ez")) : seasons($("#ez")));
+  seasons($("#ez"));
+};
+function seasons(Z){
+  const now = seasonNow();
+  Z.innerHTML = `<div id="sd"></div><div class="cards" id="sc"></div>
+    <p class="muted">${T("Bangladesh has six seasons, each about two months long. The 'now' badge is approximate.","বাংলাদেশে ছয়টি ঋতু, প্রতিটি প্রায় দুই মাসের। 'এখন' চিহ্নটি আনুমানিক।")}</p>`;
+  const show = i => {
+    const s = SEASONS[i];
+    $("#sd").innerHTML = `<div class="detail"><div class="e">${s.e}</div><h3>${L === "bn" ? s.bn : s.en}</h3><p class="mo"></p><p class="ds"></p><div class="row"><button class="btn go" id="ssay">🔊</button></div></div>`;
+    $("#sd .mo").textContent = (L === "bn" ? s.en : s.bn) + " · " + T(...s.m);
+    $("#sd .ds").textContent = T(...s.d);
+    const talk = () => speak(T(`${s.en}. ${s.d[0]}`, `${s.bn}। ${s.d[1]}`));
+    $("#ssay").addEventListener("click", talk); talk();
+  };
+  SEASONS.forEach((s, i) => {
+    const b = choiceBtn(`${i === now ? `<span class="now">${T("now","এখন")}</span>` : ""}<span class="e">${s.e}</span><span>${s.bn}</span><small>${s.en}</small>`);
+    b.addEventListener("click", () => show(i)); $("#sc").appendChild(b);
+  });
+  show(now);
+}
+function festivals(Z){
+  Z.innerHTML = `<div id="fd"></div><div class="cards" id="fc"></div>`;
+  const show = f => {
+    $("#fd").innerHTML = `<div class="detail"><div class="e">${f.e}</div><h3></h3><p></p><div class="row"><button class="btn go" id="fsay">🔊</button></div></div>`;
+    $("#fd h3").textContent = T(...f.t); $("#fd p").textContent = T(...f.d);
+    const talk = () => speak(T(...f.t) + "। " + T(...f.d));
+    $("#fsay").addEventListener("click", talk); talk();
+  };
+  FESTIVALS.forEach(f => { const b = choiceBtn(`<span class="e">${f.e}</span><span></span>`); b.querySelectorAll("span")[1].textContent = T(...f.t); b.addEventListener("click", () => show(f)); $("#fc").appendChild(b); });
+  show(FESTIVALS[0]);
+}
+
+/* =====================================================================
+   GROWN-UPS: hold to open, time limit, link lock, progress
+   ===================================================================== */
+let settings = Object.assign({limit: 0, lock: true}, store.get("nl-settings", {}));
+const saveSettings = () => { store.set("nl-settings", settings); applyLock(); };
+function applyLock(){ try{ if(window.AndroidTTS && AndroidTTS.setLocked) AndroidTTS.setLocked(!!settings.lock); }catch(e){} }
+function holdToOpen(btn, fn){
+  let timer = null;
+  const start = e => { e.preventDefault(); btn.classList.add("going"); timer = setTimeout(() => { btn.classList.remove("going"); fn(); }, 3000); };
+  const stop = () => { btn.classList.remove("going"); clearTimeout(timer); };
+  btn.addEventListener("pointerdown", start);
+  ["pointerup","pointerleave","pointercancel"].forEach(ev => btn.addEventListener(ev, stop));
+  btn.addEventListener("contextmenu", e => e.preventDefault());
+}
+const SEC_NAME = k => SEC[k] ? SEC[k][1] + " " + T(SEC[k][2], SEC[k][3]) : k;
+function openParent(){
+  hush(); const P = $("#parent"); P.classList.remove("hidden");
+  const d = day(), mins = Math.round(d.t / 60), todayStars = Object.values(d.s).reduce((a, b) => a + b, 0);
+  const days = []; for(let i=6;i>=0;i--){ const dt = new Date(); dt.setDate(dt.getDate() - i); const k = todayKey(dt); days.push([dt, prog[k] ? Math.round(prog[k].t / 60) : 0]); }
+  const maxM = Math.max(10, ...days.map(x => x[1]));
+  const secs = Object.keys(Object.assign({}, d.v, d.s)).sort((a, b) => (d.s[b]||0) - (d.s[a]||0));
+  let voice = "";
+  try{ if(window.AndroidTTS && AndroidTTS.hasLang && !AndroidTTS.hasLang("bn-BD")) voice = `<div class="warn">${T(
+    "No Bangla voice is installed, so Bangla words may be silent or read badly. On the phone: Settings → search \"Text-to-speech\" → Google speech engine → Install voice data → Bengali (Bangladesh).",
+    "ফোনে বাংলা ভয়েস ইনস্টল করা নেই, তাই বাংলা কথা শোনা না-ও যেতে পারে। ফোনে: Settings → \"Text-to-speech\" খুঁজুন → Google speech engine → Install voice data → Bengali (Bangladesh)।")}</div>`; }catch(e){}
+  P.innerHTML = `<div class="inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><div class="sec-title" style="margin:0">👪 ${T("Grown-ups","অভিভাবক")}</div><button class="back" id="pclose">✕ ${T("Close","বন্ধ")}</button></div>
+    ${voice}
+    <div class="panel"><h3>${T("Today","আজ")}</h3><div class="stat">
+      <div><b>${N(mins)}</b>${T("minutes played","মিনিট খেলেছে")}</div>
+      <div><b>${N(todayStars)}</b>${T("stars earned","তারা পেয়েছে")}</div>
+      <div><b>${N(stars)}</b>${T("stars in total","মোট তারা")}</div></div>
+      ${secs.length ? `<p style="margin-top:10px">${secs.map(k => `${SEC_NAME(k)}: ⭐ ${N(d.s[k]||0)} · ${T("opened","খোলা")} ${N(d.v[k]||0)}×`).join("<br>")}</p>` : `<p>${T("Nothing played yet today.","আজ এখনো কিছু খেলা হয়নি।")}</p>`}</div>
+    <div class="panel"><h3>${T("Last 7 days (minutes)","গত ৭ দিন (মিনিট)")}</h3><div class="bars">${days.map(([dt, m]) => `<div><span>${N(m)}</span><i style="height:${Math.round(m / maxM * 90)}%"></i><span>${dt.toLocaleDateString(L === "bn" ? "bn-BD" : "en-GB", {weekday:"short"})}</span></div>`).join("")}</div></div>
+    <div class="panel"><h3>${T("Daily time limit","দৈনিক সময়সীমা")}</h3><div class="seg" id="lim">${[0,15,30,45,60].map(m => `<button data-m="${m}" class="${settings.limit === m ? "on" : ""}">${m ? N(m) + " " + T("min","মিনিট") : T("Off","বন্ধ")}</button>`).join("")}</div>
+      <p class="muted" style="text-align:left">${T("When time is up, a break screen appears. Hold its button for 3 seconds to add 10 minutes.","সময় শেষ হলে বিরতির পর্দা আসবে। ১০ মিনিট বাড়াতে সেখানের বোতাম ৩ সেকেন্ড চেপে ধরুন।")}</p></div>
+    <div class="panel"><h3>${T("Stay inside the app","অ্যাপের ভেতরে রাখুন")}</h3><div class="seg" id="lk"><button data-v="1" class="${settings.lock ? "on" : ""}">🔒 ${T("On","চালু")}</button><button data-v="0" class="${settings.lock ? "" : "on"}">🔓 ${T("Off","বন্ধ")}</button></div>
+      <p class="muted" style="text-align:left">${T("When on, tapping the YouTube logo or links inside videos does nothing, so your child can't wander into YouTube.","চালু থাকলে ভিডিওর ভেতরের ইউটিউব লোগো বা লিংক চাপলে কিছু হবে না, তাই শিশু ইউটিউবে চলে যেতে পারবে না।")}</p></div>
+    <div class="panel"><h3>${T("Language","ভাষা")}</h3><div class="seg" id="lg"><button data-l="bn" class="${L === "bn" ? "on" : ""}">বাংলা</button><button data-l="en" class="${L === "en" ? "on" : ""}">English</button></div></div>
+    <div class="panel"><h3>${T("Reset","রিসেট")}</h3><button class="btn" id="rst">${T("Reset stars and progress","তারা ও অগ্রগতি মুছুন")}</button></div>
+  </div>`;
+  $("#pclose").addEventListener("click", closeParent);
+  P.querySelectorAll("#lim button").forEach(b => b.addEventListener("click", () => { settings.limit = +b.dataset.m; saveSettings(); openParent(); }));
+  P.querySelectorAll("#lk button").forEach(b => b.addEventListener("click", () => { settings.lock = b.dataset.v === "1"; saveSettings(); openParent(); }));
+  P.querySelectorAll("#lg button").forEach(b => b.addEventListener("click", () => { L = b.dataset.l; store.set("nl-lang", L); renderHome(); openParent(); }));
+  let armed = false;
+  $("#rst").addEventListener("click", e => {
+    if(!armed){ armed = true; e.currentTarget.textContent = T("Tap again to confirm","নিশ্চিত করতে আবার চাপুন"); return; }
+    stars = 0; prog = {}; store.set("ll-stars", 0); saveProg(); renderStars(); openParent();
+  });
+  P.scrollTop = 0;
+}
+function closeParent(){ $("#parent").classList.add("hidden"); }
+function showBreak(){
+  const B = $("#breakov"); if(!B.classList.contains("hidden")) return;
+  epoch++; hush(); closeVideo(); closeParent();
+  B.classList.remove("hidden");
+  B.innerHTML = `<div class="inner"><div class="e">🌳</div><h2>${T("Time for a break!","চলো একটু বিরতি নিই!")}</h2>
+    <p style="font-size:20px">${T("Let's play outside, read a book, or have a rest. See you later!","চলো বাইরে খেলি, বই পড়ি, বা একটু বিশ্রাম নিই। পরে দেখা হবে!")}</p>
+    <button class="hold" id="bhold" style="max-width:420px"><i></i><span>👪 ${T("Grown-ups: hold 3 seconds for 10 more minutes","অভিভাবক: আরও ১০ মিনিটের জন্য ৩ সেকেন্ড চেপে ধরুন")}</span></button></div>`;
+  speak(T("Time for a break! Let's play outside or read a book.","চলো একটু বিরতি নিই! বাইরে খেলি বা বই পড়ি।"));
+  holdToOpen($("#bhold"), () => { day().bonus = (day().bonus || 0) + 10; saveProg(); B.classList.add("hidden"); });
+}
+function tick(){
+  if(document.visibilityState !== "visible" || !$("#breakov").classList.contains("hidden")) return;
+  const d = day(); d.t += 15; saveProg();
+  if(settings.limit && d.t >= (settings.limit + (d.bonus || 0)) * 60 && $("#parent").classList.contains("hidden")) showBreak();
+}
+setInterval(tick, 15000);
+
+/* ---------- Start ---------- */
+applyLock();
+renderHome();
+if(settings.limit){ const d = day(); if(d.t >= (settings.limit + (d.bonus || 0)) * 60) showBreak(); }
 </script>
 </body>
 </html>

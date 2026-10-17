@@ -1,0 +1,8 @@
+{
+  "_about": "Hand-verified corrections, applied on top of Wikidata/CLDR. Each entry names its source and the date it was checked. Remove an entry once the upstream data is correct.",
+  "currency": {
+    "BG": {"items": [{"code": "EUR", "en": "Euro", "bn": "ইউরো"}], "source": "https://trade.ec.europa.eu/access-to-markets/en/news/bulgaria-adopts-euro-1-january-2026", "checked": "2026-10-17"}
+  },
+  "headOfState": {},
+  "headOfGov": {}
+}
